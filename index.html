@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Salt Flow ≋ Beach Bar</title>
+
+  <link rel="icon" type="image/x-icon" href="imagens/logo_menu.svg">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>  
+  <header>
+    
+    <nav class="nav-bar">
+      <div class="logo">
+        <a href="index.html">
+          <img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo">
+        </a>
+      </div>
+
+      <!--Menu desktop-->
+      <div class="nav-list">
+        <ul>
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="#tostas" class="nav-link">Tostas</a></li>
+          <li class="nav-item"><a href="#burgers" class="nav-link">Burguers</a></li>
+          <li class="nav-item"><a href="#saladas" class="nav-link">Saladas</a></li>
+          <li class="nav-item"><a href="#wraps" class="nav-link">Wraps</a></li>
+          <li class="nav-item"><a href="#petiscos" class="nav-link">Petiscos</a></li>
+        </ul>
+      </div>
+
+      <!--Botão de Login-->
+      <div class="login-button">
+        <button><a href="login.html">LOGIN</a></button>
+      </div>
+
+      <!--Botão de Idioma-->
+      <div class="lang-toggle" onclick="toggleLang()">
+          <button><a href="#">EN/PT</a></button>
+      </div>
+
+      <!--<button class="lang-toggle" onclick="toggleLang()">EN/PT</button>-->
+      
+      <!--Menu Mobile-->
+      <div class="mobile-menu-icon">
+        <button onclick="menuShow()"><img class="icon" src="imagens/menu_white_36dp.svg"></button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <ul>
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="#tostas" class="nav-link">Tostas</a></li>
+          <li class="nav-item"><a href="#burgers" class="nav-link">Burguers</a></li>
+          <li class="nav-item"><a href="#saladas" class="nav-link">Saladas</a></li>
+          <li class="nav-item"><a href="#wraps" class="nav-link">Wraps</a></li>
+          <li class="nav-item"><a href="#petiscos" class="nav-link">Petiscos</a></li>
+        </ul>
+
+        <!--Botão de Login-->
+        <div class="login-button">
+          <a href="login.html"> <button>LOGIN</button> </a>
+        </div>
+
+        <!--Botão de Idioma-->
+        <div class="lang-toggle" onclick="toggleLang()">
+          <a href="#"><button>EN/PT</button></a>
+        </div>
+    </div>
+
+  </header>
+  
+
+  <div class="menu-board">
+    <div class="brand">Salt Flow Bar</div>
+ 
+    <!-- Tostas -->
+    <div class="category" data-pt="Tostas" data-en="Toasts" id="tostas">Tostas</div>
+
+    <div class="item">
+      <div>
+        <div id="Italiana" class="item-name" data-pt="Italiana" data-en="Italian">Italiana</div>
+        <div class="item-desc" data-pt="Rúcula, mozzarella, tomate, pesto"
+                             data-en="Rocket, mozzarella, tomato, pesto">
+          Rúcula, mozzarella, tomate, pesto
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">8€</span>
+        <button class="btn-pedir" onclick="addOrder('Italiana')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Portuguesa" data-en="Portuguese">Portuguesa</div>
+        <div class="item-desc" data-pt="Presunto, rúcula, queijo, balsâmico"
+                             data-en="Cured ham, rocket, cheese, balsamic">
+          Presunto, rúcula, queijo, balsâmico
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">9€</span>
+        <button class="btn-pedir" onclick="addOrder('Portuguesa')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <!-- Burgers -->
+    <div class="category" data-pt="Burgers" data-en="Burgers" id="burgers"">Burgers</div>
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Crispy Chicken" data-en="Crispy Chicken">Crispy Chicken</div>
+        <div class="item-desc" data-pt="Hambúrguer frango, alface, tomate, queijo"
+                             data-en="Chicken burger, lettuce, tomato, cheese">
+          Hambúrguer frango, alface, tomate, queijo
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">11€</span>
+        <button class="btn-pedir" onclick="addOrder('Crispy Chicken')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Angus" data-en="Angus">Angus</div>
+        <div class="item-desc" data-pt="Hambúrguer angus, cheddar, alface iceberg, molho especial"
+                             data-en="Angus burger, cheddar, iceberg lettuce, special sauce">
+          Hambúrguer angus, cheddar, alface iceberg, molho especial
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">13.50€</span>
+        <button class="btn-pedir" onclick="addOrder('Angus')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <!-- Saladas -->
+    <div class="category" data-pt="Saladas" data-en="Salads" id="saladas">Saladas</div>
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Libanesa" data-en="Lebanese">Libanesa</div>
+        <div class="item-desc" data-pt="Hummus, salada mista, pepino, tomate, falafel, alcaparras"
+                             data-en="Hummus, salad mix, cucumber, tomato, falafel, capers">
+          Hummus, salada mista, pepino, tomate, falafel, alcaparras
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">12€</span>
+        <button class="btn-pedir" onclick="addOrder('Libanesa')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Chicken Chic" data-en="Chicken Chic">Chicken Chic</div>
+        <div class="item-desc" data-pt="Patê feijão, salada mista, frango, mozzarella, croutons"
+                             data-en="Bean paté, salad mix, chicken, mozzarella, croutons">
+          Patê feijão, salada mista, frango, mozzarella, croutons
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">12€</span>
+        <button class="btn-pedir" onclick="addOrder('Chicken Chic')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <!-- Wraps -->
+    <div class="category" data-pt="Wraps" data-en="Wraps" id="wraps">Wraps</div>
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Hummus & Falafel" data-en="Hummus & Falafel">Hummus & Falafel</div>
+        <div class="item-desc" data-pt="Wrap de hummus e falafel" data-en="Wrap with hummus and falafel">
+          Wrap de hummus e falafel
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">8€</span>
+        <button class="btn-pedir" onclick="addOrder('Hummus & Falafel')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Guacamole & Frango" data-en="Guacamole & Chicken">Guacamole & Frango</div>
+        <div class="item-desc" data-pt="Wrap com guacamole e frango" data-en="Wrap with guacamole and chicken">
+          Wrap com guacamole e frango
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">8€</span>
+        <button class="btn-pedir" onclick="addOrder('Guacamole & Frango')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+    <!-- Petiscos -->
+    <div class="category" data-pt="Petiscos" data-en="Snacks" id="petiscos">Petiscos</div>
+    <div class="item">
+      <div>
+        <div class="item-name" data-pt="Gambas al Ajillo" data-en="Garlic Shrimps">Gambas al Ajillo</div>
+        <div class="item-desc" data-pt="Camarão salteado com alho" data-en="Shrimps sautéed with garlic">
+          Camarão salteado com alho
+        </div>
+      </div>
+      <div class="actions">
+        <span class="price">16€</span>
+        <button class="btn-pedir" onclick="addOrder('Gambas al Ajillo')" data-pt="Pedir" data-en="Order">Pedir</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS externo -->
+  <script src="script.js"></script>
+</body>
+</html>
