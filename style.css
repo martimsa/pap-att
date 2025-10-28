@@ -246,7 +246,7 @@ body {
 .login-container h2 {
   font-family: 'Permanent Marker', cursive;
   font-size: 28px;
-  color: #f06aa6;
+  color: #fff;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -256,7 +256,7 @@ body {
   font-family: 'Amatic SC', cursive;
   font-size: 22px;
   margin-bottom: 10px;
-  color: #fff;
+  color: #f06aa6;
 }
 
 .login-container input[type="text"],
