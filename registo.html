@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registo - Salt Flow ≋ Beach Bar</title>
+
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap"
@@ -15,12 +17,10 @@
       <nav class="nav-bar">
         <div class="logo">
           <a href="index.html">
-            <img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo"
-            />
+            <img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo" />
           </a>
         </div>
 
-        <!--Menu desktop-->
         <div class="nav-list">
           <ul>
             <li class="nav-item">
@@ -29,12 +29,10 @@
           </ul>
         </div>
 
-        <!--Botão de Idioma-->
         <div class="lang-toggle" onclick="toggleLang()">
           <button><a href="#">EN/PT</a></button>
         </div>
-        
-        <!--Menu Mobile-->
+
         <div class="mobile-menu-icon">
           <button onclick="menuShow()">
             <img class="icon" src="imagens/menu_white_36dp.svg" />
@@ -47,8 +45,8 @@
           <li class="nav-item">
             <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
           </li>
+        </ul>
 
-        <!--Botão de Idioma-->
         <div class="lang-toggle" onclick="toggleLang()">
           <a href="#"><button>EN/PT</button></a>
         </div>
@@ -56,20 +54,29 @@
     </header>
 
     <div class="login-container">
-      <h2 data-pt="Entrar" data-en="Login">Login</h2>
-      <form action="#" method="post">
-        <label for="username" data-pt="Utlizador:" data-en="Username;">Username:</label>
+      <h2 data-pt="Registar" data-en="Register">Registar</h2>
+
+      <form action="#" method="post" novalidate>
+        <label for="fullname" data-pt="Nome completo:" data-en="Full name:">Nome completo:</label>
+        <input type="text" id="fullname" name="fullname" required />
+
+        <label for="email" data-pt="Email:" data-en="Email:">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="username" data-pt="Utilizador:" data-en="Username:">Utilizador:</label>
         <input type="text" id="username" name="username" required />
 
-        <label for="password" data-pt="Palavra-passe:" data-en="Password:">Password:</label>
+        <label for="password" data-pt="Palavra-passe:" data-en="Password:">Palavra-passe:</label>
         <input type="password" id="password" name="password" required />
 
-        <button type="submit" data-pt="Entrar" data-en="Login">Login</button>
+        <label for="confirm_password" data-pt="Confirmar palavra-passe:" data-en="Confirm password:">Confirmar palavra-passe:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required />
+
+        <button type="submit" data-pt="Registar" data-en="Register">Registar</button>
       </form>
 
-      <!-- texto para utilizadores não registados -->
-      <p class="register-text" data-pt="Ainda não tem conta? Registe-se aqui." data-en="Don't have an account? Register here.">
-        Ainda não tem conta? <a href="registo.html">Registe-se aqui</a>.
+      <p class="register-text" data-pt="Já tem conta? Inicie sessão aqui." data-en="Already have an account? Login here.">
+        Já tem conta? <a href="login.html">Inicie sessão aqui</a>.
       </p>
     </div>
     <script src="script.js"></script>
