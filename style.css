@@ -269,21 +269,30 @@ body {
   background: #333;
   color: #fff;
   font-size: 16px;
+  box-sizing: border-box; /* garante dimensões consistentes */
+  height: 44px; /* mesma altura fixa */
+  font-family: 'Roboto', sans-serif;
 }
 
 .login-container button {
+  display: block;
   width: 100%;
-  padding: 12px;
+  height: 44px; /* mesma altura do input */
+  padding: 0 10px; /* padding horizontal igual, vertical controlado por line-height */
+  line-height: 44px; /* centra o texto verticalmente */
   border: none;
-  border-radius: 6px;
-  background-color: #2ea6b0;
+  border-radius: 5px; /* igual ao input */
+  background-color: #f06aa6;
   color: white;
   font-family: 'Amatic SC', cursive;
-  font-size: 22px;
+  font-size: 16px; /* igual ao input */
   cursor: pointer;
   transition: background-color 0.3s ease;
+  box-sizing: border-box; /* garante que padding não afete largura */
+  margin: 0; /* evita diferenças por margens */
+  border: 1px solid transparent; /* mantém a mesma box visual */
 }
 
 .login-container button:hover {
-  background-color: #24848c;
+  background-color: #f06aa6;
 }
