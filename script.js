@@ -1,16 +1,6 @@
-let lang = "pt";
-
 // Alternar menu lateral
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
-}
-
-// Alternar idioma
-function toggleLang() {
-  lang = lang === "pt" ? "en" : "pt";
-  document.querySelectorAll("[data-pt]").forEach((el) => {
-    el.textContent = el.getAttribute(`data-${lang}`);
-  });
 }
 
 // Simula adicionar pedido
@@ -21,8 +11,8 @@ function addOrder(itemName) {
     alert(`${itemName} added to your order!`);
   }
 }
-// Menu
 
+// Menu
 function menuShow() {
   let menuMobile = document.querySelector(".mobile-menu");
   if (menuMobile.classList.contains("open")) {

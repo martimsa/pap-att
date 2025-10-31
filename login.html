@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,14 +24,9 @@
         <div class="nav-list">
           <ul>
             <li class="nav-item">
-              <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
+              <a href="index.html" class="nav-link">Home</a>
             </li>
           </ul>
-        </div>
-
-        <!--Botão de Idioma-->
-        <div class="lang-toggle">
-          <button onclick="toggleLang()" data-pt="EN/PT" data-en="EN/PT">EN/PT</button>
         </div>
         
         <!--Menu Mobile-->
@@ -45,34 +40,28 @@
       <div class="mobile-menu">
         <ul>
           <li class="nav-item">
-            <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
+            <a href="index.html" class="nav-link">Home</a>
           </li>
         </ul>
-
-        <!--Botão de Idioma-->
-        <div class="lang-toggle">
-          <button onclick="toggleLang()" data-pt="EN/PT" data-en="EN/PT">EN/PT</button>
-        </div>
       </div>
     </header>
 
     <div class="login-container">
-      <h2 data-pt="Entrar" data-en="Login">Login</h2>
+      <h2>Login</h2>
       <form action="#" method="post">
-        <label for="username" data-pt="Utlizador:" data-en="Username;">Username:</label>
+        <label for="username">Username:</label>
         <input type="text" id="username" name="username" required />
 
-        <label for="password" data-pt="Palavra-passe:" data-en="Password:">Password:</label>
+        <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
 
-        <button type="submit" data-pt="Entrar" data-en="Login">Login</button>
+        <button type="submit">Login</button>
       </form>
 
       <!-- texto para utilizadores não registados -->
-      <p class="register-text" data-pt="Ainda não tem conta?" data-en="Don't have an account?">Ainda não tem conta? 
-        <a href="registo.html" data-pt="Registe-se aqui." data-en="Register here.">Registe-se aqui</a>.
+      <p class="register-text">Don't have an account? 
+        <a href="registo.html">Register here</a>.
       </p>
     </div>
-    <script src="script.js"></script>
   </body>
 </html>

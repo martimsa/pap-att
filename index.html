@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -29,22 +29,22 @@
         <div class="nav-list">
           <ul>
             <li class="nav-item">
-            <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
+            <a href="index.html" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="#tostas" class="nav-link" data-pt="Tostas" data-en="Toasts">Tostas</a>
+            <a href="#tostas" class="nav-link">Toasts</a>
           </li>
           <li class="nav-item">
-            <a href="#burgers" class="nav-link" data-pt="Hambúrgueres" data-en="Burguers">Burguers</a>
+            <a href="#burgers" class="nav-link">Burguers</a>
           </li>
           <li class="nav-item">
-            <a href="#saladas" class="nav-link" data-pt="Saladas" data-en="Salads">Saladas</a>
+            <a href="#saladas" class="nav-link">Salads</a>
           </li>
           <li class="nav-item">
-            <a href="#wraps" class="nav-link" data-pt="Wrap" data-en="Wraps">Wraps</a>
+            <a href="#wraps" class="nav-link">Wraps</a>
           </li>
           <li class="nav-item">
-            <a href="#petiscos" class="nav-link" data-pt="Petiscos" data-en="Snacks">Petiscos</a>
+            <a href="#petiscos" class="nav-link">Snacks</a>
           </li>
           </ul>
         </div>
@@ -53,13 +53,6 @@
         <div class="login-button">
           <button><a href="login.html">LOGIN</a></button>
         </div>
-
-        <!--Botão de Idioma-->
-        <div class="lang-toggle" onclick="toggleLang()">
-          <button><a href="#">EN/PT</a></button>
-        </div>
-
-        <!--<button class="lang-toggle" onclick="toggleLang()">EN/PT</button>-->
 
         <!--Menu Mobile-->
         <div class="mobile-menu-icon">
@@ -72,33 +65,28 @@
       <div class="mobile-menu">
         <ul>
           <li class="nav-item">
-            <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
+            <a href="index.html" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="#tostas" class="nav-link" data-pt="Tostas" data-en="Toasts">Tostas</a>
+            <a href="#tostas" class="nav-link">Toasts</a>
           </li>
           <li class="nav-item">
-            <a href="#burgers" class="nav-link" data-pt="Hambúrgueres" data-en="Burguers">Burguers</a>
+            <a href="#burgers" class="nav-link">Burguers</a>
           </li>
           <li class="nav-item">
-            <a href="#saladas" class="nav-link" data-pt="Saladas" data-en="Salads">Saladas</a>
+            <a href="#saladas" class="nav-link">Salads</a>
           </li>
           <li class="nav-item">
-            <a href="#wraps" class="nav-link" data-pt="Wrap" data-en="Wraps">Wraps</a>
+            <a href="#wraps" class="nav-link">Wraps</a>
           </li>
           <li class="nav-item">
-            <a href="#petiscos" class="nav-link" data-pt="Petiscos" data-en="Snacks">Petiscos</a>
+            <a href="#petiscos" class="nav-link">Snacks</a>
           </li>
         </ul>
 
         <!--Botão de Login-->
         <div class="login-button">
           <a href="login.html"> <button>LOGIN</button> </a>
-        </div>
-
-        <!--Botão de Idioma-->
-        <div class="lang-toggle" onclick="toggleLang()">
-          <a href="#"><button>EN/PT</button></a>
         </div>
       </div>
     </header>
@@ -107,36 +95,34 @@
       <div class="brand">Salt Flow Bar</div>
 
       <!-- Tostas -->
-      <div class="category" data-pt="Tostas" data-en="Toasts" id="tostas">Tostas</div>
+      <div class="category" id="tostas">Toasts</div>
 
       <div class="item">
         <div>
-          <div id="Italiana" class="item-name" data-pt="Italiana" data-en="Italian">
-            Italiana
+          <div id="Italiana" class="item-name">
+            Italian
           </div>
-          <div class="item-desc" data-pt="Rúcula, mozzarella, tomate, pesto" data-en="Rocket, mozzarella, tomato, pesto">
-            Rúcula, mozzarella, tomate, pesto
+          <div class="item-desc">
+            Rocket, mozzarella, tomato, pesto
           </div>
         </div>
         <div class="actions">
           <span class="price">8€</span>
-          <button class="btn-pedir" onclick="addOrder('Italiana')" data-pt="Pedir" data-en="Order">
-            Pedir
+          <button class="btn-pedir" onclick="addOrder('Italiana')">
+            Order
           </button>
         </div>
       </div>
 
       <div class="item">
         <div>
-          <div class="item-name" data-pt="Portuguesa" data-en="Portuguese">
-            Portuguesa
+          <div class="item-name">
+            Portuguese
           </div>
           <div
             class="item-desc"
-            data-pt="Presunto, rúcula, queijo, balsâmico"
-            data-en="Cured ham, rocket, cheese, balsamic"
           >
-            Presunto, rúcula, queijo, balsâmico
+            Cured ham, rocket, cheese, balsamic
           </div>
         </div>
         <div class="actions">
@@ -144,10 +130,8 @@
           <button
             class="btn-pedir"
             onclick="addOrder('Portuguesa')"
-            data-pt="Pedir"
-            data-en="Order"
           >
-            Pedir
+            Order
           </button>
         </div>
       </div>
@@ -155,8 +139,6 @@
       <!-- Burgers -->
       <div
         class="category"
-        data-pt="Hambúrgueres"
-        data-en="Burgers"
         id="burgers"
       >
         Burgers
@@ -165,17 +147,13 @@
         <div>
           <div
             class="item-name"
-            data-pt="Crispy Chicken"
-            data-en="Crispy Chicken"
           >
             Crispy Chicken
           </div>
           <div
             class="item-desc"
-            data-pt="Hambúrguer frango, alface, tomate, queijo"
-            data-en="Chicken burger, lettuce, tomato, cheese"
           >
-            Hambúrguer frango, alface, tomate, queijo
+            Chicken burger, lettuce, tomato, cheese
           </div>
         </div>
         <div class="actions">
@@ -183,23 +161,19 @@
           <button
             class="btn-pedir"
             onclick="addOrder('Crispy Chicken')"
-            data-pt="Pedir"
-            data-en="Order"
           >
-            Pedir
+            Order
           </button>
         </div>
       </div>
 
       <div class="item">
         <div>
-          <div class="item-name" data-pt="Angus" data-en="Angus">Angus</div>
+          <div class="item-name">Angus</div>
           <div
             class="item-desc"
-            data-pt="Hambúrguer angus, cheddar, alface iceberg, molho especial"
-            data-en="Angus burger, cheddar, iceberg lettuce, special sauce"
           >
-            Hambúrguer angus, cheddar, alface iceberg, molho especial
+            Angus burger, cheddar, iceberg lettuce, special sauce
           </div>
         </div>
         <div class="actions">
@@ -207,29 +181,25 @@
           <button
             class="btn-pedir"
             onclick="addOrder('Angus')"
-            data-pt="Pedir"
-            data-en="Order"
           >
-            Pedir
+            Order
           </button>
         </div>
       </div>
 
       <!-- Saladas -->
-      <div class="category" data-pt="Saladas" data-en="Salads" id="saladas">
-        Saladas
+      <div class="category" id="saladas">
+        Salads
       </div>
       <div class="item">
         <div>
-          <div class="item-name" data-pt="Libanesa" data-en="Lebanese">
-            Libanesa
+          <div class="item-name">
+            Lebanese
           </div>
           <div
             class="item-desc"
-            data-pt="Hummus, salada mista, pepino, tomate, falafel, alcaparras"
-            data-en="Hummus, salad mix, cucumber, tomato, falafel, capers"
           >
-            Hummus, salada mista, pepino, tomate, falafel, alcaparras
+            Hummus, salad mix, cucumber, tomato, falafel, capers
           </div>
         </div>
         <div class="actions">
@@ -237,25 +207,21 @@
           <button
             class="btn-pedir"
             onclick="addOrder('Libanesa')"
-            data-pt="Pedir"
-            data-en="Order"
           >
-            Pedir
+            Order
           </button>
         </div>
       </div>
 
       <div class="item">
         <div>
-          <div class="item-name" data-pt="Chicken Chic" data-en="Chicken Chic">
+          <div class="item-name">
             Chicken Chic
           </div>
           <div
             class="item-desc"
-            data-pt="Patê feijão, salada mista, frango, mozzarella, croutons"
-            data-en="Bean paté, salad mix, chicken, mozzarella, croutons"
           >
-            Patê feijão, salada mista, frango, mozzarella, croutons
+            Bean paté, salad mix, chicken, mozzarella, croutons
           </div>
         </div>
         <div class="actions">
@@ -263,33 +229,27 @@
           <button
             class="btn-pedir"
             onclick="addOrder('Chicken Chic')"
-            data-pt="Pedir"
-            data-en="Order"
           >
-            Pedir
+            Order
           </button>
         </div>
       </div>
 
       <!-- Wraps -->
-      <div class="category" data-pt="Wraps" data-en="Wraps" id="wraps">
+      <div class="category" id="wraps">
         Wraps
       </div>
       <div class="item">
         <div>
           <div
             class="item-name"
-            data-pt="Hummus & Falafel"
-            data-en="Hummus & Falafel"
           >
             Hummus & Falafel
           </div>
           <div
             class="item-desc"
-            data-pt="Wrap de hummus e falafel"
-            data-en="Wrap with hummus and falafel"
           >
-            Wrap de hummus e falafel
+            Wrap with hummus and falafel
           </div>
         </div>
         <div class="actions">
@@ -297,54 +257,49 @@
           <button
             class="btn-pedir"
             onclick="addOrder('Hummus & Falafel')"
-            data-pt="Pedir"
-            data-en="Order"
           >
-            Pedir
+            Order
           </button>
         </div>
       </div>
 
       <div class="item">
         <div>
-          <div class="item-name" data-pt="Guacamole & Frango" data-en="Guacamole & Chicken">
-            Guacamole & Frango
+          <div class="item-name">
+            Guacamole & Chicken
           </div>
-          <div class="item-desc" data-pt="Wrap com guacamole e frango" data-en="Wrap with guacamole and chicken">
-            Wrap com guacamole e frango
+          <div class="item-desc">
+            Wrap with guacamole and chicken
           </div>
         </div>
         <div class="actions">
           <span class="price">8€</span>
-          <button class="btn-pedir" onclick="addOrder('Guacamole & Frango')" data-pt="Pedir" data-en="Order">
-            Pedir
+          <button class="btn-pedir" onclick="addOrder('Guacamole & Frango')">
+            Order
           </button>
         </div>
       </div>
 
       <!-- Petiscos -->
-      <div class="category" data-pt="Petiscos" data-en="Snacks" id="petiscos">
-        Petiscos
+      <div class="category" id="petiscos">
+        Snacks
       </div>
         <div class="item">
           <div>
-            <div class="item-name" data-pt="Gambas al Ajillo" data-en="Garlic Shrimps">
-             Gambas al Ajillo
+            <div class="item-name">
+             Garlic Shrimps
             </div>
-            <div class="item-desc" data-pt="Camarão salteado com alho" data-en="Shrimps sautéed with garlic">
-             Camarão salteado com alho
+            <div class="item-desc">
+             Shrimps sautéed with garlic
             </div>
           </div>
           <div class="actions">
             <span class="price">16€</span>
-            <button class="btn-pedir" onclick="addOrder('Gambas al Ajillo')" data-pt="Pedir" data-en="Order">
-            Pedir
+            <button class="btn-pedir" onclick="addOrder('Gambas al Ajillo')">
+            Order
           </button>
         </div>
       </div>
     </div>
-
-    <!-- JS externo -->
-    <script src="script.js"></script>
   </body>
 </html>

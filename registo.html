@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registo - Salt Flow ≋ Beach Bar</title>
+    <title>Register - Salt Flow ≋ Beach Bar</title>
 
     <link rel="stylesheet" href="style.css" />
     <link
@@ -24,13 +24,9 @@
         <div class="nav-list">
           <ul>
             <li class="nav-item">
-              <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
+              <a href="index.html" class="nav-link">Home</a>
             </li>
           </ul>
-        </div>
-
-        <div class="lang-toggle" onclick="toggleLang()">
-          <button><a href="#">EN/PT</a></button>
         </div>
 
         <div class="mobile-menu-icon">
@@ -43,42 +39,36 @@
       <div class="mobile-menu">
         <ul>
           <li class="nav-item">
-            <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
+            <a href="index.html" class="nav-link">Home</a>
           </li>
         </ul>
-
-        <div class="lang-toggle" onclick="toggleLang()">
-          <a href="#"><button>EN/PT</button></a>
-        </div>
       </div>
     </header>
 
     <div class="login-container">
-      <h2 data-pt="Registar" data-en="Register">Registar</h2>
+      <h2>Register</h2>
 
       <form action="#" method="post" novalidate>
-        <label for="fullname" data-pt="Nome completo:" data-en="Full name:">Nome completo:</label>
+        <label for="fullname">Full name:</label>
         <input type="text" id="fullname" name="fullname" required />
 
-        <label for="email" data-pt="Email:" data-en="Email:">Email:</label>
+        <label for="email">Email:</label>
         <input type="email" id="email" name="email" required />
 
-        <label for="username" data-pt="Utilizador:" data-en="Username:">Utilizador:</label>
+        <label for="username">Username:</label>
         <input type="text" id="username" name="username" required />
 
-        <label for="password" data-pt="Palavra-passe:" data-en="Password:">Palavra-passe:</label>
+        <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
 
-        <label for="confirm_password" data-pt="Confirmar palavra-passe:" data-en="Confirm password:">Confirmar palavra-passe:</label>
+        <label for="confirm_password">Confirm password:</label>
         <input type="password" id="confirm_password" name="confirm_password" required />
 
-        <button type="submit" data-pt="Registar" data-en="Register">Registar</button>
+        <button type="submit">Register</button>
       </form>
 
-      <p class="register-text" data-pt="Já tem conta? Inicie sessão aqui." data-en="Already have an account? Login here.">
-        Já tem conta? <a href="login.html">Inicie sessão aqui</a>.
+      <p class="register-text">Already have an account? <a href="login.html">Login here</a>.
       </p>
     </div>
-    <script src="script.js"></script>
   </body>
 </html>
