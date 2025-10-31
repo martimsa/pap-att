@@ -30,8 +30,8 @@
         </div>
 
         <!--Botão de Idioma-->
-        <div class="lang-toggle" onclick="toggleLang()">
-          <button><a href="#">EN/PT</a></button>
+        <div class="lang-toggle">
+          <button onclick="toggleLang()" data-pt="EN/PT" data-en="EN/PT">EN/PT</button>
         </div>
         
         <!--Menu Mobile-->
@@ -47,10 +47,11 @@
           <li class="nav-item">
             <a href="index.html" class="nav-link" data-pt="Início" data-en="Home">Home</a>
           </li>
+        </ul>
 
         <!--Botão de Idioma-->
-        <div class="lang-toggle" onclick="toggleLang()">
-          <a href="#"><button>EN/PT</button></a>
+        <div class="lang-toggle">
+          <button onclick="toggleLang()" data-pt="EN/PT" data-en="EN/PT">EN/PT</button>
         </div>
       </div>
     </header>
@@ -68,8 +69,8 @@
       </form>
 
       <!-- texto para utilizadores não registados -->
-      <p class="register-text" data-pt="Ainda não tem conta? Registe-se aqui." data-en="Don't have an account? Register here.">
-        Ainda não tem conta? <a href="registo.html">Registe-se aqui</a>.
+      <p class="register-text" data-pt="Ainda não tem conta?" data-en="Don't have an account?">Ainda não tem conta? 
+        <a href="registo.html" data-pt="Registe-se aqui." data-en="Register here.">Registe-se aqui</a>.
       </p>
     </div>
     <script src="script.js"></script>
