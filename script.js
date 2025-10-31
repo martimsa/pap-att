@@ -11,8 +11,8 @@ function addOrder(itemName) {
     alert(`${itemName} added to your order!`);
   }
 }
-
 // Menu
+
 function menuShow() {
   let menuMobile = document.querySelector(".mobile-menu");
   if (menuMobile.classList.contains("open")) {
