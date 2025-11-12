@@ -5,11 +5,7 @@ function toggleSidebar() {
 
 // Simula adicionar pedido
 function addOrder(itemName) {
-  if (lang === "pt") {
-    alert(`${itemName} adicionado ao pedido!`);
-  } else {
-    alert(`${itemName} added to your order!`);
-  }
+   alert(`${itemName} added to your order!`);
 }
 // Menu
 
