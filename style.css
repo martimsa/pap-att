@@ -316,3 +316,54 @@ body {
 .login-container .register-text a:hover {
   text-decoration: underline;
 }
+
+/* Footer styles - matching menu-board/header aesthetic */
+.site-footer {
+  max-width: 900px;
+  margin: 20px auto 40px; /* alinhado ao menu-board */
+  padding: 14px 20px;
+  background: #1b1b1b;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  color: #ddd;
+  font-family: 'Amatic SC', cursive;
+}
+
+.site-footer .footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 20px;
+  color: #f4f4f4;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: #ccc;
+}
+
+.footer-links a {
+  color: #f06aa6;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.footer-links .sep {
+  color: #555;
+}
+
+@media screen and (max-width: 560px) {
+  .site-footer .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+}
