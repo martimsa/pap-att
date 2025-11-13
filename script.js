@@ -1,18 +1,20 @@
-// Alternar menu lateral
+// Função para alternar um menu lateral (sidebar).
+// OBS: Não parece estar sendo usada nos arquivos HTML fornecidos, pois não há elemento com id="sidebar".
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
 
-// Simula adicionar pedido
+// Simula a adição de um item ao pedido, exibindo um alerta para o usuário.
 function addOrder(itemName) {
    alert(`${itemName} added to your order!`);
 }
-// Menu
 
+// Função para exibir ou ocultar o menu de navegação mobile.
 function menuShow() {
   let menuMobile = document.querySelector(".mobile-menu");
+  // Verifica se o menu já está aberto
   if (menuMobile.classList.contains("open")) {
-    // Adiciona a classe 'closing' para ativar a transição
+    // Adiciona a classe 'closing' para ativar a animação de fechamento (definida no CSS)
     menuMobile.classList.add("closing");
 
     // Espera pelo fim da transição para remover a classe 'open' e 'closing'
@@ -20,27 +22,30 @@ function menuShow() {
       menuMobile.classList.remove("open");
       menuMobile.classList.remove("closing");
       document.querySelector(".icon").src = "imagens/menu_white_36dp.svg";
-    }, 300); // 300ms é a duração da transição. Ajuste conforme necessário
+    }, 300); // A duração deve ser a mesma da transição no CSS.
   } else {
+    // Se o menu estiver fechado, adiciona a classe 'open' para exibi-lo e troca o ícone para 'fechar'.
     menuMobile.classList.add("open");
     menuMobile.classList.remove("closing");
     document.querySelector(".icon").src = "imagens/close_white_36dp.svg";
   }
 }
 
-// Transição da nav-bar
+// Adiciona um listener de evento de rolagem (scroll) na janela.
 window.addEventListener("scroll", function () {
   const header = document.querySelector("header");
+  // Se o usuário rolar mais de 50 pixels para baixo...
   if (window.scrollY > 50) {
-    // diminui 50px após scroll
+    // ...adiciona a classe 'scrolled' ao cabeçalho. Isso permite estilizá-lo de forma diferente via CSS (ex: diminuir altura).
     header.classList.add("scrolled");
   } else {
+    // ...senão, remove a classe.
     header.classList.remove("scrolled");
   }
 });
 
-// Fecha o menu mobile ao clicar em um link
+// Adiciona um listener de clique a todos os elementos com a classe '.mobile-menu'.
+// Isso faz com que o menu se feche quando o usuário clica em um link de navegação dentro dele.
 document.querySelectorAll(".mobile-menu").forEach((item) => {
   item.addEventListener("click", menuShow);
 });
-

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Metadados essenciais -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Link para a folha de estilos principal -->
     <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Importação de fontes do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <!-- Ícone da página (favicon) -->
     <link rel="icon" type="image/x-icon" href="imagens/logo_menu.svg" />
   </head>
   <body>
+    <!-- Cabeçalho da página -->
     <header>
       <nav class="nav-bar">
+        <!-- Logo com link para a página inicial -->
         <div class="logo">
           <a href="index.html">
-            <img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo"
-            />
+            <img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo"/>
           </a>
         </div>
 
@@ -29,7 +31,7 @@
           </ul>
         </div>
         
-        <!--Menu Mobile-->
+        <!-- Ícone do menu para telas mobile -->
         <div class="mobile-menu-icon">
           <button onclick="menuShow()">
             <img class="icon" src="imagens/menu_white_36dp.svg" />
@@ -37,6 +39,7 @@
         </div>
       </nav>
 
+      <!-- Menu de navegação mobile (inicialmente oculto) -->
       <div class="mobile-menu">
         <ul>
           <li class="nav-item">
@@ -46,21 +49,27 @@
       </div>
     </header>
 
+    <!-- Contêiner principal do formulário de login -->
     <div class="login-container">
       <h2>Login</h2>
+      <!-- Formulário de login -->
       <form action="#" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
+        <!-- Campo para nome de usuário ou número de telefone -->
+        <label for="username_phonenumber">Username/Phone number:</label>
+        <input type="text" type="tel" id="username_phonenumber" name="username_phonenumber" required />
 
+        <!-- Campo para a senha -->
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
 
+        <!-- Botão para submeter o formulário -->
         <button type="submit">Login</button>
       </form>
 
-      <!-- texto para utilizadores não registados -->
-      <p class="register-text">Don't have an account?<a href="registo.html">Register here</a>.</p>
+      <!-- Texto e link para a página de registro, para usuários que ainda não têm conta -->
+      <p class="register-text">Don't have an account? <a href="registo.html">Register here</a>.</p>
     </div>
+    <!-- Link para o arquivo JavaScript -->
     <script src="script.js"></script>
   </body>
 </html>

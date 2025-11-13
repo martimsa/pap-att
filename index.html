@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Metadados essenciais para o navegador -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Salt Flow ≋ Beach Bar</title>
 
+    <!-- Ícone da página (favicon) exibido na aba do navegador -->
     <link rel="icon" type="image/x-icon" href="imagens/logo_menu.svg" />
 
-    <!-- Google Fonts -->
+    <!-- Importação de fontes externas do Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- CSS externo -->
+    <!-- Link para a folha de estilos externa que define a aparência da página -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Cabeçalho do site, contendo a navegação -->
     <header>
       <nav class="nav-bar">
+        <!-- Logo do site com link para a página inicial -->
         <div class="logo">
           <a href="index.html">
             <img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo"/>
           </a>
         </div>
 
-        <!--Menu desktop-->
+        <!-- Menu de navegação para telas maiores (desktop) -->
         <div class="nav-list">
           <ul>
             <li class="nav-item">
@@ -70,12 +74,12 @@
           </ul>
         </div>
 
-        <!--Botão de Login-->
+        <!-- Botão de Login que redireciona para a página de login -->
         <div class="login-button">
           <button><a href="login.html">LOGIN</a></button>
         </div>
 
-        <!--Menu Mobile-->
+        <!-- Ícone do menu para telas menores (mobile), que aciona a função JavaScript menuShow() -->
         <div class="mobile-menu-icon">
           <button onclick="menuShow()">
             <img class="icon" src="imagens/menu_white_36dp.svg"/>
@@ -83,6 +87,7 @@
         </div>
       </nav>
 
+      <!-- Menu de navegação para mobile, que é exibido/ocultado via JavaScript -->
       <div class="mobile-menu">
         <ul>
           <li class="nav-item">
@@ -126,7 +131,7 @@
             </li>
         </ul>
 
-        <!--Botão de Login-->
+        <!-- Botão de Login dentro do menu mobile -->
         <div class="login-button">
           <a href="login.html"> <button>LOGIN</button> </a>
         </div>
@@ -134,18 +139,25 @@
     </header>
 
     <div class="menu-board">
+      <!-- Nome da marca exibido no topo do cardápio -->
       <div class="brand">Salt Flow Bar</div>
 
-      <!-- Tostas -->
+      <!-- Categoria de item do menu: Tostas. O 'id' é usado como âncora para a navegação. -->
       <div class="category" id="tostas">Toasts</div>
 
+      <!-- Início de um item do menu -->
       <div class="item">
         <div>
+          <!-- Nome do item -->
           <div id="Italiana" class="item-name">Italiana</div>
+          <!-- Descrição dos ingredientes do item -->
           <div class="item-desc">Rocket, mozzarella, tomato, pesto</div>
         </div>
+        <!-- Seção de ações para o item (preço e botão) -->
         <div class="actions">
+          <!-- Preço do item -->
           <span class="price">8€</span>
+          <!-- Botão para adicionar o item ao pedido, chamando a função addOrder() com o nome do item -->
           <button class="btn-pedir" onclick="addOrder('Italiana')">Order</button>
         </div>
       </div>
@@ -173,7 +185,7 @@
       </div>
 
 
-      <!-- Burgers -->
+      <!-- Categoria de item do menu: Burgers -->
       <div class="category" id="burgers">Burgers</div>
       <div class="item">
         <div>
@@ -197,7 +209,7 @@
         </div>
       </div>
 
-      <!-- Saladas -->
+      <!-- Categoria de item do menu: Saladas -->
       <div class="category" id="saladas">Salads</div>
       <div class="item">
         <div>
@@ -221,7 +233,7 @@
         </div>
       </div>
 
-      <!-- Wraps -->
+      <!-- Categoria de item do menu: Wraps -->
       <div class="category" id="wraps">Wraps</div>
       <div class="item">
         <div>
@@ -245,7 +257,7 @@
         </div>
       </div>
 
-      <!-- Petiscos -->
+      <!-- Categoria de item do menu: Petiscos (Snacks) -->
       <div class="category" id="petiscos">Snacks</div>
         <div class="item">
           <div>
@@ -279,7 +291,7 @@
         </div>
       </div>
 
-      <!-- Bloodletting -->
+      <!-- Categoria de item do menu: Sangria (Bloodletting) -->
       <div class="category" id="bloodletting">Bloodletting</div>
       <div class="item">
         <div>
@@ -309,7 +321,7 @@
         </div>
       </div>
 
-      <!-- Beer -->
+      <!-- Categoria de item do menu: Cerveja (Beer) -->
       <div class="category" id="beer">Beer</div>
       <div class="item">
         <div>
@@ -402,8 +414,8 @@
         </div>
       </div>
 
-      <!-- Coktails -->
-      <div class="category" id="coktails">Coktails</div>
+      <!-- Categoria de item do menu: Cocktails -->
+      <div class="category" id="coktail">Coktails</div>
       <div class="item">
         <div>
           <div class="item-name">Frozen Pinacolada</div>
@@ -513,7 +525,7 @@
         </div>
       </div>
 
-      <!-- Juice -->
+      <!-- Categoria de item do menu: Sumos (Juice) -->
       <div class="category" id="juice">Juice</div>
       <div class="item">
         <div>
@@ -571,7 +583,7 @@
         </div>
       </div>
 
-      <!-- Water -->
+      <!-- Categoria de item do menu: Água (Water) -->
       <div class="category" id="water">Water</div>
       <div class="item">
         <div>
@@ -593,7 +605,7 @@
         </div>
       </div>
 
-      <!-- Coffee -->
+      <!-- Categoria de item do menu: Café (Coffee) -->
       <div class="category" id="coffee">Coffee</div>
       <div class="item">
         <div>
@@ -605,7 +617,7 @@
         </div>
       </div>
 
-      <!-- Wine -->
+      <!-- Categoria de item do menu: Vinho (Wine) -->
       <div class="category" id="wine">Wine</div>
       <div class="item">
         <div>
@@ -618,6 +630,7 @@
       </div>
     </div>
 
+      <!-- Rodapé do site -->
       <footer class="site-footer">
         <div class="footer-inner">
           <div class="footer-brand">Salt Flow Bar</div>
@@ -626,6 +639,8 @@
           </div>
         </div>
       </footer>
+
+    <!-- Link para o arquivo JavaScript externo que contém a lógica interativa da página -->
     <script src="script.js"></script>
   </body>
 </html>
