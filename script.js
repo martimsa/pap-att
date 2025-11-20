@@ -6,7 +6,7 @@ function toggleSidebar() {
 
 // Simula a adição de um item ao pedido, exibindo um alerta para o usuário.
 function addOrder(itemName) {
-   alert(`${itemName} added to your order!`);
+  alert(`${itemName} added to your order!`);
 }
 
 // Função para exibir ou ocultar o menu de navegação mobile.
@@ -49,3 +49,33 @@ window.addEventListener("scroll", function () {
 document.querySelectorAll(".mobile-menu").forEach((item) => {
   item.addEventListener("click", menuShow);
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const registerForm = document.getElementById('registerForm');
+  const overlay = document.getElementById('confirmOverlay');
+
+  if (registerForm && overlay) {
+    registerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const pwd = registerForm.querySelector('#password')?.value || '';
+      const pwd2 = registerForm.querySelector('#confirm_password')?.value || '';
+
+      if (pwd !== pwd2) {
+        alert('The passwords do not match.');
+        return;
+      }
+
+      // Bloqueia o botão e mostra a animação de confirmação
+      const submitBtn = registerForm.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+
+      // Após a animação, redireciona para index.html
+      setTimeout(function () {
+        window.location.href = 'index.html';
+      }, 1600); // 1.6s — ajustável conforme preferir
+    });
+  }})
