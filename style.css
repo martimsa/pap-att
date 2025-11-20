@@ -64,7 +64,14 @@ header.scrolled .nav-bar {
 
 /* Estilo do botão de login */
 .login-button button {
-  
+  border: none;
+  background-color: #f06aa6;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  font-family: "Amatic SC";
+  font-size: 18px;
 }
 
 /* Estilo do botão de troca de idioma (se houver) */
