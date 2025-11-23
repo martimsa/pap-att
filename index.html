@@ -10,10 +10,7 @@
     <link rel="icon" type="image/x-icon" href="imagens/logo_menu.svg" />
 
     <!-- Importação de fontes externas do Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
 
     <!-- Link para a folha de estilos externa que define a aparência da página -->
     <link rel="stylesheet" href="style.css" />
@@ -74,16 +71,26 @@
           </ul>
         </div>
 
-        <!-- Botão de Login que redireciona para a página de login -->
-        <div class="login-button">
-          <button><a href="login.html">LOGIN</a></button>
-        </div>
-
-        <!-- Ícone do menu para telas menores (mobile), que aciona a função JavaScript menuShow() -->
-        <div class="mobile-menu-icon">
-          <button onclick="menuShow()">
-            <img class="icon" src="imagens/menu_white_36dp.svg"/>
-          </button>
+        <!-- Contêiner para os ícones da direita (login e menu mobile) -->
+        <div class="header-icons">
+          <!-- Ícone do menu para telas menores (mobile), que aciona a função JavaScript menuShow() -->
+          <div class="mobile-menu-icon">
+            <button onclick="menuShow()">
+              <img class="icon" src="imagens/menu_white_36dp.svg" />
+            </button>
+          </div>
+          <!-- Botão de Login que redireciona para a página de login -->
+          <div class="login-button">
+            <a href="login.html">
+              <img src="imagens/user_icon.svg" alt="Login" class="user-icon-img" />
+            </a>
+          </div>
+          <!-- Ícone do carrinho de compras -->
+          <div class="cart-icon">
+            <a href="cart.html">
+              <img src="imagens/cart_icon.svg" alt="Shopping Cart" class="cart-icon-img" />
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -104,7 +111,7 @@
             </li>
             <li class="nav-item">
               <a href="#wraps" class="nav-link">Wraps</a>
-            </l>
+            </li>
             <li class="nav-item">
               <a href="#petiscos" class="nav-link">Snacks</a>
             </li>
@@ -129,12 +136,7 @@
             <li class="nav-item">
               <a href="#wine" class="nav-link">Wine</a>
             </li>
-        </ul>
-
-        <!-- Botão de Login dentro do menu mobile -->
-        <div class="login-button">
-          <a href="login.html"> <button>LOGIN</button> </a>
-        </div>
+        </ul>        
       </div>
     </header>
 

@@ -74,6 +74,25 @@ header.scrolled .nav-bar {
   font-size: 18px;
 }
 
+/* Contêiner para os ícones da direita (login e menu) */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espaçamento entre os ícones */
+}
+
+/* Estilo para a imagem do ícone de usuário */
+.user-icon-img {
+  width: 28px; /* Tamanho do ícone */
+  height: 28px;
+}
+
+/* Estilo para a imagem do ícone de carrinho */
+.cart-icon-img {
+  width: 28px; /* Tamanho do ícone */
+  height: 28px;
+}
+
 /* Estilo do botão de troca de idioma (se houver) */
 .lang-toggle button {
   border: none;
@@ -119,10 +138,6 @@ header.scrolled .nav-bar {
   .nav-item {
     display: none;
   }
-  /* Oculta o botão de login do cabeçalho principal */
-  .login-button {
-    display: none;
-  }
   .nav-bar > .lang-toggle {
     display: none;
   }
@@ -147,13 +162,6 @@ header.scrolled .nav-bar {
   .mobile-menu .nav-item {
     display: block;
     padding-top: 1.2rem;
-  }
-  .mobile-menu .login-button {
-    display: block;
-    padding: 1rem 2rem;
-  }
-  .mobile-menu .login-button button {
-    width: 100%;
   }
   .mobile-menu .lang-toggle {
     display: block;
