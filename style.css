@@ -19,7 +19,7 @@ header {
 
 .nav-bar {
   display: flex; /* Layout flexível para alinhar os itens */
-  justify-content: space-around; /* Distribui os itens com espaço ao redor */
+  justify-content: space-between; /* Distribui os itens com espaço entre eles */
   padding: 1.5rem 6rem;
   transition: padding 0.3s ease-in-out; /* Transição suave para a mudança de padding */
 }
