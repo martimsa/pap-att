@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <h2>Login</h2>
       
       <?php if ($login_error): ?>
-          <p style="color: #ff7f3f; margin-bottom: 15px; font-weight: bold;"><?= $login_error ?></p>
+          <p class="error-message"><?= htmlspecialchars($login_error) ?></p>
       <?php endif; ?>
 
       <form action="login.php" method="post">
