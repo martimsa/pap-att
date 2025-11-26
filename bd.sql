@@ -75,8 +75,8 @@ CREATE TABLE order_items (
 -- 3. DADOS INICIAIS (UTILIZADORES)
 -- Password para Admin e Staff é: 12345
 INSERT INTO users (full_name, email, phone_number, username, password_hash, role, is_verified) VALUES 
-('Administrador', 'admin@saltflow.com', '910000000', 'admin', '$2y$10$8.uX/5g/eHz.Z2q.W.u/..p/..p/..p/..p/..p/..p/..p', 'admin', TRUE),
-('Staff Member', 'staff@saltflow.com', '920000000', 'staff', '$2y$10$8.uX/5g/eHz.Z2q.W.u/..p/..p/..p/..p/..p/..p/..p', 'staff', TRUE);
+('Administrador', 'admin@saltflow.com', '910000000', 'admin', '$2y$10$tJ9fF2v8w0x0l4z1q5p2vO.i2kZ7sL3pY1c9vT5r7G4h1E9uH0y', 'admin', TRUE),
+('Staff Member', 'staff@saltflow.com', '920000000', 'staff', '$2y$10$tJ9fF2v8w0x0l4z1q5p2vO.i2kZ7sL3pY1c9vT5r7G4h1E9uH0y', 'staff', TRUE);
 
 -- 4. CATEGORIAS
 INSERT INTO categories (id, name, slug) VALUES
