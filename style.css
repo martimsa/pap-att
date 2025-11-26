@@ -590,3 +590,13 @@ body {
   cursor: not-allowed;
 }
 
+/* Estilos para Tabelas de Admin/Staff */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #333; color: #fff; }
+table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #555; }
+table th { background-color: #f06aa6; color: white; font-family: 'Amatic SC'; font-size: 20px; }
+table tr:hover { background-color: #444; }
+.admin-container { max-width: 1000px; margin: 40px auto; padding: 20px; background: #1b1b1b; border-radius: 12px; }
+.status-tag { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+.status-online { background: #4ade80; color: #000; }
+.status-offline { background: #ff4444; color: #fff; }
+.action-link { color: #f06aa6; text-decoration: underline; cursor: pointer; }

@@ -1,11 +1,15 @@
--- 1. COMEÇAR DO ZERO (Apaga a base antiga se existir)
-DROP DATABASE IF EXISTS saltflow_db;
-CREATE DATABASE saltflow_db;
-USE saltflow_db;
+SET FOREIGN_KEY_CHECKS = 0;
 
--- 2. CRIAR AS TABELAS
+-- 1. LIMPEZA TOTAL
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS product_ingredients;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS users;
 
--- Tabela de Utilizadores
+-- 2. TABELAS
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
@@ -14,35 +18,32 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('cliente', 'admin', 'staff') DEFAULT 'cliente',
+    verification_code VARCHAR(6) NULL,
+    is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de Categorias
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     slug VARCHAR(50) NOT NULL
 );
 
--- Tabela de Produtos
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
-    image_url VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
--- Tabela de Ingredientes
 CREATE TABLE ingredients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
--- Tabela Pivot (Liga Produtos a Ingredientes)
 CREATE TABLE product_ingredients (
     product_id INT,
     ingredient_id INT,
@@ -51,7 +52,6 @@ CREATE TABLE product_ingredients (
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id)
 );
 
--- Tabela de Pedidos
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -61,118 +61,102 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Itens do Pedido
 CREATE TABLE order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
     product_id INT,
     quantity INT DEFAULT 1,
     price_at_purchase DECIMAL(10, 2) NOT NULL,
+    custom_ingredients TEXT,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
--- 3. INSERIR DADOS (Com IDs forçados para evitar erros)
+-- 3. DADOS INICIAIS (UTILIZADORES)
+-- Password para Admin e Staff é: 12345
+INSERT INTO users (full_name, email, phone_number, username, password_hash, role, is_verified) VALUES 
+('Administrador', 'admin@saltflow.com', '910000000', 'admin', '$2y$10$8.uX/5g/eHz.Z2q.W.u/..p/..p/..p/..p/..p/..p/..p', 'admin', TRUE),
+('Staff Member', 'staff@saltflow.com', '920000000', 'staff', '$2y$10$8.uX/5g/eHz.Z2q.W.u/..p/..p/..p/..p/..p/..p/..p', 'staff', TRUE);
 
--- Inserir Categorias
+-- 4. CATEGORIAS
 INSERT INTO categories (id, name, slug) VALUES
-(1, 'Toasts', 'tostas'),
-(2, 'Burgers', 'burgers'),
-(3, 'Salads', 'saladas'),
-(4, 'Wraps', 'wraps'),
-(5, 'Snacks', 'petiscos'),
-(6, 'Bloodletting', 'bloodletting'),
-(7, 'Beer', 'beer'),
-(8, 'Cocktails', 'coktail'),
-(9, 'Juice', 'juice'),
-(10, 'Water', 'water'),
-(11, 'Coffee', 'coffee'),
-(12, 'Wine', 'wine');
+(1, 'Toasts', 'tostas'), (2, 'Burgers', 'burgers'), (3, 'Salads', 'saladas'),
+(4, 'Wraps', 'wraps'), (5, 'Snacks', 'petiscos'), (6, 'Bloodletting', 'bloodletting'),
+(7, 'Beer', 'beer'), (8, 'Cocktails', 'coktail'), (9, 'Juice', 'juice'),
+(10, 'Water', 'water'), (11, 'Coffee', 'coffee'), (12, 'Wine', 'wine');
 
--- Inserir Produtos (IDs explícitos de 1 a 40+)
-INSERT INTO products (id, category_id, name, description, price) VALUES
--- Toasts (Cat 1)
-(1, 1, 'Italiana', 'Rocket, mozzarella, tomato, pesto', 8.00),
-(2, 1, 'Portuguesa', 'Cured ham, rocket, cheese, balsamic', 9.00),
-(3, 1, 'Chicken & Bacon', 'Grilled Chicken, bacon, lettuce, special mayonnaise', 9.00),
-
--- Burgers (Cat 2)
-(4, 2, 'Crispy Chicken', 'Chicken burger, lettuce, tomato, cheese', 11.00),
-(5, 2, 'Angus', 'Angus burger, cheddar, iceberg lettuce, special sauce', 13.50),
-
--- Salads (Cat 3)
-(6, 3, 'Lebanesa', 'Hummus, salad mix, cucumber, tomato, falafel, capers', 12.00),
-(7, 3, 'Chicken Chic', 'Bean paté, salad mix, chicken, mozzarella, croutons', 12.00),
-
--- Wraps (Cat 4)
-(8, 4, 'Hummus & Falafel', 'Wrap with hummus and falafel', 8.00),
-(9, 4, 'Guacamole & Chicken', 'Wrap with guacamole and chicken', 8.00),
-
--- Snacks (Cat 5)
-(10, 5, 'Gambas al Ajillo', 'Shrimps sautéed with garlic', 16.00),
-(11, 5, 'Lupin / Peanuts', 'Salted lupin beans / Salted peanuts', 2.00),
-(12, 5, 'Dips', 'Hummus / Tapenade / Guacamole', 3.00),
-
--- Bloodletting (Cat 6)
-(13, 6, 'Bloodletting 1L', 'Sangria 1 Litro', 25.00),
-(14, 6, 'Bloodletting 2L', 'Sangria 2 Litros', 37.00),
-(15, 6, 'Bloodletting Cup', 'Copo de Sangria', 7.00),
-
--- Beer (Cat 7)
-(16, 7, 'Draft 20cl', '20cl', 2.20),
-(17, 7, 'Draft 33cl', '33cl', 3.30),
-(18, 7, 'Draft 50cl', '50cl', 5.00),
-(19, 7, 'Bottled Gluten free', 'Gluten free', 3.30),
-
--- Cocktails (Cat 8 - Exemplo)
-(20, 8, 'Frozen Pinacolada', NULL, 10.00),
-(21, 8, 'Margarita', NULL, 8.00),
-(22, 8, 'Mojito', NULL, 8.00),
-
--- Juice (Cat 9)
-(23, 9, 'Daily Juice', NULL, 4.50),
-(24, 9, 'Coca Cola', NULL, 2.50),
-
--- Water (Cat 10)
-(25, 10, 'Bottle 0.5L', '0.5L', 1.80),
-
--- Coffee (Cat 11)
-(26, 11, 'Coffee', NULL, 1.20),
-
--- Wine (Cat 12)
-(27, 12, 'Glass of wine', NULL, 5.00);
-
--- Inserir Ingredientes (IDs explícitos)
+-- 5. INGREDIENTES
 INSERT INTO ingredients (id, name) VALUES 
-(1, 'Rocket'), (2, 'Mozzarella'), (3, 'Tomato'), (4, 'Pesto'), -- 1-4
-(5, 'Cured Ham'), (6, 'Cheese'), (7, 'Balsamic'), -- 5-7
-(8, 'Grilled Chicken'), (9, 'Bacon'), (10, 'Lettuce'), (11, 'Mayonnaise'), -- 8-11
-(12, 'Chicken Burger'), (13, 'Angus Burger'), (14, 'Cheddar'), (15, 'Special Sauce'), -- 12-15
-(16, 'Hummus'), (17, 'Cucumber'), (18, 'Falafel'), (19, 'Capers'), -- 16-19
-(20, 'Bean Paté'), (21, 'Croutons'), (22, 'Guacamole'), -- 20-22
-(23, 'Shrimps'), (24, 'Garlic'); -- 23-24
+(1, 'Rocket'), (2, 'Mozzarella'), (3, 'Tomato'), (4, 'Pesto'), 
+(5, 'Cured Ham'), (6, 'Cheese'), (7, 'Balsamic'), 
+(8, 'Grilled Chicken'), (9, 'Bacon'), (10, 'Lettuce'), (11, 'Special Mayo'),
+(12, 'Chicken Burger'), (13, 'Angus Burger'), (14, 'Cheddar'), (15, 'Special Sauce'),
+(16, 'Hummus'), (17, 'Cucumber'), (18, 'Falafel'), (19, 'Capers'),
+(20, 'Bean Paté'), (21, 'Croutons'), (22, 'Guacamole'),
+(23, 'Shrimps'), (24, 'Garlic'), (25, 'Lupin Beans'), (26, 'Peanuts'), (27, 'Tapenade');
 
--- Ligar Produtos aos Ingredientes
--- Agora é seguro porque definimos os IDs manualmente acima
-INSERT INTO product_ingredients (product_id, ingredient_id) VALUES 
--- Italiana (ID 1)
+-- 6. PRODUTOS COMPLETOS
+INSERT INTO products (id, category_id, name, description, price, is_active) VALUES
+(1, 1, 'Italiana', 'Rocket, mozzarella, tomato, pesto', 8.00, 1),
+(2, 1, 'Portuguesa', 'Cured ham, rocket, cheese, balsamic', 9.00, 1),
+(3, 1, 'Chicken & Bacon', 'Grilled Chicken, bacon, lettuce, special mayonnaise', 9.00, 1),
+(4, 2, 'Crispy Chicken', 'Chicken burger, lettuce, tomato, cheese', 11.00, 1),
+(5, 2, 'Angus', 'Angus burger, cheddar, iceberg lettuce, special sauce', 13.50, 1),
+(6, 3, 'Lebanesa', 'Hummus, salad mix, cucumber, tomato, falafel, capers', 12.00, 1),
+(7, 3, 'Chicken Chic', 'Bean paté, salad mix, chicken, mozzarella, croutons', 12.00, 1),
+(8, 4, 'Hummus & Falafel', 'Wrap with hummus and falafel', 8.00, 1),
+(9, 4, 'Guacamole & Chicken', 'Wrap with guacamole and chicken', 8.00, 1),
+(10, 5, 'Gambas al Ajillo', 'Shrimps sautéed with garlic', 16.00, 1),
+(11, 5, 'Lupin / Peanuts', 'Salted lupin beans / Salted peanuts', 2.00, 1),
+(12, 5, 'Dips', 'Hummus / Tapenade / Guacamole', 3.00, 1),
+(13, 6, 'Bloodletting 1L', 'Sangria 1 Litro', 25.00, 1),
+(14, 6, 'Bloodletting 2L', 'Sangria 2 Litros', 37.00, 1),
+(15, 6, 'Bloodletting Cup', 'Copo de Sangria', 7.00, 1),
+(16, 7, 'Draft 20cl', '20cl', 2.20, 1),
+(17, 7, 'Draft 33cl', '33cl', 3.30, 1),
+(18, 7, 'Draft 50cl', '50cl', 5.00, 1),
+(19, 7, 'Bottled Gluten free', 'Gluten free', 3.30, 1),
+(20, 7, 'Bottled Stout', 'Stout', 3.30, 1),
+(21, 7, 'Bottled 0% Alcohol', '0% Alcohol', 3.30, 1),
+(22, 7, 'Bottled Inedit', '75cl', 10.00, 1),
+(23, 7, 'Bottled Original', 'Original', 3.30, 1),
+(24, 7, 'Bottled Lemon', 'Lemon', 2.50, 1),
+(25, 8, 'Frozen Pinacolada', '', 10.00, 1),
+(26, 8, 'Margarita', '', 8.00, 1),
+(27, 8, 'Aperol spritz', '', 7.50, 1),
+(28, 8, 'Mojito', '', 8.00, 1),
+(29, 8, 'Flavoured Mojito', '', 8.50, 1),
+(30, 8, 'House Gin', '', 7.50, 1),
+(31, 8, 'Premium Gin', '', 11.00, 1),
+(32, 8, 'Caipirinha', '', 7.50, 1),
+(33, 8, 'Caipirosca', '', 7.50, 1),
+(34, 8, 'Moscow Mule', '', 8.00, 1),
+(35, 8, 'Tonic Porto', '', 7.00, 1),
+(36, 8, 'Shots', 'Unit', 3.00, 1),
+(37, 9, 'Daily Juice', '', 4.50, 1),
+(38, 9, 'Oranje juice', '', 4.00, 1),
+(39, 9, 'Lemonade', '', 4.00, 1),
+(40, 9, 'Guaraná', '', 2.50, 1),
+(41, 9, '7up', '', 2.50, 1),
+(42, 9, 'Coca Cola', '', 2.50, 1),
+(43, 10, 'Bottle 0.5L', '0.5L', 1.80, 1),
+(44, 10, 'Pedras', '', 2.00, 1),
+(45, 11, 'Coffee', '', 1.20, 1),
+(46, 12, 'Glass of wine', '', 5.00, 1);
+
+-- 7. LIGAÇÕES INGREDIENTES
+INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
 (1, 1), (1, 2), (1, 3), (1, 4),
--- Portuguesa (ID 2)
 (2, 5), (2, 1), (2, 6), (2, 7),
--- Chicken & Bacon (ID 3)
 (3, 8), (3, 9), (3, 10), (3, 11),
--- Crispy Chicken (ID 4)
 (4, 12), (4, 10), (4, 3), (4, 6),
--- Angus (ID 5)
 (5, 13), (5, 14), (5, 10), (5, 15),
--- Lebanesa (ID 6)
 (6, 16), (6, 10), (6, 17), (6, 3), (6, 18), (6, 19),
--- Hummus Wrap (ID 8)
+(7, 20), (7, 10), (7, 8), (7, 2), (7, 21),
 (8, 16), (8, 18),
--- Gambas (ID 10)
-(10, 23), (10, 24);
+(9, 22), (9, 8),
+(10, 23), (10, 24),
+(11, 25), (11, 26),
+(12, 16), (12, 27), (12, 22);
 
--- 4. CRIAR UM UTILIZADOR DE TESTE (Opcional)
--- Password é '12345'
-INSERT INTO users (full_name, email, phone_number, username, password_hash, role) 
-VALUES ('Admin Teste', 'admin@saltflow.com', '910000000', 'admin', '$2y$10$8.uX/5g/eHz.Z2q.W.u/..p/..p/..p/..p/..p/..p/..p', 'admin');
+SET FOREIGN_KEY_CHECKS = 1;
