@@ -590,7 +590,7 @@ body {
   cursor: not-allowed;
 }
 
-/* Estilos para Tabelas de Admin/Staff */
+/* Table Styles for Admin/Staff */
 table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #333; color: #fff; }
 table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #555; }
 table th { background-color: #f06aa6; color: white; font-family: 'Amatic SC'; font-size: 20px; }

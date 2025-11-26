@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db   = 'saltflow_db';
 $user = 'root';
-$pass = ''; // Mude se tiver password
+$pass = ''; // Leave empty for XAMPP default
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);

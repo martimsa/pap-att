@@ -4,6 +4,6 @@ if(!isset($_SESSION['user_id'])) exit;
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
     $_SESSION['cart'][] = ['pid' => $_POST['pid'], 'ings' => $_POST['ing'] ?? []];
-    echo json_encode(['msg' => 'Adicionado ao carrinho!']);
+    echo json_encode(['msg' => 'Added to cart!']);
 }
 ?>

@@ -45,10 +45,10 @@ function getProducts($pdo, $catId) {
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Hello, <?= htmlspecialchars($_SESSION['username']) ?></span>
                     <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" style="color:red; font-weight:bold;">[ADMIN]</a><?php endif; ?>
                     <?php if($_SESSION['role'] === 'staff'): ?><a href="staff_orders.php" style="color:cyan; font-weight:bold;">[STAFF]</a><?php endif; ?>
-                    <a href="logout.php" style="font-size:14px; color:#aaa;">(Sair)</a>
+                    <a href="logout.php" style="font-size:14px; color:#aaa;">Logout</a>
                     <div class="cart-icon"><a href="cart.php"><img src="imagens/cart_icon.svg" class="cart-icon-img" /><span style="color:#f06aa6; font-weight:bold; margin-left:-5px;"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span></a></div>
                 <?php else: ?>
                     <div class="login-button"><a href="login.php"><img src="imagens/user_icon.svg" class="user-icon-img" /></a></div>
@@ -87,7 +87,7 @@ function getProducts($pdo, $catId) {
     <div id="ingModal" class="modal-overlay">
         <form id="cartForm" class="modal-box">
             <h3 id="mTitle" style="font-family:'Permanent Marker'; font-size:24px;"></h3>
-            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Desmarque ingredientes para remover:</p>
+            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Uncheck ingredients to remove:</p>
             <input type="hidden" name="pid" id="mPid">
             <div id="mList" style="margin-bottom:20px; max-height:200px; overflow-y:auto;"></div>
             <div class="modal-btns">

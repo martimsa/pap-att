@@ -14,22 +14,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->prepare("UPDATE users SET is_verified=1, verification_code=NULL WHERE id=?")->execute([$_SESSION['pending_uid']]);
         unset($_SESSION['pending_uid']); unset($_SESSION['simulated_sms']);
         header('Location: login.php'); exit;
-    } else $msg = "Código incorreto.";
+    } else $msg = "Invalid code.";
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Confirmar Telemóvel</title></head>
+<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Confirm Phone</title></head>
 <body>
     <div class="login-container">
-        <h2>Verificação SMS</h2>
+        <h2>SMS Verification</h2>
         <div style="border:1px dashed #f06aa6; padding:15px; margin:20px 0; color:white;">
-            <strong>SIMULAÇÃO SMS:</strong> O seu código é <h1><?= $code_show ?></h1>
+            <strong>SMS SIMULATION:</strong> Your code is <h1><?= $code_show ?></h1>
         </div>
         <?php if($msg) echo "<p style='color:red'>$msg</p>"; ?>
         <form method="post">
-            <label>Insira o código:</label><input type="text" name="code" required>
-            <button type="submit">Confirmar</button>
+            <label>Enter Code:</label><input type="text" name="code" required>
+            <button type="submit">Confirm</button>
         </form>
     </div>
 </body>

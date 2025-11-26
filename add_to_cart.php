@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // Se a sessão do carrinho não existe, cria-se
+    // If the cart session does not exist, it is created
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
     }
