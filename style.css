@@ -220,9 +220,8 @@ header.scrolled .nav-bar {
 
 /* --- Login/Registo (Otimização para Mobile) --- */
 .login-container {
-  /* Aumentar margem superior/inferior para dar mais espaço */
   margin: 60px auto; 
-  padding: 30px 25px; /* Ligeiramente mais padding interno */
+  padding: 30px 25px; 
   max-width: 400px;
   background: #1b1b1b;
   border-radius: 12px;
@@ -241,7 +240,7 @@ header.scrolled .nav-bar {
 .login-container label {
   display: block;
   font-family: 'Amatic SC', cursive;
-  font-size: 24px; /* Aumentar tamanho da fonte para leitura móvel */
+  font-size: 24px; 
   margin-bottom: 8px; 
   color: #f06aa6;
 }
@@ -251,29 +250,29 @@ header.scrolled .nav-bar {
 .login-container input[type="email"], 
 .login-container input[type="tel"] {
   width: 100%;
-  padding: 12px; /* Aumentar padding para maior área de toque */
-  margin-bottom: 25px; /* Aumentar margem inferior para mais espaço entre campos */
+  padding: 12px; 
+  margin-bottom: 25px; 
   border-radius: 5px;
   border: 1px solid #ccc;
   background: #333;
   color: #fff;
   font-size: 16px;
   box-sizing: border-box; 
-  height: 48px; /* Altura mínima de toque recomendada */
+  height: 48px; 
   font-family: 'Roboto', sans-serif;
 }
 
 .login-container button {
   display: block;
   width: 100%;
-  height: 50px; /* Aumentar altura do botão */
+  height: 50px; 
   line-height: 50px; 
   border: 1px solid transparent; 
   border-radius: 5px; 
   background-color: #f06aa6;
   color: white;
   font-family: 'Amatic SC', cursive;
-  font-size: 22px; /* Aumentar tamanho da fonte do botão */
+  font-size: 22px; 
   cursor: pointer;
   transition: background-color 0.3s ease;
   box-sizing: border-box; 
@@ -382,87 +381,99 @@ header.scrolled .nav-bar {
 .action-link { color: #f06aa6; text-decoration: underline; cursor: pointer; }
 .checkout-button { background-color: #f06aa6; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-family: 'Permanent Marker', cursive; font-size: 20px; transition: background-color 0.3s; margin-top: 20px; }
 
-/* --- Cart Container Styles (mantidos para consistência) --- */
-.cart-container { 
-    max-width: 900px; 
-    margin: 40px auto; 
-    padding: 20px; 
-    background: #1b1b1b; 
-    border-radius: 12px; 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-}
 
-.cart-container h2 {
-    font-family: 'Permanent Marker', cursive;
-    font-size: 28px;
-    color: #fff;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.cart-summary {
-    text-align: right;
-    margin-top: 20px;
-    font-family: 'Amatic SC', cursive;
-    font-size: 26px;
-    color: #f06aa6;
-}
-
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  gap: 15px;
-}
-
-.cart-item .item-details {
-  flex-grow: 1;
-}
-
-.cart-item .item-name {
-  font-family: "Permanent Marker";
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-.cart-item .item-price {
-  font-weight: 700;
-  color: #ff7f3f;
-  font-size: 16px;
-}
-
-.item-quantity {
+/* --- Overlay de Confirmação (Registo e Pedido) --- */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
-.quantity-btn {
-  background: #333;
-  border: 1px solid #555;
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 28px;
+.confirm-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.confirm-card {
+  background: #111;
+  color: #fff;
+  padding: 28px 36px;
+  border-radius: 12px;
   text-align: center;
-  padding: 0;
+  transform: scale(0.86);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(.2,.9,.3,1), opacity 0.35s;
 }
 
-.remove-item-btn {
-  background: #ff4444;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: 'Amatic SC', cursive;
+.confirm-overlay.show .confirm-card {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.confirm-text {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 24px;
+  color: #fff;
+  margin-top: 15px;
+}
+
+/* Estilos para o Checkmark SVG */
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: #4BB71B;
+  stroke-miterlimit: 10;
+  margin: 0 auto;
+  box-shadow: inset 0px 0px 0px #4BB71B;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+  stroke: #4BB71B;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #4BB71B;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.04);
+  }
 }
 
 /* --- MEDIA QUERY (PRIORIDADE MOBILE / 1030PX) --- */
@@ -516,20 +527,20 @@ header.scrolled .nav-bar {
   /* **OTIMIZAÇÃO DE LOGIN/REGISTO MOBILE** */
   .login-container {
     max-width: 95%; /* Ocupar quase toda a largura no ecrã mobile */
-    margin: 40px auto; /* Reduzir margem superior/inferior */
-    padding: 25px 20px; /* Reduzir o padding horizontal para caber mais */
+    margin: 40px auto; 
+    padding: 25px 20px; 
   }
 
   .login-container input[type="text"],
   .login-container input[type="password"],
   .login-container input[type="email"], 
   .login-container input[type="tel"] {
-    height: 50px; /* Garantir que o campo é fácil de tocar */
+    height: 50px; 
     font-size: 18px;
   }
 
   .login-container label {
-    font-size: 20px; /* Tornar a label mais legível */
+    font-size: 20px; 
   }
   
   /* PRIORITY PC: Tabelas rolam em vez de quebrar o layout no mobile */
