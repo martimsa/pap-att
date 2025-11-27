@@ -1,7 +1,3 @@
-{
-type: uploaded file
-fileName: cart.php
-fullContent:
 <?php
 session_start();
 require 'db_connect.php';

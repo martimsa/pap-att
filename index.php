@@ -27,7 +27,7 @@ function getProducts($pdo, $catId) {
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
     <style>
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
         .modal-box { background: #1b1b1b; padding: 25px; border: 2px solid #f06aa6; max-width: 400px; width: 90%; border-radius: 12px; color:white; }
         .ing-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; }
         .ing-row input { width: 20px; height: 20px; accent-color: #f06aa6; }
@@ -44,10 +44,10 @@ function getProducts($pdo, $catId) {
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Hi, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
                     <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" style="color:red; font-weight:bold;">[ADMIN]</a><?php endif; ?>
                     <?php if($_SESSION['role'] === 'staff'): ?><a href="staff_orders.php" style="color:cyan; font-weight:bold;">[STAFF]</a><?php endif; ?>
-                    <a href="logout.php" style="font-size:14px; color:#aaa;">(Logout)</a>
+                    <a href="logout.php" style="font-size:14px; color:#aaa;">(Sair)</a>
                     <div class="cart-icon"><a href="cart.php"><img src="imagens/cart_icon.svg" class="cart-icon-img" /><span style="color:#f06aa6; font-weight:bold; margin-left:-5px;"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span></a></div>
                 <?php else: ?>
                     <div class="login-button"><a href="login.php"><img src="imagens/user_icon.svg" class="user-icon-img" /></a></div>
@@ -60,28 +60,27 @@ function getProducts($pdo, $catId) {
     <div class="mobile-menu">
         <ul>
             <li class="nav-item"><a href="index.php" class="nav-link" onclick="menuShow()">Home</a></li>
+            
             <?php foreach($cats as $c): ?>
                 <li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link" onclick="menuShow()"><?= $c['name'] ?></a></li>
             <?php endforeach; ?>
-        </ul>
-        
-        <div class="mobile-menu-user-info">
-             <?php if(isset($_SESSION['user_id'])): ?>
-                <span style="color:#ccc; font-family:'Roboto'; font-size:14px; display:block; margin-bottom:10px; margin-top:20px;">Logged as: <?= htmlspecialchars($_SESSION['username']) ?></span>
+            
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <li class="nav-item" style="border-top: 1px solid #333; margin-top: 10px; padding-top: 10px;"></li>
                 <?php if($_SESSION['role'] === 'admin'): ?>
-                    <a href="admin_products.php" class="nav-link" style="color:red !important; font-size: 20px;">Admin Panel</a>
+                    <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:red !important;">Painel Admin</a></li>
                 <?php endif; ?>
                 <?php if($_SESSION['role'] === 'staff'): ?>
-                    <a href="staff_orders.php" class="nav-link" style="color:cyan !important; font-size: 20px;">Staff Orders</a>
+                    <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:cyan !important;">Pedidos Staff</a></li>
                 <?php endif; ?>
-                <a href="cart.php" class="nav-link" style="font-size: 20px; margin-top: 10px;">Cart (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a>
-                <li class="nav-item" style="border-bottom: none;"><a href="logout.php" class="nav-link" style="color:#aaa;">Logout</a></li>
+                <li class="nav-item"><a href="cart.php" class="nav-link">Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
+                <li class="nav-item"><a href="logout.php" class="nav-link">Sair (<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
             <?php else: ?>
-                <li class="nav-item" style="border-bottom: none; margin-top: 20px;"><a href="login.php" class="nav-link">Login / Register</a></li>
+                <li class="nav-item" style="border-top: 1px solid #333; margin-top: 10px; padding-top: 10px;"><a href="login.php" class="nav-link">Login / Registo</a></li>
             <?php endif; ?>
-        </div>
+        </ul>
     </div>
-
+    
     <div class="menu-board">
         <div class="brand">Salt Flow Bar</div>
         <?php foreach($cats as $c): ?>
@@ -95,11 +94,12 @@ function getProducts($pdo, $catId) {
                     <div class="actions">
                         <span class="price"><?= number_format($p['price'], 2) ?>€</span>
                         <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'cliente'): ?>
-                            <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Order</button>
+                            <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Pedir</button>
                         <?php elseif(isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
                              <button class="btn-pedir" disabled style="background:#555">Staff</button>
                         <?php else: ?>
-                            <?php endif; ?>
+                            <button class="btn-pedir" disabled style="background:#333; color:#777" title="Login necessário">Login</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -109,12 +109,12 @@ function getProducts($pdo, $catId) {
     <div id="ingModal" class="modal-overlay">
         <form id="cartForm" class="modal-box">
             <h3 id="mTitle" style="font-family:'Permanent Marker'; font-size:24px;"></h3>
-            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Uncheck ingredients to remove:</p>
+            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Desmarque ingredientes para remover:</p>
             <input type="hidden" name="pid" id="mPid">
             <div id="mList" style="margin-bottom:20px; max-height:200px; overflow-y:auto;"></div>
             <div class="modal-btns">
-                <button type="button" class="btn-cancel" onclick="document.getElementById('ingModal').style.display='none'">Cancel</button>
-                <button type="submit" class="checkout-button" style="padding:10px 20px;">Add to Cart</button>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('ingModal').style.display='none'">Cancelar</button>
+                <button type="submit" class="checkout-button" style="padding:10px 20px;">Adicionar ao Carrinho</button>
             </div>
         </form>
     </div>
@@ -126,7 +126,7 @@ function getProducts($pdo, $catId) {
             document.getElementById('mPid').value = id;
             const list = document.getElementById('mList');
             list.innerHTML = '';
-            if(!ids) list.innerHTML = '<p style="text-align:center; color:#777">No customizable ingredients.</p>';
+            if(!ids) list.innerHTML = '<p style="text-align:center; color:#777">Sem ingredientes personalizáveis.</p>';
             else {
                 const idArr = ids.split(',');
                 const nameArr = names.split(', ');
@@ -138,8 +138,13 @@ function getProducts($pdo, $catId) {
         document.getElementById('cartForm').addEventListener('submit', function(e){
             e.preventDefault();
             const fd = new FormData(this);
-            fetch('cart_actions.php', { method:'POST', body:fd }).then(r=>r.json()).then(d=>{ alert(d.msg); location.reload(); });
+            // URL de destino é cart_actions.php, mas o seu ficheiro chama-se add_to_cart.php
+            fetch('add_to_cart.php', { method:'POST', body:fd }).then(r=>r.json()).then(d=>{ 
+                alert(d.msg || d.message); 
+                location.reload(); 
+            });
         });
     </script>
 
 <?php include 'footer.php'; ?>
+}
