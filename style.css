@@ -3,7 +3,7 @@
     padding: 0;
     margin: 0;
     color: #fff;
-    box-sizing: border-box; /* Garante que padding e border não adicionam largura */
+    box-sizing: border-box; /* Adicionado para melhor layout */
 }
 
 /* Estilos do cabeçalho */
@@ -93,7 +93,6 @@ header.scrolled .nav-bar {
 .mobile-menu-icon {
     display: none;
 }
-
 /* Fim dos estilos de cabeçalho */
 
 /* --- Estilos para o Menu Board (Content) --- */
@@ -125,6 +124,7 @@ header.scrolled .nav-bar {
 }
 
 .item {
+    /* Mantém o layout horizontal original */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -247,75 +247,40 @@ header.scrolled .nav-bar {
     text-decoration: none;
 }
 
-/* --- Overlay para o menu mobile --- */
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
+/* --- ESTÉTICA MENU MOBILE (SIMPLES OVERLAY) --- */
+.mobile-menu {
+    /* Reverte para um menu de overlay simples, como no design original */
+    display: none; 
+    position: absolute; 
+    top: 100%; /* Aparece abaixo do header */
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1400; /* Abaixo do menu, acima do resto */
-}
-
-.overlay.show { display: block; }
-
-/* --- ESTÉTICA MENU MOBILE --- */
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    max-width: 300px;
-    height: 100vh;
-    background-color: #111111;
-    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.7);
-    z-index: 1500;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
+    background-color: #1b1b1b;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    z-index: 900;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+    /* Remover flex-direction: column para manter o layout simples do menu */
 }
 
 .mobile-menu.open {
-    transform: translateX(0);
-}
-
-.mobile-menu-header {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #333;
-}
-
-.close-menu-icon {
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 5px;
+    display: block; /* O JS muda para 'open' */
 }
 
 .mobile-menu ul {
     list-style: none;
     padding: 0;
-    margin-top: 20px;
+    text-align: center; /* Centraliza a lista de itens no menu */
 }
 
 .mobile-menu .nav-item {
-    margin: 15px 0;
-    text-align: center;
-    border-bottom: 1px solid #222;
-    padding-bottom: 10px;
+    margin: 10px 0;
+    border-bottom: 1px solid #222; 
+    padding-bottom: 8px;
 }
 
 .mobile-menu .nav-link {
     font-family: 'Permanent Marker', cursive;
-    font-size: 24px;
+    font-size: 20px;
     color: #fff;
     text-decoration: none;
     transition: color 0.2s;
@@ -326,14 +291,16 @@ header.scrolled .nav-bar {
     color: #f06aa6;
 }
 
+/* Ajustes para o bloco de informações de utilizador no menu mobile */
 .mobile-menu-user-info {
     padding-top: 20px;
     border-top: 1px solid #333;
     text-align: center;
-    margin-top: auto;
-    padding-bottom: 50px;
+    margin-top: 15px;
+    padding-bottom: 10px; 
 }
 /* FIM MENU MOBILE */
+
 
 /* --- Rodapé (Footer) - Estilos Originais --- */
 .site-footer {
@@ -381,86 +348,31 @@ table tr:hover { background-color: #444; }
 .checkout-button { background-color: #f06aa6; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-family: 'Permanent Marker', cursive; font-size: 20px; transition: background-color 0.3s; margin-top: 20px; }
 
 
-/* --- MEDIA QUERIES PARA UI/UX MOBILE (BELOW 768px) --- */
+/* --- MEDIA QUERIES (Responsividade) --- */
 @media screen and (max-width: 768px) {
-    /* Header (Ajuste de espaço) */
+    /* Ajuste de padding na nav-bar para ecrãs menores */
     .nav-bar {
-        padding: 1.5rem 1rem; /* Reduz padding lateral */
+        padding: 1.5rem 2rem;
         justify-content: space-between;
     }
 
     header.scrolled .nav-bar {
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 2rem;
     }
-
+    
+    /* Oculta menu desktop */
     .nav-list {
         display: none;
     }
 
+    /* Mostra o ícone mobile */
     .mobile-menu-icon {
         display: block;
         cursor: pointer;
     }
 
-    /* Rodapé (Ajuste de espaço) */
-    .site-footer {
-        padding: 20px 1rem;
-    }
-
-    /* Conteúdos e Formulários (Ajuste de largura) */
-    .login-container, .admin-container {
+    /* Ajuste de largura do container principal */
+    .admin-container {
         max-width: 95%;
-        margin: 40px auto 50px auto;
-        padding: 15px;
-    }
-}
-
-/* --- MEDIA QUERIES PARA UI/UX MOBILE (BELOW 600px) --- */
-@media screen and (max-width: 600px) {
-    
-    /* Menu Board Layout (Empilhamento de Itens) */
-    .menu-board {
-        margin: 20px 10px; 
-        padding: 15px;
-    }
-    
-    .category {
-        font-size: 28px; /* Ligeiramente menor */
-    }
-
-    .item {
-        /* Transição de flex horizontal para coluna em ecrãs pequenos */
-        flex-direction: column;
-        align-items: flex-start; /* Alinha o texto e o bloco de preço/botão à esquerda */
-        gap: 8px; 
-        padding: 10px 0;
-    }
-
-    .actions {
-        /* Garante que o preço e o botão ocupam 100% e ficam justificados */
-        width: 100%;
-        justify-content: space-between; 
-        margin-top: 5px;
-    }
-
-    .item-name {
-        font-size: 22px; 
-    }
-
-    .btn-pedir {
-        padding: 10px 20px; /* Aumenta o tamanho da área de toque */
-        font-size: 22px;
-    }
-    
-    /* Tabelas (Admin/Staff/Cart) - Evita Scroll Horizontal */
-    .admin-container table {
-        display: block;
-        overflow-x: auto; /* Permite scroll horizontal dentro da tabela */
-        white-space: nowrap; 
-    }
-    
-    /* Outros ajustes */
-    .brand {
-        font-size: 36px;
     }
 }
