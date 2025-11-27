@@ -5,7 +5,6 @@ require 'db_connect.php';
 $cats = $pdo->query("SELECT * FROM categories ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
 
 function getProducts($pdo, $catId) {
-    // Se for Admin, vê tudo. Se for Cliente/Visitante, só vê is_active = 1
     $statusCheck = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? "" : " AND p.is_active = 1";
     
     $sql = "SELECT p.*, GROUP_CONCAT(i.id) as i_ids, GROUP_CONCAT(i.name SEPARATOR ', ') as i_names 
@@ -45,10 +44,10 @@ function getProducts($pdo, $catId) {
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Hello, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
                     <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" style="color:red; font-weight:bold;">[ADMIN]</a><?php endif; ?>
                     <?php if($_SESSION['role'] === 'staff'): ?><a href="staff_orders.php" style="color:cyan; font-weight:bold;">[STAFF]</a><?php endif; ?>
-                    <a href="logout.php" style="font-size:14px; color:#aaa;">Logout</a>
+                    <a href="logout.php" style="font-size:14px; color:#aaa;">(Sair)</a>
                     <div class="cart-icon"><a href="cart.php"><img src="imagens/cart_icon.svg" class="cart-icon-img" /><span style="color:#f06aa6; font-weight:bold; margin-left:-5px;"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span></a></div>
                 <?php else: ?>
                     <div class="login-button"><a href="login.php"><img src="imagens/user_icon.svg" class="user-icon-img" /></a></div>
@@ -56,9 +55,38 @@ function getProducts($pdo, $catId) {
                 <div class="mobile-menu-icon"><button onclick="menuShow()"><img src="imagens/menu_white_36dp.svg" class="icon" /></button></div>
             </div>
         </nav>
-        <div class="mobile-menu"><ul><li class="nav-item"><a href="index.php" class="nav-link">Home</a></li></ul></div>
     </header>
 
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="logo" style="margin-right: auto; font-family: 'Permanent Marker', cursive; font-size: 28px; color: #f06aa6;">
+                Salt Flow
+            </div>
+        </div>
+        <ul>
+            <li class="nav-item"><a href="index.php" class="nav-link" onclick="menuShow()">🏠 Home</a></li>
+            <li class="nav-item" style="margin-top: 30px;"><span style="color:#f06aa6; font-family:'Permanent Marker'; font-size:18px;">Categorias</span></li>
+            <?php foreach($cats as $c): ?>
+                <li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link" onclick="menuShow()"><?= $c['name'] ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+        
+        <div class="mobile-menu-user-info">
+             <?php if(isset($_SESSION['user_id'])): ?>
+                <span style="color:#ccc; font-family:'Roboto'; font-size:14px; display:block; margin-bottom:10px;">Logado como: <?= htmlspecialchars($_SESSION['username']) ?></span>
+                <?php if($_SESSION['role'] === 'admin'): ?>
+                    <a href="admin_products.php" class="nav-link" style="color:red !important; font-size: 20px;">⚙️ Admin Panel</a>
+                <?php endif; ?>
+                <?php if($_SESSION['role'] === 'staff'): ?>
+                    <a href="staff_orders.php" class="nav-link" style="color:cyan !important; font-size: 20px;">📦 Staff Orders</a>
+                <?php endif; ?>
+                <a href="cart.php" class="nav-link" style="font-size: 20px; margin-top: 10px;">🛒 Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a>
+                <li class="nav-item" style="border-bottom: none;"><a href="logout.php" class="nav-link" style="color:#aaa;">➡️ Sair</a></li>
+            <?php else: ?>
+                <li class="nav-item" style="border-bottom: none;"><a href="login.php" class="nav-link">Login / Registo</a></li>
+            <?php endif; ?>
+        </div>
+    </div>
     <div class="menu-board">
         <div class="brand">Salt Flow Bar</div>
         <?php foreach($cats as $c): ?>
@@ -87,7 +115,7 @@ function getProducts($pdo, $catId) {
     <div id="ingModal" class="modal-overlay">
         <form id="cartForm" class="modal-box">
             <h3 id="mTitle" style="font-family:'Permanent Marker'; font-size:24px;"></h3>
-            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Uncheck ingredients to remove:</p>
+            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Desmarque ingredientes para remover:</p>
             <input type="hidden" name="pid" id="mPid">
             <div id="mList" style="margin-bottom:20px; max-height:200px; overflow-y:auto;"></div>
             <div class="modal-btns">
@@ -97,7 +125,6 @@ function getProducts($pdo, $catId) {
         </form>
     </div>
 
-    <script src="script.js"></script>
     <script>
         function openModal(id, name, ids, names) {
             document.getElementById('ingModal').style.display = 'flex';
@@ -120,5 +147,5 @@ function getProducts($pdo, $catId) {
             fetch('cart_actions.php', { method:'POST', body:fd }).then(r=>r.json()).then(d=>{ alert(d.msg); location.reload(); });
         });
     </script>
-</body>
-</html>
+
+<?php include 'footer.php'; ?>

@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cp = $_POST['confirm_password'];
     $errors = [];
 
-    if ($pw !== $cp) $errors[] = "Passwords do not match.";
+    if ($pw !== $cp) $errors[] = "Passwords não coincidem.";
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email=? OR username=? OR phone_number=?");
     $stmt->execute([$em, $us, $ph]);
-    if ($stmt->fetchColumn() > 0) $errors[] = "Email/User/Phone already exists.";
+    if ($stmt->fetchColumn() > 0) $errors[] = "Email/User/Phone já existe.";
 
     if (empty($errors)) {
         $hash = password_hash($pw, PASSWORD_DEFAULT);
@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Register</title></head>
+<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Registo</title></head>
 <body>
     <div class="login-container">
-        <h2>Register</h2>
+        <h2>Registo</h2>
         <form id="regForm">
             <label>Full Name:</label><input type="text" name="fullname" required>
             <label>Email:</label><input type="email" name="email" required>
@@ -44,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Username:</label><input type="text" name="username" required>
             <label>Password:</label><input type="password" name="password" required>
             <label>Confirm:</label><input type="password" name="confirm_password" required>
-            <button type="submit">Register</button>
+            <button type="submit">Registar</button>
         </form>
-        <p class="register-text"><a href="login.php">Already have an account? Login.</a></p>
+        <p class="register-text"><a href="login.php">Já tem conta? Login.</a></p>
     </div>
     <script>
         document.getElementById('regForm').addEventListener('submit', function(e){
@@ -58,5 +58,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
     </script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

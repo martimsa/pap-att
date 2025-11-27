@@ -1,596 +1,345 @@
 /* Reset de estilos universal para remover margens e preenchimentos padrão e definir a cor do texto */
 * {
-  padding: 0;
-  margin: 0;
-  color: #fff;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    box-sizing: border-box; /* Adicionado para melhor layout */
 }
 
 /* Estilos do cabeçalho */
 header {
-  background-color: #1b1b1b;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  border-radius: 0px 0px 12px 12px;
-  position: sticky; /* Fixa o cabeçalho no topo da página ao rolar */
-  top: 0;
-  z-index: 1000;
-  font-family: "Permanent Marker";
-  font-size: 25px;
+    background-color: #1b1b1b;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    border-radius: 0px 0px 12px 12px;
+    position: sticky; /* Fixa o cabeçalho no topo da página ao rolar */
+    top: 0;
+    z-index: 1000;
+    font-family: "Permanent Marker";
+    font-size: 25px;
 }
 
 .nav-bar {
-  display: flex; /* Layout flexível para alinhar os itens */
-  justify-content: space-between; /* Distribui os itens com espaço entre eles */
-  padding: 1.5rem 6rem;
-  transition: padding 0.3s ease-in-out; /* Transição suave para a mudança de padding */
+    display: flex; /* Layout flexível para alinhar os itens */
+    justify-content: space-around; /* Distribui os itens com espaço ao redor */
+    padding: 1.5rem 6rem;
+    transition: padding 0.3s ease-in-out; /* Transição suave para a mudança de padding */
 }
 
 /* Estilo aplicado ao cabeçalho quando a página é rolada (via JavaScript) */
 header.scrolled .nav-bar {
-  padding: 0.5rem 6rem;
+    padding: 0.5rem 6rem;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .logo-ft {
-  border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
+/* Lista de navegação (Menu Desktop) */
 .nav-list {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
-/* Estilos da lista de navegação (menu desktop) */
 .nav-list ul {
-  display: flex;
-  justify-content: center;
-  list-style: none;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
 }
 
 .nav-item {
-  margin: 0 15px;
+    margin: 0 15px;
 }
 
 .nav-link {
-  text-decoration: none;
-  font-size: 1.5rem;
-  color: #fff;
-  font-weight: 600;
-  font-family: "Amatic SC";
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 20px;
+    transition: color 0.3s ease-in-out;
 }
 
-/* Estilo do botão de login */
-.login-button button {
-  border: none;
-  background-color: #f06aa6;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: #fff;
-  font-family: "Amatic SC";
-  font-size: 18px;
+.nav-link:hover {
+    color: #f06aa6;
 }
 
-/* Contêiner para os ícones da direita (login e menu) */
+/* Ícones do lado direito do cabeçalho */
 .header-icons {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Espaçamento entre os ícones */
-}
-
-/* Estilo para a imagem do ícone de usuário */
-.user-icon-img {
-  width: 28px; /* Tamanho do ícone */
-  height: 28px;
-}
-
-/* Estilo para a imagem do ícone de carrinho */
-.cart-icon-img {
-  width: 28px; /* Tamanho do ícone */
-  height: 28px;
-}
-
-/* Estilo do botão de troca de idioma (se houver) */
-.lang-toggle button {
-  border: none;
-  background-color: #f06aa6;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: #fff;
-  font-family: "Amatic SC";
-  font-size: 18px;
-}
-
-/* Ícone do menu mobile, oculto em telas maiores */
-.mobile-menu-icon {
-  display: none;
-}
-
-/* Menu mobile, oculto por padrão */
-.mobile-menu {
-  display: none;
-  transition: all 1s ease-in-out; /* Transição para animação de entrada/saída */
-}
-
-/* Classe para a animação de fechamento do menu mobile */
-.mobile-menu.closing {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-.open {
-  display: block;
-}
-
-/* Media Query para telas com largura máxima de 1030px (tablets e celulares) */
-@media screen and (max-width: 1030px) {
-  .nav-bar {
-    padding: 1.5rem 2rem;
-  }
-  header.scrolled .nav-bar {
-    padding: 0.5rem 4rem;
-  }
-  /* Oculta o menu desktop */
-  .nav-item {
-    display: none;
-  }
-  .nav-bar > .lang-toggle {
-    display: none;
-  }
-  /* Exibe o ícone do menu mobile */
-  .mobile-menu-icon {
-    display: block;
-  }
-
-  /* Estilos para o botão do ícone do menu mobile */
-  .mobile-menu-icon button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  .mobile-menu ul {
     display: flex;
-    flex-direction: column;
-    text-align: center;
-    padding-bottom: 1rem;
-  }
-  /* Exibe os itens de navegação dentro do menu mobile */
-  .mobile-menu .nav-item {
-    display: block;
-    padding-top: 1.2rem;
-  }
-  .mobile-menu .lang-toggle {
-    display: block;
-    padding: 1rem 2rem;
-  }
-  .mobile-menu .lang-toggle button {
-    width: 100%;
-  }
-  .open {
-    display: block;
-  }
-  .site-footer .footer-inner {
-    flex-direction: column;
-    text-align: center;
-    gap: 6px;
-  }
+    align-items: center;
+    gap: 15px;
 }
 
-/* Estilos gerais do corpo da página */
-body {
-  background: #141414;
-  color: white;
-  margin: 0;
-  font-family: "Roboto", sans-serif;
+.cart-icon-img, .user-icon-img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
 }
 
-/* Contêiner principal do cardápio */
+.cart-icon, .login-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+.mobile-menu-icon {
+    display: none;
+}
+/* Fim dos estilos de cabeçalho */
+
+/* --- Estilos para o Menu Board (Content) --- */
 .menu-board {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #1b1b1b;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #1b1b1b;
+    border-radius: 12px;
 }
 
-/* Nome da marca no topo do cardápio */
 .brand {
-  font-family: "Permanent Marker";
-  font-size: 34px;
-  color: #f4f4f4;
+    font-family: 'Amatic SC', cursive;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    color: #f06aa6;
+    margin-bottom: 30px;
 }
 
 .category {
-  /* Título de cada categoria do cardápio */
-  font-family: "Amatic SC", cursive;
-  font-size: 26px;
-  color: #f06aa6;
-  margin: 20px 0 10px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 30px;
+    color: #fff;
+    border-bottom: 2px solid #f06aa6;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 
-/* Estilo de cada item individual no cardápio */
 .item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 12px;
-  border-radius: 8px;
-  margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed #333;
 }
 
-/* Nome do item */
+.item:last-child {
+    border-bottom: none;
+}
+
 .item-name {
-  font-family: "Permanent Marker";
-  font-size: 18px;
-  margin-bottom: 6px;
+    font-family: 'Amatic SC', cursive;
+    font-size: 24px;
+    font-weight: 700;
 }
 
-/* Descrição do item */
 .item-desc {
-  font-size: 14px;
-  color: #ccc;
-  font-style: italic;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #aaa;
+    margin-top: 5px;
 }
 
-/* Preço do item */
-.price {
-  font-weight: 700;
-  color: #ff7f3f;
-  font-size: 16px;
-  margin-right: 10px;
-}
-
-/* Contêiner para as ações (preço + botão) */
 .actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-/* Botão "Order" */
+.price {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+}
+
 .btn-pedir {
-  background: #2ea6b0;
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: "Amatic SC";
+    background-color: #f06aa6;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Amatic SC', cursive;
+    font-size: 20px;
+    transition: background-color 0.3s;
 }
 
 .btn-pedir:hover {
-  background: #24848c;
+    background-color: #d0588d;
 }
+/* Fim dos estilos do menu board */
 
-/* Contêiner da página de login */
+/* --- Estilos para Login/Registo --- */
 .login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 40px;
-  background: #1b1b1b;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  font-family: 'Roboto', sans-serif;
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    background: #1b1b1b;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
-/* Título da página de login */
 .login-container h2 {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 28px;
-  color: #fff;
-  margin-bottom: 20px;
-  text-align: center;
+    font-family: 'Permanent Marker', cursive;
+    color: #f06aa6;
+    margin-bottom: 20px;
 }
 
-/* Rótulos (labels) do formulário de login */
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .login-container label {
-  display: block;
-  font-family: 'Amatic SC', cursive;
-  font-size: 22px;
-  margin-bottom: 10px;
-  color: #f06aa6;
+    text-align: left;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #ccc;
 }
 
-/* Campos de entrada (input) do formulário */
-.login-container input[type="text"],
-.login-container input[type="password"],
-.login-container input[type="email"], 
-.login-container input[type="tel"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background: #333;
-  color: #fff;
-  font-size: 16px;
-  box-sizing: border-box; /* garante dimensões consistentes */
-  height: 44px; /* mesma altura fixa */
-  font-family: 'Roboto', sans-serif;
+.login-container input {
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #222;
+    color: white;
 }
 
-/* Botão de submissão do formulário */
 .login-container button {
-  display: block;
-  width: 100%;
-  height: 44px; /* mesma altura do input */
-  padding: 0 10px; /* padding horizontal igual, vertical controlado por line-height */
-  line-height: 44px; /* centra o texto verticalmente */
-  border: none;
-  border-radius: 5px; /* igual ao input */
-  background-color: #f06aa6;
-  color: white;
-  font-family: 'Amatic SC', cursive;
-  font-size: 20px; /* igual ao input */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-sizing: border-box; /* garante que padding não afete largura */
-  margin: 0; /* evita diferenças por margens */
-  border: 1px solid transparent; /* mantém a mesma box visual */
+    background-color: #f06aa6;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 18px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 .login-container button:hover {
-  background-color: #f06aa6;
+    background-color: #d0588d;
 }
 
-/* Texto para registro de novos usuários */
-.login-container .register-text {
-  margin-top: 12px;
-  text-align: center;
-  color: #ccc;
-  font-family: 'Amatic SC', cursive;
-  font-size: 18px;
+.register-text {
+    margin-top: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #aaa;
 }
 
-.login-container .register-text a {
-  color: #f06aa6;
-  text-decoration: none;
-  font-weight: 700;
+.register-text a {
+    color: #f06aa6;
+    text-decoration: none;
 }
 
-.login-container .register-text a:hover {
-  text-decoration: underline;
+/* --- ESTÉTICA MELHORADA PARA MENU MOBILE --- */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: #111111;
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.7);
+    z-index: 1500;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
-/* Estilos do rodapé */
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.mobile-menu .nav-item {
+    margin: 15px 0;
+    text-align: right;
+    border-bottom: 1px solid #222;
+    padding-bottom: 10px;
+}
+
+.mobile-menu .nav-link {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s;
+    display: block;
+}
+
+.mobile-menu .nav-link:hover {
+    color: #f06aa6;
+}
+
+/* Estilo para a barra de informações do utilizador no menu mobile */
+.mobile-menu-user-info {
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    text-align: center;
+    margin-top: auto;
+    padding-bottom: 50px;
+}
+/* FIM DAS MELHORIAS DE ESTÉTICA MOBILE */
+
+/* --- Rodapé (Footer) - Estilos Originais --- */
 .site-footer {
-  max-width: 900px;
-  margin: 20px auto 40px; /* alinhado ao menu-board */
-  padding: 14px 20px;
-  background: #1b1b1b;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  color: #ddd;
-  font-family: 'Amatic SC', cursive;
+    background-color: #1b1b1b;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    border-radius: 12px 12px 0 0;
 }
 
-.site-footer .footer-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.footer-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-/* Nome da marca no rodapé */
 .footer-brand {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 20px;
-  color: #f4f4f4;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 25px;
+    color: #f06aa6;
+    margin-bottom: 10px;
 }
 
 .footer-links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #ccc;
 }
+/* Fim do Rodapé */
 
-.footer-links a {
-  color: #f06aa6;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.footer-links .sep {
-  color: #555;
-}
-
-/* Animação de confirmação após registo */
-.confirm-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.confirm-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.confirm-card {
-  background: #111;
-  color: #fff;
-  padding: 28px 36px;
-  border-radius: 12px;
-  text-align: center;
-  transform: scale(0.86);
-  opacity: 0;
-  transition: transform 0.35s cubic-bezier(.2,.9,.3,1), opacity 0.35s;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  min-width: 260px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-}
-
-.confirm-overlay.show .confirm-card {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.checkmark {
-  width: 72px;
-  height: 72px;
-  stroke: #4ade80; /* verde */
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-}
-
-.checkmark .path {
-  stroke-dasharray: 60;
-  stroke-dashoffset: 60;
-  transition: stroke-dashoffset 0.6s ease 0.15s;
-}
-
-.confirm-overlay.show .checkmark .path {
-  stroke-dashoffset: 0;
-}
-
-.confirm-card p {
-  margin: 0;
-  font-size: 18px;
-  font-family: 'Amatic SC', cursive;
-}
-
-/* --- Estilos do Carrinho de Compras --- */
-
-.cart-container {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px 40px;
-  background: #1b1b1b;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  font-family: 'Roboto', sans-serif;
-}
-
-.cart-container h2 {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 34px;
-  color: #f4f4f4;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 10px;
-}
-
-.cart-items {
-  margin-bottom: 20px;
-}
-
-.empty-cart-message {
-  text-align: center;
-  font-size: 22px;
-  color: #ccc;
-  padding: 40px 0;
-  font-family: 'Amatic SC', cursive;
-}
-
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  gap: 15px;
-}
-
-.cart-item .item-details {
-  flex-grow: 1;
-}
-
-.cart-item .item-name {
-  font-family: "Permanent Marker";
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-.cart-item .item-price {
-  font-weight: 700;
-  color: #ff7f3f;
-  font-size: 16px;
-}
-
-.item-quantity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.quantity-btn {
-  background: #333;
-  border: 1px solid #555;
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 26px;
-}
-
-.quantity-btn:hover {
-  background: #444;
-}
-
-.remove-item-btn {
-  background: transparent;
-  border: none;
-  color: #f06aa6;
-  cursor: pointer;
-  font-size: 14px;
-  text-decoration: underline;
-}
-
-.cart-summary {
-  border-top: 1px solid #333;
-  padding-top: 20px;
-  text-align: right;
-}
-
-.cart-summary h3 {
-  font-family: 'Amatic SC', cursive;
-  font-size: 28px;
-  margin-bottom: 15px;
-}
-
-.checkout-button {
-  border: none;
-  background-color: #2ea6b0;
-  padding: 12px 25px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: #fff;
-  font-family: "Amatic SC";
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.checkout-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-}
-
-/* Table Styles for Admin/Staff */
+/* --- Estilos para Tabelas de Admin/Staff --- */
 table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #333; color: #fff; }
 table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #555; }
 table th { background-color: #f06aa6; color: white; font-family: 'Amatic SC'; font-size: 20px; }
@@ -600,3 +349,25 @@ table tr:hover { background-color: #444; }
 .status-online { background: #4ade80; color: #000; }
 .status-offline { background: #ff4444; color: #fff; }
 .action-link { color: #f06aa6; text-decoration: underline; cursor: pointer; }
+.checkout-button { background-color: #f06aa6; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-family: 'Permanent Marker', cursive; font-size: 20px; transition: background-color 0.3s; margin-top: 20px; }
+
+/* --- Media Queries (Responsividade) --- */
+@media screen and (max-width: 768px) {
+    .nav-bar {
+        padding: 1.5rem 2rem;
+        justify-content: space-between;
+    }
+
+    header.scrolled .nav-bar {
+        padding: 0.5rem 2rem;
+    }
+
+    .nav-list {
+        display: none;
+    }
+
+    .mobile-menu-icon {
+        display: block;
+        cursor: pointer;
+    }
+}

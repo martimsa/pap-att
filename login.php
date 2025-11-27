@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user && password_verify($pass, $user['password_hash'])) {
         if ($user['is_verified'] == 0) {
-            $err = "Account not verified. Check your SMS.";
+            $err = "Conta não verificada. Verifique o seu telemóvel.";
         } else {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: index.php'); exit;
         }
     } else {
-        $err = "Invalid credentials.";
+        $err = "Credenciais inválidas.";
     }
 }
 ?>
@@ -37,8 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Password:</label><input type="password" name="p" required>
             <button type="submit">Login</button>
         </form>
-        <p class="register-text">No account? <a href="registo.php">Register</a>.</p>
-        <p class="register-text"><a href="index.php">Back to Menu</a></p>
+        <p class="register-text">Sem conta? <a href="registo.php">Registar</a>.</p>
+        <p class="register-text"><a href="index.php">Voltar ao Menu</a></p>
     </div>
-</body>
-</html>
+<?php include 'footer.php'; ?>
