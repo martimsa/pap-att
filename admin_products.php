@@ -25,7 +25,7 @@ $prods = $pdo->query("SELECT p.*, c.name as cname FROM products p JOIN categorie
         <div class="mobile-menu">
             <ul>
                 <li class="nav-item"><a href="index.php" class="nav-link">Menu Principal</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link">Sair</a></li>
+                <li class="nav-item"><a href="logout.php" class="nav-link">Saír</a></li>
             </ul>
         </div>
     </header>

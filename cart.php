@@ -25,7 +25,7 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
             $ingNames = implode(', ', $pdo->prepare("SELECT name FROM ingredients WHERE id IN ($placeholders)")->execute($item['ings'])->fetchAll(PDO::FETCH_COLUMN) ?? []);
         } elseif ($prod['price'] > 5 && empty($item['ings'])) {
              // Lógica para comida que teve todos os ingredientes removidos.
-             $ingNames = "Sem ingredientes extra";
+             $ingNames = "No extra ingredients";
         }
 
         $pdo->prepare("INSERT INTO order_items (order_id, product_id, price_at_purchase, custom_ingredients) VALUES (?, ?, ?, ?)")
@@ -38,16 +38,16 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Carrinho</title></head>
+<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Cart</title></head>
 <body>
     <div class="admin-container">
-        <h2>O seu Carrinho</h2>
-        <a href="index.php" style="color:#f06aa6">Voltar ao Menu</a>
+        <h2>Your Cart</h2>
+        <a href="index.php" style="color:#f06aa6">Back to Menu</a>
         <?php if(empty($_SESSION['cart'])): ?>
-            <p style="color:#ccc; margin-top:15px;">Carrinho vazio.</p>
+            <p style="color:#ccc; margin-top:15px;">Empty cart.</p>
         <?php else: ?>
             <table>
-                <tr><th>Produto</th><th>Detalhes</th><th>Preço</th></tr>
+                <tr><th>Product</th><th>Details</th><th>Price</th></tr>
                 <?php 
                 $gTotal = 0;
                 foreach($_SESSION['cart'] as $item): 
@@ -62,7 +62,7 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
                 <?php endforeach; ?>
             </table>
             <h3>Total: <?= number_format($gTotal, 2) ?>€</h3>
-            <form method="post"><button type="submit" name="checkout" class="checkout-button">Finalizar Pedido</button></form>
+            <form method="post"><button type="submit" name="checkout" class="checkout-button">Complete Order</button></form>
         <?php endif; ?>
     </div>
 <?php include 'footer.php'; ?>

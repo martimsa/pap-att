@@ -44,7 +44,7 @@ function getProducts($pdo, $catId) {
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Hello, <?= htmlspecialchars($_SESSION['username']) ?></span>
                     <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" style="color:red; font-weight:bold;">[ADMIN]</a><?php endif; ?>
                     <?php if($_SESSION['role'] === 'staff'): ?><a href="staff_orders.php" style="color:cyan; font-weight:bold;">[STAFF]</a><?php endif; ?>
                     <a href="logout.php" style="font-size:14px; color:#aaa;">(Sair)</a>
@@ -64,8 +64,8 @@ function getProducts($pdo, $catId) {
             </div>
         </div>
         <ul>
-            <li class="nav-item"><a href="index.php" class="nav-link" onclick="menuShow()">🏠 Home</a></li>
-            <li class="nav-item" style="margin-top: 30px;"><span style="color:#f06aa6; font-family:'Permanent Marker'; font-size:18px;">Categorias</span></li>
+            <li class="nav-item"><a href="index.php" class="nav-link" onclick="menuShow()">Home</a></li>
+            <li class="nav-item" style="margin-top: 30px;"><span style="color:#f06aa6; font-family:'Permanent Marker'; font-size:18px;">Categories</span></li>
             <?php foreach($cats as $c): ?>
                 <li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link" onclick="menuShow()"><?= $c['name'] ?></a></li>
             <?php endforeach; ?>
@@ -73,17 +73,17 @@ function getProducts($pdo, $catId) {
         
         <div class="mobile-menu-user-info">
              <?php if(isset($_SESSION['user_id'])): ?>
-                <span style="color:#ccc; font-family:'Roboto'; font-size:14px; display:block; margin-bottom:10px;">Logado como: <?= htmlspecialchars($_SESSION['username']) ?></span>
+                <span style="color:#ccc; font-family:'Roboto'; font-size:14px; display:block; margin-bottom:10px;">Logged in as: <?= htmlspecialchars($_SESSION['username']) ?></span>
                 <?php if($_SESSION['role'] === 'admin'): ?>
-                    <a href="admin_products.php" class="nav-link" style="color:red !important; font-size: 20px;">⚙️ Admin Panel</a>
+                    <a href="admin_products.php" class="nav-link" style="color:red !important; font-size: 20px;">Admin Panel</a>
                 <?php endif; ?>
                 <?php if($_SESSION['role'] === 'staff'): ?>
-                    <a href="staff_orders.php" class="nav-link" style="color:cyan !important; font-size: 20px;">📦 Staff Orders</a>
+                    <a href="staff_orders.php" class="nav-link" style="color:cyan !important; font-size: 20px;">Staff Orders</a>
                 <?php endif; ?>
-                <a href="cart.php" class="nav-link" style="font-size: 20px; margin-top: 10px;">🛒 Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a>
-                <li class="nav-item" style="border-bottom: none;"><a href="logout.php" class="nav-link" style="color:#aaa;">➡️ Sair</a></li>
+                <a href="cart.php" class="nav-link" style="font-size: 20px; margin-top: 10px;">Cart(<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a>
+                <li class="nav-item" style="border-bottom: none;"><a href="logout.php" class="nav-link" style="color:#aaa;">Exit</a></li>
             <?php else: ?>
-                <li class="nav-item" style="border-bottom: none;"><a href="login.php" class="nav-link">Login / Registo</a></li>
+                <li class="nav-item" style="border-bottom: none;"><a href="login.php" class="nav-link">Login / Register</a></li>
             <?php endif; ?>
         </div>
     </div>
@@ -115,7 +115,7 @@ function getProducts($pdo, $catId) {
     <div id="ingModal" class="modal-overlay">
         <form id="cartForm" class="modal-box">
             <h3 id="mTitle" style="font-family:'Permanent Marker'; font-size:24px;"></h3>
-            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Desmarque ingredientes para remover:</p>
+            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Uncheck the ingredients to remove:</p>
             <input type="hidden" name="pid" id="mPid">
             <div id="mList" style="margin-bottom:20px; max-height:200px; overflow-y:auto;"></div>
             <div class="modal-btns">
