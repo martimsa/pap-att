@@ -1,3 +1,7 @@
+{
+type: uploaded file
+fileName: cart.php
+fullContent:
 <?php
 session_start();
 require 'db_connect.php';
@@ -8,8 +12,8 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
     $total = 0;
     $uid = $_SESSION['user_id'];
     
-    // Criar Encomenda
-    $pdo->prepare("INSERT INTO orders (user_id, total_price, status) VALUES (?, 0, 'pendente')")->execute([$uid]);
+    // Create Order
+    $pdo->prepare("INSERT INTO orders (user_id, total_price, status) VALUES (?, 0, 'pending')")->execute([$uid]);
     $oid = $pdo->lastInsertId();
 
     foreach($_SESSION['cart'] as $item) {
@@ -19,12 +23,21 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
         $total += $prod['price'];
 
         $ingNames = "Standard";
+        
+        // CORREÇÃO DO ERRO AQUI
         if(!empty($item['ings'])) {
-            // Garante que só ingredientes que existem (checkados no modal) são usados.
             $placeholders = str_repeat('?,', count($item['ings']) - 1) . '?';
-            $ingNames = implode(', ', $pdo->prepare("SELECT name FROM ingredients WHERE id IN ($placeholders)")->execute($item['ings'])->fetchAll(PDO::FETCH_COLUMN) ?? []);
+            
+            // 1. Preparar
+            $stmtIng = $pdo->prepare("SELECT name FROM ingredients WHERE id IN ($placeholders)");
+            // 2. Executar
+            $stmtIng->execute($item['ings']);
+            // 3. Buscar
+            $ingList = $stmtIng->fetchAll(PDO::FETCH_COLUMN);
+            
+            $ingNames = implode(', ', $ingList);
+            
         } elseif ($prod['price'] > 5 && empty($item['ings'])) {
-             // Lógica para comida que teve todos os ingredientes removidos.
              $ingNames = "No extra ingredients";
         }
 
@@ -33,36 +46,70 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
     }
     $pdo->prepare("UPDATE orders SET total_price=? WHERE id=?")->execute([$total, $oid]);
     unset($_SESSION['cart']);
-    echo "<script>alert('Pedido enviado! Aguarde staff.'); window.location='index.php';</script>";
+    echo "<script>alert('Order sent! Please wait for staff.'); window.location='index.php';</script>";
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Cart</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <title>Cart</title>
+</head>
 <body>
-    <div class="admin-container">
+    <header>
+        <nav class="nav-bar" style="justify-content: center;">
+            <div class="logo" style="font-family: 'Permanent Marker', cursive; font-size: 28px; color: #f06aa6;">
+                Salt Flow
+            </div>
+        </nav>
+    </header>
+
+    <div class="cart-container">
         <h2>Your Cart</h2>
-        <a href="index.php" style="color:#f06aa6">Back to Menu</a>
+        <div style="text-align:center; margin-bottom:20px;">
+            <a href="index.php" style="color:#f06aa6; font-family:'Amatic SC'; font-size:22px; text-decoration:none;">&larr; Back to Menu</a>
+        </div>
+        
         <?php if(empty($_SESSION['cart'])): ?>
-            <p style="color:#ccc; margin-top:15px;">Empty cart.</p>
+            <p style="color:#ccc; text-align:center; padding:40px;">Your cart is empty.</p>
         <?php else: ?>
-            <table>
-                <tr><th>Product</th><th>Details</th><th>Price</th></tr>
+            <div class="cart-items">
                 <?php 
                 $gTotal = 0;
-                foreach($_SESSION['cart'] as $item): 
+                foreach($_SESSION['cart'] as $k => $item): 
                     $p = $pdo->query("SELECT * FROM products WHERE id=".$item['pid'])->fetch();
                     $gTotal += $p['price'];
+                    
+                    // Buscar nomes dos ingredientes para exibir
+                    $displayIngs = "Standard";
+                    if(!empty($item['ings'])) {
+                        $placeholders = str_repeat('?,', count($item['ings']) - 1) . '?';
+                        $stmtIng = $pdo->prepare("SELECT name FROM ingredients WHERE id IN ($placeholders)");
+                        $stmtIng->execute($item['ings']);
+                        $displayIngs = implode(', ', $stmtIng->fetchAll(PDO::FETCH_COLUMN));
+                    }
                 ?>
-                <tr>
-                    <td><?= $p['name'] ?></td>
-                    <td>IDs Ingredientes: <?= implode(', ', $item['ings']) ?: 'Standard/Nenhum' ?></td>
-                    <td><?= number_format($p['price'], 2) ?>€</td>
-                </tr>
+                <div class="cart-item">
+                    <div class="item-details">
+                        <div class="item-name"><?= htmlspecialchars($p['name']) ?></div>
+                        <div class="item-desc" style="color:#aaa; font-size:14px;"><?= htmlspecialchars($displayIngs) ?></div>
+                    </div>
+                    <div class="item-price"><?= number_format($p['price'], 2) ?>€</div>
+                </div>
                 <?php endforeach; ?>
-            </table>
-            <h3>Total: <?= number_format($gTotal, 2) ?>€</h3>
-            <form method="post"><button type="submit" name="checkout" class="checkout-button">Complete Order</button></form>
+            </div>
+            
+            <div class="cart-summary">
+                Total: <?= number_format($gTotal, 2) ?>€
+            </div>
+            
+            <form method="post" style="text-align:center;">
+                <button type="submit" name="checkout" class="checkout-button">Complete Order</button>
+            </form>
         <?php endif; ?>
     </div>
 <?php include 'footer.php'; ?>
+}

@@ -1,46 +1,43 @@
-// Função para alternar um menu lateral (sidebar).
+// Função para alternar sidebar (se houver)
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
 }
 
-// ----------------------------------------------------
-// NOVA FUNÇÃO: Exibe o overlay de confirmação de pedido
-// ----------------------------------------------------
+// Exibe overlay de confirmação
 function showOrderConfirmation(message) {
-  const overlay = document.getElementById('orderConfirmOverlay'); // ID do overlay do pedido
-  const confirmMessage = document.getElementById('orderConfirmMessage'); // ID da mensagem
+  const overlay = document.getElementById('orderConfirmOverlay'); 
+  const confirmMessage = document.getElementById('orderConfirmMessage'); 
 
   if (overlay && confirmMessage) {
     confirmMessage.textContent = message;
     
-    // Mostra o overlay
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
 
-    // Remove o overlay após um atraso (2.5 segundos)
     setTimeout(function() {
       overlay.classList.remove('show');
       overlay.setAttribute('aria-hidden', 'true');
-    }, 2500); // 2.5 segundos
+    }, 2500); 
   } else {
-    // Fallback caso o overlay não esteja no HTML
     alert(message); 
   }
 }
 
-// Simula a adição de um item ao pedido, exibindo a nova confirmação.
+// Simula adição de item
 function addOrder(itemName) {
-  // A lógica de adição ao carrinho real viria aqui.
-  showOrderConfirmation("Pedido de " + itemName + " enviado!");
+  showOrderConfirmation("Order for " + itemName + " sent!");
 }
 
-// Função para exibir ou ocultar o menu de navegação mobile.
+// Função para exibir/ocultar menu mobile
 function menuShow() {
   let menuMobile = document.querySelector(".mobile-menu");
   const menuIcon = document.querySelector(".icon");
+  const body = document.body;
   
   if (menuMobile.classList.contains("open")) {
     menuMobile.classList.add("closing");
+    // Libera o scroll do site
+    body.classList.remove("no-scroll");
 
     setTimeout(() => {
       menuMobile.classList.remove("open");
@@ -52,13 +49,15 @@ function menuShow() {
   } else {
     menuMobile.classList.add("open");
     menuMobile.classList.remove("closing");
+    // Bloqueia scroll do site
+    body.classList.add("no-scroll");
     if (menuIcon) {
-        menuIcon.src = "imagens/close_white_36dp.svg"; // Assumindo que tem um ícone de fechar
+        menuIcon.src = "imagens/close_white_36dp.svg"; 
     }
   }
 }
 
-// Event listener para mudar o estilo do cabeçalho ao rolar a página
+// Scroll header effect
 document.addEventListener("scroll", () => {
   const header = document.querySelector("header");
   if (window.scrollY > 50) {
@@ -68,12 +67,12 @@ document.addEventListener("scroll", () => {
   }
 });
 
-// Adiciona um listener de clique a todos os elementos com a classe '.mobile-menu'.
-document.querySelectorAll(".mobile-menu").forEach((item) => {
+// Fecha o menu ao clicar num link
+document.querySelectorAll(".mobile-menu .nav-link").forEach((item) => {
   item.addEventListener("click", menuShow);
 });
 
-// Lógica de confirmação de registro
+// Registo Form
 document.addEventListener('DOMContentLoaded', function () {
   const registerForm = document.getElementById('registerForm');
   const overlay = document.getElementById('confirmOverlay');
@@ -86,21 +85,19 @@ document.addEventListener('DOMContentLoaded', function () {
       const pwd2 = registerForm.querySelector('#confirm_password')?.value || '';
 
       if (pwd !== pwd2) {
-        alert('As palavras-passe não coincidem.');
+        alert('Passwords do not match.');
         return;
       }
 
-      // Bloqueia o botão e mostra a animação de confirmação
       const submitBtn = registerForm.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
 
       overlay.classList.add('show');
       overlay.setAttribute('aria-hidden', 'false');
 
-      // Após a animação, redireciona para index.html
       setTimeout(function () {
         window.location.href = "index.html"; 
-      }, 3000); // 3 segundos
+      }, 3000); 
     });
   }
 });

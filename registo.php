@@ -33,7 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Register</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <title>Register</title>
+</head>
 <body>
     <div class="login-container">
         <h2>Register</h2>
@@ -44,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Username:</label><input type="text" name="username" required>
             <label>Password:</label><input type="password" name="password" required>
             <label>Confirm:</label><input type="password" name="confirm_password" required>
-            <button type="submit">Registar</button>
+            <button type="submit">Register</button>
         </form>
         <p class="register-text">Already have an account? <a href="login.php">Login.</a></p>
     </div>

@@ -3,7 +3,7 @@
   padding: 0;
   margin: 0;
   color: #fff;
-  box-sizing: border-box; /* Adicionado para layout robusto */
+  box-sizing: border-box;
 }
 
 /* Estilos gerais do corpo da página */
@@ -12,6 +12,11 @@ body {
   color: white;
   margin: 0;
   font-family: "Roboto", sans-serif;
+}
+
+/* Bloqueia scroll quando menu está aberto */
+body.no-scroll {
+  overflow: hidden;
 }
 
 /* --- Cabeçalho --- */
@@ -33,7 +38,6 @@ header {
   transition: padding 0.3s ease-in-out; 
 }
 
-/* Estilo ao rolar */
 header.scrolled .nav-bar {
   padding: 0.5rem 6rem;
 }
@@ -82,7 +86,7 @@ header.scrolled .nav-bar {
   height: 28px;
 }
 
-.login-button button, .lang-toggle button {
+.login-button button {
   border: none;
   background-color: #f06aa6;
   padding: 10px 15px;
@@ -93,7 +97,6 @@ header.scrolled .nav-bar {
   font-size: 18px;
 }
 
-/* Ícone do menu mobile, oculto em telas maiores */
 .mobile-menu-icon {
   display: none;
 }
@@ -104,17 +107,19 @@ header.scrolled .nav-bar {
     cursor: pointer;
 }
 
-/* Menu mobile (Overlay simples) */
+/* --- Menu Mobile (Atualizado) --- */
 .mobile-menu {
   display: none;
-  position: absolute; 
-  top: 100%; 
+  position: fixed; /* Alterado para fixed para cobrir a viewport */
+  top: 0; 
   left: 0;
   width: 100%;
+  height: 100vh; /* Altura total */
   background-color: #1b1b1b;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  z-index: 900;
-  padding: 20px;
+  z-index: 2000; /* Acima do header */
+  padding: 80px 20px 20px 20px; /* Padding top para afastar do topo */
+  overflow-y: auto; /* Scroll apenas aqui dentro */
+  box-sizing: border-box;
 }
 
 .mobile-menu.open {
@@ -136,16 +141,7 @@ header.scrolled .nav-bar {
   margin: 0;
 }
 
-.mobile-menu .lang-toggle {
-  display: block;
-  padding: 1rem 2rem;
-}
-
-.mobile-menu .lang-toggle button {
-  width: 100%;
-}
-
-/* --- Menu Board (index.php) --- */
+/* --- Menu Board --- */
 .menu-board {
   max-width: 900px;
   margin: 20px auto;
@@ -218,11 +214,12 @@ header.scrolled .nav-bar {
   background: #24848c;
 }
 
-/* --- Login/Registo (Otimização para Mobile) --- */
+/* --- Login/Registo (Otimização Mobile Atualizada) --- */
 .login-container {
-  margin: 60px auto; 
-  padding: 30px 25px; 
+  margin: 40px auto; 
+  padding: 30px 20px;
   max-width: 400px;
+  width: 90%; /* Garante margem em ecrãs pequenos */
   background: #1b1b1b;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
@@ -240,7 +237,7 @@ header.scrolled .nav-bar {
 .login-container label {
   display: block;
   font-family: 'Amatic SC', cursive;
-  font-size: 24px; 
+  font-size: 24px;
   margin-bottom: 8px; 
   color: #f06aa6;
 }
@@ -250,29 +247,29 @@ header.scrolled .nav-bar {
 .login-container input[type="email"], 
 .login-container input[type="tel"] {
   width: 100%;
-  padding: 12px; 
-  margin-bottom: 25px; 
+  padding: 12px;
+  margin-bottom: 20px;
   border-radius: 5px;
   border: 1px solid #ccc;
   background: #333;
   color: #fff;
-  font-size: 16px;
+  font-size: 16px; /* 16px evita zoom automático no iOS */
   box-sizing: border-box; 
-  height: 48px; 
+  height: 48px;
   font-family: 'Roboto', sans-serif;
 }
 
 .login-container button {
   display: block;
   width: 100%;
-  height: 50px; 
+  height: 50px;
   line-height: 50px; 
   border: 1px solid transparent; 
   border-radius: 5px; 
   background-color: #f06aa6;
   color: white;
   font-family: 'Amatic SC', cursive;
-  font-size: 22px; 
+  font-size: 22px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   box-sizing: border-box; 
@@ -341,11 +338,7 @@ header.scrolled .nav-bar {
   font-weight: 700;
 }
 
-.footer-links .sep {
-  color: #555;
-}
-
-/* --- Estilos para Tabelas (Admin/Staff/Cart) --- */
+/* --- Admin Styles --- */
 .admin-container { 
     max-width: 1000px; 
     margin: 40px auto; 
@@ -381,102 +374,7 @@ header.scrolled .nav-bar {
 .action-link { color: #f06aa6; text-decoration: underline; cursor: pointer; }
 .checkout-button { background-color: #f06aa6; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-family: 'Permanent Marker', cursive; font-size: 20px; transition: background-color 0.3s; margin-top: 20px; }
 
-
-/* --- Overlay de Confirmação (Registo e Pedido) --- */
-.confirm-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.confirm-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.confirm-card {
-  background: #111;
-  color: #fff;
-  padding: 28px 36px;
-  border-radius: 12px;
-  text-align: center;
-  transform: scale(0.86);
-  opacity: 0;
-  transition: transform 0.35s cubic-bezier(.2,.9,.3,1), opacity 0.35s;
-}
-
-.confirm-overlay.show .confirm-card {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.confirm-text {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 24px;
-  color: #fff;
-  margin-top: 15px;
-}
-
-/* Estilos para o Checkmark SVG */
-.checkmark {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: block;
-  stroke-width: 4;
-  stroke: #4BB71B;
-  stroke-miterlimit: 10;
-  margin: 0 auto;
-  box-shadow: inset 0px 0px 0px #4BB71B;
-  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-}
-
-.checkmark__circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 4;
-  stroke-miterlimit: 10;
-  stroke: #4BB71B;
-  fill: none;
-  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
-
-.checkmark__check {
-  transform-origin: 50% 50%;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-}
-
-@keyframes stroke {
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes fill {
-  100% {
-    box-shadow: inset 0px 0px 0px 30px #4BB71B;
-  }
-}
-
-@keyframes scale {
-  0%, 100% {
-    transform: none;
-  }
-  50% {
-    transform: scale(1.04);
-  }
-}
-
-/* --- MEDIA QUERY (PRIORIDADE MOBILE / 1030PX) --- */
+/* --- Media Queries --- */
 @media screen and (max-width: 1030px) {
   .nav-bar {
     padding: 1.5rem 2rem;
@@ -486,80 +384,27 @@ header.scrolled .nav-bar {
     padding: 0.5rem 4rem;
   }
   
-  .nav-list {
-    display: none;
-  }
-  
-  .nav-bar > .lang-toggle {
-    display: none;
-  }
-  
-  .mobile-menu-icon {
-    display: block;
-  }
+  .nav-list { display: none; }
+  .mobile-menu-icon { display: block; }
 
-  .mobile-menu ul {
-    list-style: none; 
-    padding: 0;
-  }
-  
-  .mobile-menu .nav-item {
-    display: block;
-    padding-top: 1.2rem;
-  }
-  
-  .mobile-menu .lang-toggle {
-    display: block;
-    padding: 1rem 2rem;
-  }
-  
-  .mobile-menu .lang-toggle button {
-    width: 100%;
-  }
-
-  /* PRIORITY MOBILE: Containers usam mais espaço no ecrã */
   .menu-board, .cart-container {
     max-width: 95%; 
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* **OTIMIZAÇÃO DE LOGIN/REGISTO MOBILE** */
-  .login-container {
-    max-width: 95%; /* Ocupar quase toda a largura no ecrã mobile */
-    margin: 40px auto; 
-    padding: 25px 20px; 
-  }
-
-  .login-container input[type="text"],
-  .login-container input[type="password"],
-  .login-container input[type="email"], 
-  .login-container input[type="tel"] {
-    height: 50px; 
-    font-size: 18px;
-  }
-
-  .login-container label {
-    font-size: 20px; 
-  }
-  
-  /* PRIORITY PC: Tabelas rolam em vez de quebrar o layout no mobile */
+  /* Admin Tables Responsive */
   .admin-container {
       max-width: 98%;
       margin: 20px auto;
   }
-  
   .admin-container table {
     display: block;
     overflow-x: auto; 
     white-space: nowrap; 
   }
 
-  /* Rodapé adaptável */
-  .site-footer {
-      max-width: 95%;
-  }
-  
+  .site-footer { max-width: 95%; }
   .site-footer .footer-inner {
     flex-direction: column;
     text-align: center;
