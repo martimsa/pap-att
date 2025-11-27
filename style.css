@@ -104,7 +104,7 @@ header.scrolled .nav-bar {
     cursor: pointer;
 }
 
-/* Menu mobile (Overlay simples, como no original) */
+/* Menu mobile (Overlay simples) */
 .mobile-menu {
   display: none;
   position: absolute; 
@@ -218,11 +218,12 @@ header.scrolled .nav-bar {
   background: #24848c;
 }
 
-/* --- Login/Registo --- */
+/* --- Login/Registo (Otimização para Mobile) --- */
 .login-container {
+  /* Aumentar margem superior/inferior para dar mais espaço */
+  margin: 60px auto; 
+  padding: 30px 25px; /* Ligeiramente mais padding interno */
   max-width: 400px;
-  margin: 50px auto;
-  padding: 40px;
   background: #1b1b1b;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
@@ -240,8 +241,8 @@ header.scrolled .nav-bar {
 .login-container label {
   display: block;
   font-family: 'Amatic SC', cursive;
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 24px; /* Aumentar tamanho da fonte para leitura móvel */
+  margin-bottom: 8px; 
   color: #f06aa6;
 }
 
@@ -250,38 +251,38 @@ header.scrolled .nav-bar {
 .login-container input[type="email"], 
 .login-container input[type="tel"] {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 12px; /* Aumentar padding para maior área de toque */
+  margin-bottom: 25px; /* Aumentar margem inferior para mais espaço entre campos */
   border-radius: 5px;
   border: 1px solid #ccc;
   background: #333;
   color: #fff;
   font-size: 16px;
   box-sizing: border-box; 
-  height: 44px; 
+  height: 48px; /* Altura mínima de toque recomendada */
   font-family: 'Roboto', sans-serif;
 }
 
 .login-container button {
   display: block;
   width: 100%;
-  height: 44px; 
-  line-height: 44px; 
+  height: 50px; /* Aumentar altura do botão */
+  line-height: 50px; 
   border: 1px solid transparent; 
   border-radius: 5px; 
   background-color: #f06aa6;
   color: white;
   font-family: 'Amatic SC', cursive;
-  font-size: 20px; 
+  font-size: 22px; /* Aumentar tamanho da fonte do botão */
   cursor: pointer;
   transition: background-color 0.3s ease;
   box-sizing: border-box; 
-  margin: 0; 
+  margin-top: 10px;
   padding: 0 10px;
 }
 
 .login-container button:hover {
-  background-color: #d0588d; /* Escurecido para melhor UX */
+  background-color: #d0588d; 
 }
 
 .login-container .register-text {
@@ -381,12 +382,94 @@ header.scrolled .nav-bar {
 .action-link { color: #f06aa6; text-decoration: underline; cursor: pointer; }
 .checkout-button { background-color: #f06aa6; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-family: 'Permanent Marker', cursive; font-size: 20px; transition: background-color 0.3s; margin-top: 20px; }
 
+/* --- Cart Container Styles (mantidos para consistência) --- */
+.cart-container { 
+    max-width: 900px; 
+    margin: 40px auto; 
+    padding: 20px; 
+    background: #1b1b1b; 
+    border-radius: 12px; 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.cart-container h2 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cart-summary {
+    text-align: right;
+    margin-top: 20px;
+    font-family: 'Amatic SC', cursive;
+    font-size: 26px;
+    color: #f06aa6;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  gap: 15px;
+}
+
+.cart-item .item-details {
+  flex-grow: 1;
+}
+
+.cart-item .item-name {
+  font-family: "Permanent Marker";
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.cart-item .item-price {
+  font-weight: 700;
+  color: #ff7f3f;
+  font-size: 16px;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-btn {
+  background: #333;
+  border: 1px solid #555;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  padding: 0;
+}
+
+.remove-item-btn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Amatic SC', cursive;
+}
 
 /* --- MEDIA QUERY (PRIORIDADE MOBILE / 1030PX) --- */
 @media screen and (max-width: 1030px) {
   .nav-bar {
     padding: 1.5rem 2rem;
-    justify-content: space-between; /* Melhor alinhamento no mobile */
+    justify-content: space-between; 
   }
   header.scrolled .nav-bar {
     padding: 0.5rem 4rem;
@@ -405,7 +488,7 @@ header.scrolled .nav-bar {
   }
 
   .mobile-menu ul {
-    list-style: none; /* Garante que a lista não tem bolinhas */
+    list-style: none; 
     padding: 0;
   }
   
@@ -424,11 +507,37 @@ header.scrolled .nav-bar {
   }
 
   /* PRIORITY MOBILE: Containers usam mais espaço no ecrã */
-  .menu-board, .login-container {
+  .menu-board, .cart-container {
     max-width: 95%; 
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* PRIORITY MOBILE: Tabelas rolam em vez de quebrar o layout */
+  /* **OTIMIZAÇÃO DE LOGIN/REGISTO MOBILE** */
+  .login-container {
+    max-width: 95%; /* Ocupar quase toda a largura no ecrã mobile */
+    margin: 40px auto; /* Reduzir margem superior/inferior */
+    padding: 25px 20px; /* Reduzir o padding horizontal para caber mais */
+  }
+
+  .login-container input[type="text"],
+  .login-container input[type="password"],
+  .login-container input[type="email"], 
+  .login-container input[type="tel"] {
+    height: 50px; /* Garantir que o campo é fácil de tocar */
+    font-size: 18px;
+  }
+
+  .login-container label {
+    font-size: 20px; /* Tornar a label mais legível */
+  }
+  
+  /* PRIORITY PC: Tabelas rolam em vez de quebrar o layout no mobile */
+  .admin-container {
+      max-width: 98%;
+      margin: 20px auto;
+  }
+  
   .admin-container table {
     display: block;
     overflow-x: auto; 
@@ -436,6 +545,10 @@ header.scrolled .nav-bar {
   }
 
   /* Rodapé adaptável */
+  .site-footer {
+      max-width: 95%;
+  }
+  
   .site-footer .footer-inner {
     flex-direction: column;
     text-align: center;
