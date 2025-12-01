@@ -21,19 +21,13 @@ function getProducts($pdo, $catId) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="theme-color" content="#1b1b1b" />
     <title>Salt Flow Beach Bar</title>
-    <link rel="icon" type="image/x-icon" href="imagens/logo_menu.svg" />
+    <link rel="icon" type="image/x-icon" href="imagens/logo_menu.jpg" />
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-box { background: #1b1b1b; padding: 25px; border: 2px solid #f06aa6; max-width: 400px; width: 90%; border-radius: 12px; color:white; }
-        .ing-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; }
-        .ing-row input { width: 20px; height: 20px; accent-color: #f06aa6; }
-        .modal-btns { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
-        .btn-cancel { background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-family: 'Amatic SC'; font-size: 20px; cursor: pointer; }
-    </style>
 </head>
 <body>
     <header>
@@ -44,11 +38,16 @@ function getProducts($pdo, $catId) {
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span style="color:#f06aa6; font-family:'Amatic SC'; font-size:18px;">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" style="color:red; font-weight:bold;">[ADMIN]</a><?php endif; ?>
-                    <?php if($_SESSION['role'] === 'staff'): ?><a href="staff_orders.php" style="color:cyan; font-weight:bold;">[STAFF]</a><?php endif; ?>
-                    <a href="logout.php" style="font-size:14px; color:#aaa;">(Sair)</a>
-                    <div class="cart-icon"><a href="cart.php"><img src="imagens/cart_icon.svg" class="cart-icon-img" /><span style="color:#f06aa6; font-weight:bold; margin-left:-5px;"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span></a></div>
+                    <span class="header-greeting">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" class="header-role-link header-role-link--admin">[ADMIN]</a><?php endif; ?>
+                    <?php if($_SESSION['role'] === 'staff'): ?><a href="staff_orders.php" class="header-role-link header-role-link--staff">[STAFF]</a><?php endif; ?>
+                    <a href="logout.php" class="header-logout-link">(Sair)</a>
+                    <div class="cart-icon">
+                        <a href="cart.php">
+                            <img src="imagens/cart_icon.svg" class="cart-icon-img" />
+                            <span class="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
+                        </a>
+                    </div>
                 <?php else: ?>
                     <div class="login-button"><a href="login.php"><img src="imagens/user_icon.svg" class="user-icon-img" /></a></div>
                 <?php endif; ?>
@@ -57,7 +56,13 @@ function getProducts($pdo, $catId) {
         </nav>
     </header>
 
+    <div class="mobile-menu-overlay" onclick="menuShow()"></div>
     <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <button class="mobile-menu-close" onclick="menuShow()" aria-label="Fechar menu">
+                <img src="imagens/close_white_36dp.svg" alt="Fechar" />
+            </button>
+        </div>
         <ul>
             <li class="nav-item"><a href="index.php" class="nav-link" onclick="menuShow()">Home</a></li>
             
@@ -66,17 +71,17 @@ function getProducts($pdo, $catId) {
             <?php endforeach; ?>
             
             <?php if(isset($_SESSION['user_id'])): ?>
-                <li class="nav-item" style="border-top: 1px solid #333; margin-top: 10px; padding-top: 10px;"></li>
+                <li class="nav-item mobile-menu-separator"></li>
                 <?php if($_SESSION['role'] === 'admin'): ?>
                     <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:red !important;">Painel Admin</a></li>
                 <?php endif; ?>
                 <?php if($_SESSION['role'] === 'staff'): ?>
                     <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:cyan !important;">Pedidos Staff</a></li>
                 <?php endif; ?>
-                <li class="nav-item"><a href="cart.php" class="nav-link">Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
+                <li class="nav-item"><a href="cart.php" class="nav-link">🛒 Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
                 <li class="nav-item"><a href="logout.php" class="nav-link">Sair (<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
             <?php else: ?>
-                <li class="nav-item" style="border-top: 1px solid #333; margin-top: 10px; padding-top: 10px;"><a href="login.php" class="nav-link">Login / Registo</a></li>
+                <li class="nav-item mobile-menu-separator"><a href="login.php" class="nav-link">Login / Registo</a></li>
             <?php endif; ?>
         </ul>
     </div>
@@ -86,9 +91,12 @@ function getProducts($pdo, $catId) {
         <?php foreach($cats as $c): ?>
             <div class="category" id="<?= $c['slug'] ?>"><?= $c['name'] ?></div>
             <?php foreach(getProducts($pdo, $c['id']) as $p): ?>
-                <div class="item" style="<?= $p['is_active'] ? '' : 'opacity: 0.5;' ?>">
+                <div class="item <?= $p['is_active'] ? '' : 'item--inactive' ?>">
                     <div>
-                        <div class="item-name"><?= htmlspecialchars($p['name']) ?> <?php if(!$p['is_active']) echo '<span style="color:red; font-size:12px; border:1px solid red;">OFFLINE</span>'; ?></div>
+                        <div class="item-name">
+                            <?= htmlspecialchars($p['name']) ?>
+                            <?php if(!$p['is_active']) echo '<span class="item-offline-label">OFFLINE</span>'; ?>
+                        </div>
                         <div class="item-desc"><?= $p['i_names'] ? htmlspecialchars($p['i_names']) : htmlspecialchars($p['description']) ?></div>
                     </div>
                     <div class="actions">
@@ -96,9 +104,9 @@ function getProducts($pdo, $catId) {
                         <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'cliente'): ?>
                             <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Pedir</button>
                         <?php elseif(isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
-                             <button class="btn-pedir" disabled style="background:#555">Staff</button>
+                             <button class="btn-pedir btn-pedir--staff" disabled>Staff</button>
                         <?php else: ?>
-                            <button class="btn-pedir" disabled style="background:#333; color:#777" title="Login necessário">Login</button>
+                            <button class="btn-pedir btn-pedir--disabled" disabled title="Login necessário">Login</button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -108,13 +116,13 @@ function getProducts($pdo, $catId) {
 
     <div id="ingModal" class="modal-overlay">
         <form id="cartForm" class="modal-box">
-            <h3 id="mTitle" style="font-family:'Permanent Marker'; font-size:24px;"></h3>
-            <p style="color:#aaa; font-size:14px; margin-bottom:15px;">Desmarque ingredientes para remover:</p>
+            <h3 id="mTitle" class="modal-title"></h3>
+            <p class="modal-subtitle">Desmarque ingredientes para remover:</p>
             <input type="hidden" name="pid" id="mPid">
-            <div id="mList" style="margin-bottom:20px; max-height:200px; overflow-y:auto;"></div>
+            <div id="mList" class="modal-ingredients-list"></div>
             <div class="modal-btns">
                 <button type="button" class="btn-cancel" onclick="document.getElementById('ingModal').style.display='none'">Cancelar</button>
-                <button type="submit" class="checkout-button" style="padding:10px 20px;">Adicionar ao Carrinho</button>
+                <button type="submit" class="checkout-button checkout-button--modal">Adicionar ao Carrinho</button>
             </div>
         </form>
     </div>
@@ -147,4 +155,3 @@ function getProducts($pdo, $catId) {
     </script>
 
 <?php include 'footer.php'; ?>
-}
