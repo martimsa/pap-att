@@ -24,8 +24,8 @@ function getProducts($pdo, $catId) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#1b1b1b" />
-    <title>Salt Flow Beach Bar</title>
-    <link rel="icon" type="image/x-icon" href="imagens/logo_menu.jpg" />
+    <title>Salt Flow ≋ Beach Bar</title>
+    <link rel="icon" type="image/x-icon" href="imagens/logo_menu.svg" />
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -105,8 +105,6 @@ function getProducts($pdo, $catId) {
                             <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Pedir</button>
                         <?php elseif(isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
                              <button class="btn-pedir btn-pedir--staff" disabled>Staff</button>
-                        <?php else: ?>
-                            <button class="btn-pedir btn-pedir--disabled" disabled title="Login necessário">Login</button>
                         <?php endif; ?>
                     </div>
                 </div>
