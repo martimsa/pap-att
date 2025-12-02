@@ -174,11 +174,11 @@ header.scrolled .nav-bar {
 .brand {
   font-family: 'Permanent Marker', cursive;
   font-size: 44px;
-  background: linear-gradient(135deg, #ffffff 0%, #f06aa6 60%, #ff8cc8 100%);
+  background: linear-gradient(135deg, #5CC4F0, #60A3E8, #9177EC, #C788EF, #E573C6, #FA749C); /* Gradiente de cores */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-align: left;
+  text-align: left; /* Garante alinhamento à esquerda */
   margin-bottom: 25px;
 }
 
