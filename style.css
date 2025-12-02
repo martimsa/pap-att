@@ -178,16 +178,21 @@ header.scrolled .nav-bar {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-align: left; /* Garante alinhamento à esquerda */
+  text-align: left;
   margin-bottom: 25px;
+  background-size: 200% auto; /* Aumenta o tamanho do gradiente para permitir a animação */
+  animation: gradient-shift 4s ease infinite; /* Aplica a animação */
 }
 
 @keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
+  0% {
+    background-position: 0% 0%; /* Posição inicial (canto superior esquerdo) */
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%; /* Posição intermédia (canto inferior direito) */
+  }
+  100% {
+    background-position: 0% 0%; /* Volta à posição inicial para um loop suave */
   }
 }
 
