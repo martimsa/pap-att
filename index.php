@@ -39,8 +39,8 @@ function getProducts($pdo, $catId) {
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <span class="header-greeting">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" class="header-role-link header-role-link--admin">[ADMIN]</a><?php endif; ?>
-                    <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?><a href="staff_orders.php" class="header-role-link header-role-link--staff">[STAFF]</a><?php endif; ?>
+                    <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" class="header-role-link header-role-link--admin">ADMIN</a><?php endif; ?>
+                    <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?><a href="staff_orders.php" class="header-role-link header-role-link--staff">STAFF</a><?php endif; ?>
                     <a href="logout.php" class="header-logout-link">(Sair)</a>
                     <div class="cart-icon">
                         <a href="cart.php">
@@ -73,13 +73,13 @@ function getProducts($pdo, $catId) {
             <?php if(isset($_SESSION['user_id'])): ?>
                 <li class="nav-item mobile-menu-separator"></li>
                 <?php if($_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:red !important;">Painel Admin</a></li>
+                    <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:#5CC4F0 !important;">Painel Admin</a></li>
                 <?php endif; ?>
                 <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:cyan !important;">Pedidos Staff</a></li>
+                    <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:#60A3E8 !important;">Pedidos Staff</a></li>
                 <?php endif; ?>
-                <li class="nav-item"><a href="cart.php" class="nav-link">🛒 Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link">Sair (<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
+                <li class="nav-item"><a href="cart.php" class="nav-link">Carrinho(<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
+                <li class="nav-item"><a href="logout.php" class="nav-link">Sair(<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
             <?php else: ?>
                 <li class="nav-item mobile-menu-separator"><a href="login.php" class="nav-link">Login / Registo</a></li>
             <?php endif; ?>

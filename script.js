@@ -37,6 +37,9 @@ function menuShow() {
   
   if (!menuMobile) return;
   
+  // Elements for header role links (admin/staff)
+  const roleLinks = document.querySelectorAll('.header-role-link--admin, .header-role-link--staff');
+
   if (menuMobile.classList.contains("open")) {
     menuMobile.classList.add("closing");
     if (menuOverlay) {
@@ -44,6 +47,11 @@ function menuShow() {
     }
     // Libera o scroll do site
     body.classList.remove("no-scroll");
+
+    // If on small screens, restore visibility of header role links when closing menu
+    if (window.innerWidth <= 1150 && roleLinks.length) {
+      roleLinks.forEach(el => { el.style.display = ''; });
+    }
 
     setTimeout(() => {
       menuMobile.classList.remove("open");
@@ -62,6 +70,11 @@ function menuShow() {
     body.classList.add("no-scroll");
     if (menuIcon) {
         menuIcon.src = "imagens/close_white_36dp.svg"; 
+    }
+
+    // If on small screens, hide header role links when opening menu to avoid duplicate links
+    if (window.innerWidth <= 1150 && roleLinks.length) {
+      roleLinks.forEach(el => { el.style.display = 'none'; });
     }
   }
 }
