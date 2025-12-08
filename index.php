@@ -39,9 +39,8 @@ function getProducts($pdo, $catId) {
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <span class="header-greeting">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" class="header-role-link header-role-link--admin">ADMIN</a><?php endif; ?>
-                    <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?><a href="staff_orders.php" class="header-role-link header-role-link--staff">STAFF</a><?php endif; ?>
                     <a href="logout.php" class="header-logout-link">(Sair)</a>
+                    
                     <div class="cart-icon">
                         <a href="cart.php">
                             <img src="imagens/cart_icon.svg" class="cart-icon-img" />
@@ -144,7 +143,6 @@ function getProducts($pdo, $catId) {
         document.getElementById('cartForm').addEventListener('submit', function(e){
             e.preventDefault();
             const fd = new FormData(this);
-            // URL de destino é cart_actions.php, mas o seu ficheiro chama-se add_to_cart.php
             fetch('add_to_cart.php', { method:'POST', body:fd }).then(r=>r.json()).then(d=>{ 
                 alert(d.msg || d.message); 
                 location.reload(); 

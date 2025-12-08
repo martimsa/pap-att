@@ -11,7 +11,12 @@ $prods = $pdo->query("SELECT p.*, c.name as cname FROM products p JOIN categorie
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Admin Produtos</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <title>Admin Produtos</title>
+</head>
 <body>
     <header>
         <nav class="nav-bar" style="justify-content:flex-end; padding: 1rem 3rem;">
@@ -25,25 +30,31 @@ $prods = $pdo->query("SELECT p.*, c.name as cname FROM products p JOIN categorie
         <div class="mobile-menu">
             <ul>
                 <li class="nav-item"><a href="index.php" class="nav-link">Menu Principal</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link">Saír</a></li>
+                <li class="nav-item"><a href="logout.php" class="nav-link">Sair</a></li>
             </ul>
         </div>
     </header>
     
     <div class="admin-container">
         <h2>Gerir Produtos (Admin)</h2>
-        <table>
-            <tr><th>ID</th><th>Categoria</th><th>Nome</th><th>Estado</th><th>Ação</th></tr>
+        <table class="responsive-table">
+            <thead>
+                <tr><th>ID</th><th>Categoria</th><th>Nome</th><th>Estado</th><th>Ação</th></tr>
+            </thead>
+            <tbody>
             <?php foreach($prods as $p): ?>
             <tr>
-                <td><?= $p['id'] ?></td>
-                <td><?= $p['cname'] ?></td>
-                <td><?= $p['name'] ?></td>
-                <td><span class="status-tag <?= $p['is_active']?'status-online':'status-offline' ?>"><?= $p['is_active']?'ONLINE':'OFFLINE' ?></span></td>
-                <td><a href="?toggle=<?= $p['id'] ?>" class="action-link">Trocar Estado</a></td>
+                <td data-label="ID"><?= $p['id'] ?></td>
+                <td data-label="Categoria"><?= $p['cname'] ?></td>
+                <td data-label="Nome"><?= $p['name'] ?></td>
+                <td data-label="Estado"><span class="status-tag <?= $p['is_active']?'status-online':'status-offline' ?>"><?= $p['is_active']?'ONLINE':'OFFLINE' ?></span></td>
+                <td data-label="Ação"><a href="?toggle=<?= $p['id'] ?>" class="action-link btn-pedir" style="font-size:14px; padding: 6px 12px;">Trocar Estado</a></td>
             </tr>
             <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 
-<?php include 'footer.php'; ?>
+    <script src="script.js"></script>
+</body>
+</html>
