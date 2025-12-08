@@ -25,14 +25,14 @@ function getProducts($pdo, $catId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#1b1b1b" />
     <title>Salt Flow ≋ Beach Bar</title>
-    <link rel="icon" type="jpg" href="imagens/logo_menu.jpg" />
+    <link rel="icon" type="jpg" href="imagens/logo_menu.png" />
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <nav class="nav-bar">
-            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo"/></a></div>
+            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo_menu.png" width="40px" alt="Logo"/></a></div>
             <div class="nav-list">
                 <ul><?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?></ul>
             </div>
@@ -87,7 +87,7 @@ function getProducts($pdo, $catId) {
     </div>
     
     <div class="menu-board">
-        <div class="brand">Salt Flow Bar</div>
+        <div class="brand">Salt Flow ≋ Beach Bar</div>
         <?php foreach($cats as $c): ?>
             <div class="category" id="<?= $c['slug'] ?>"><?= $c['name'] ?></div>
             <?php foreach(getProducts($pdo, $c['id']) as $p): ?>
