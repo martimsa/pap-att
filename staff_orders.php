@@ -12,12 +12,7 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.us
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
-    <title>Staff Orders</title>
-</head>
+<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Staff Orders</title></head>
 <body>
     <header>
         <nav class="nav-bar" style="justify-content:flex-end; padding: 1rem 3rem;">
@@ -39,11 +34,8 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.us
     <div class="admin-container">
         <h2>Pedidos Pendentes (Staff)</h2>
         <?php foreach($orders as $o): ?>
-            <div class="staff-card">
-                <h3>
-                    <span>Pedido #<?= $o['id'] ?> - <?= htmlspecialchars($o['username']) ?></span>
-                    <span class="status-tag status-online"><?= $o['status'] ?></span>
-                </h3>
+            <div style="background:#222; margin:15px 0; padding:15px; border:1px solid #444;">
+                <h3>Pedido #<?= $o['id'] ?> - Cliente: <?= $o['username'] ?> <span class="status-tag status-online"><?= $o['status'] ?></span></h3>
                 <ul>
                     <?php 
                     $items = $pdo->prepare("SELECT p.name, oi.custom_ingredients FROM order_items oi JOIN products p ON oi.product_id=p.id WHERE order_id=?");
@@ -51,15 +43,14 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.us
                     foreach($items as $i) echo "<li>{$i['name']} <small style='color:#f06aa6'>({$i['custom_ingredients']})</small></li>"; 
                     ?>
                 </ul>
-                <div class="staff-actions">
-                    <a href="?oid=<?= $o['id'] ?>&st=em_preparacao" class="btn-action primary">Preparar</a>
-                    <a href="?oid=<?= $o['id'] ?>&st=entregue" class="btn-action success">Entregar</a>
-                    <a href="?oid=<?= $o['id'] ?>&st=pago" class="btn-action finish">Pago (Fechar)</a>
-                </div>
+                <p>
+                    Ações: 
+                    <a href="?oid=<?= $o['id'] ?>&st=em_preparacao" class="action-link">Preparar</a> | 
+                    <a href="?oid=<?= $o['id'] ?>&st=entregue" class="action-link">Entregar</a> | 
+                    <a href="?oid=<?= $o['id'] ?>&st=pago" class="action-link">Pago (Fechar)</a>
+                </p>
             </div>
         <?php endforeach; ?>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+<?php include 'footer.php'; ?>
