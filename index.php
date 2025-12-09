@@ -34,15 +34,7 @@ function getProducts($pdo, $catId) {
         <nav class="nav-bar">
             <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo_menu.png" width="40px" alt="Logo"/></a></div>
             <div class="nav-list">
-                <ul>
-                    <?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?>
-                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <li class="nav-item"><a href="admin_products.php" class="nav-link header-role-link--admin">Admin</a></li>
-                    <?php endif; ?>
-                    <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin')): ?>
-                        <li class="nav-item"><a href="staff_orders.php" class="nav-link header-role-link--staff">Staff</a></li>
-                    <?php endif; ?>
-                </ul>
+                <ul><?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?></ul>
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
@@ -80,10 +72,10 @@ function getProducts($pdo, $catId) {
             <?php if(isset($_SESSION['user_id'])): ?>
                 <li class="nav-item mobile-menu-separator"></li>
                 <?php if($_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="admin_products.php" class="nav-link header-role-link--admin">Admin Panel</a></li>
+                    <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:#5CC4F0 !important;">Admin Panel</a></li>
                 <?php endif; ?>
                 <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="staff_orders.php" class="nav-link header-role-link--staff">Staff Orders</a></li>
+                    <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:#60A3E8 !important;">Staff Orders</a></li>
                 <?php endif; ?>
                 <li class="nav-item"><a href="cart.php" class="nav-link">Cart(<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
                 <li class="nav-item"><a href="logout.php" class="nav-link">Logout(<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
