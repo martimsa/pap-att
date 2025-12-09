@@ -611,6 +611,7 @@ header.scrolled .nav-bar {
   background: #555;
 }
 
+
 @media screen and (max-width: 480px) {
   .modal-box {
     padding: 20px 16px;
@@ -628,7 +629,9 @@ header.scrolled .nav-bar {
   }
 }
 
+
 /* Header - estilos específicos para links e textos dinâmicos (index) */
+
 .header-greeting {
   color:#f06aa6; 
   font-family:'Amatic SC', cursive; 
@@ -641,11 +644,11 @@ header.scrolled .nav-bar {
 }
 
 .header-role-link--admin {
-  color: #60A3E8;
+  color:red;
 }
 
 .header-role-link--staff {
-  color: #60A3E8;
+  color:cyan;
 }
 
 .header-logout-link {
@@ -658,7 +661,6 @@ header.scrolled .nav-bar {
   color:#f06aa6; 
   font-weight:bold; 
   margin-left:-5px;
-  font-family: Calibri;
 }
 
 
@@ -880,11 +882,6 @@ header.scrolled .nav-bar {
 
 /* --- Media Query para Mobile --- */
 @media screen and (max-width: 1150px) {
-  .header-role-link--staff, 
-  .header-role-link--admin {
-    display: none;
-  }
-
   .nav-list {
     display: none;
   }
