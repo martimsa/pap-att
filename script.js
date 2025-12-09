@@ -1,25 +1,3 @@
-// --- Funções do Modal de Ingredientes (index.php) ---
-
-function openModal(id, name, ids, names) {
-  const modal = document.getElementById('ingModal');
-  if (!modal) return;
-
-  modal.style.display = 'flex';
-  document.getElementById('mTitle').innerText = name;
-  document.getElementById('mPid').value = id;
-  const list = document.getElementById('mList');
-  list.innerHTML = '';
-  if (!ids || ids.trim() === '') {
-    list.innerHTML = '<p style="text-align:center; color:#777">Sem ingredientes personalizáveis.</p>';
-  } else {
-    const idArr = ids.split(',');
-    const nameArr = names.split(', ');
-    idArr.forEach((iid, i) => {
-      list.innerHTML += `<div class="ing-row"><label>${nameArr[i]}</label><input type="checkbox" name="ing[]" value="${iid.trim()}" checked></div>`;
-    });
-  }
-}
-
 // Função para alternar sidebar (se houver)
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
@@ -95,21 +73,6 @@ let touchStartY = 0;
 let touchEndY = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Event listener para o formulário de adicionar ao carrinho (index.php)
-  const cartForm = document.getElementById('cartForm');
-  if (cartForm) {
-    cartForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const fd = new FormData(this);
-      fetch('add_to_cart.php', { method: 'POST', body: fd })
-        .then(r => r.json())
-        .then(d => {
-          alert(d.msg || d.message);
-          location.reload();
-        });
-    });
-  }
-
   const menuMobile = document.querySelector(".mobile-menu");
   const menuHeader = document.querySelector(".mobile-menu-header");
   

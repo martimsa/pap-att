@@ -89,7 +89,7 @@ function getProducts($pdo, $catId) {
     </div>
     
     <div class="menu-board">
-        <div class="brand">Salt Flow ≋ Beach Bar</div>
+        <div class="brand">Salt Flow Bar</div>
         <?php foreach($cats as $c): ?>
             <div class="category" id="<?= $c['slug'] ?>"><?= $c['name'] ?></div>
             <?php foreach(getProducts($pdo, $c['id']) as $p): ?>
@@ -126,5 +126,32 @@ function getProducts($pdo, $catId) {
             </div>
         </form>
     </div>
+
+    <script>
+        function openModal(id, name, ids, names) {
+            document.getElementById('ingModal').style.display = 'flex';
+            document.getElementById('mTitle').innerText = name;
+            document.getElementById('mPid').value = id;
+            const list = document.getElementById('mList');
+            list.innerHTML = '';
+            if(!ids) list.innerHTML = '<p style="text-align:center; color:#777">Sem ingredientes personalizáveis.</p>';
+            else {
+                const idArr = ids.split(',');
+                const nameArr = names.split(', ');
+                idArr.forEach((iid, i) => {
+                    list.innerHTML += `<div class="ing-row"><label>${nameArr[i]}</label><input type="checkbox" name="ing[]" value="${iid}" checked></div>`;
+                });
+            }
+        }
+        document.getElementById('cartForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            const fd = new FormData(this);
+            // URL de destino é cart_actions.php, mas o seu ficheiro chama-se add_to_cart.php
+            fetch('add_to_cart.php', { method:'POST', body:fd }).then(r=>r.json()).then(d=>{ 
+                alert(d.msg || d.message); 
+                location.reload(); 
+            });
+        });
+    </script>
 
 <?php include 'footer.php'; ?>

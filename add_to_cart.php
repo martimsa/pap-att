@@ -1,3 +1,7 @@
+{
+type: uploaded file
+fileName: add_to_cart.php
+fullContent:
 <?php
 session_start();
 require 'db_connect.php'; // Adicionei require do db_connect, caso seja usado mais tarde
@@ -26,3 +30,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode(['success' => true, 'message' => 'Produto adicionado ao carrinho!']);
 }
 ?>
+}

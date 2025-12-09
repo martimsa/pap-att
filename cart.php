@@ -57,7 +57,9 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
 <body>
     <header>
         <nav class="nav-bar" style="justify-content: center;">
-            <div class="brand">Salt Flow ≋ Beach Bar</div>
+            <div class="logo" style="font-family: 'Permanent Marker', cursive; font-size: 28px; color: #f06aa6;">
+                Salt Flow
+            </div>
         </nav>
     </header>
 
@@ -106,3 +108,4 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
         <?php endif; ?>
     </div>
 <?php include 'footer.php'; ?>
+}
