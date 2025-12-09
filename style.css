@@ -1193,3 +1193,34 @@ header.scrolled .nav-bar {
     font-size: 11px;
   }
 }
+
+/* Ajustes para ecrãs com largura máxima de 768px (telemóveis e tablets) */
+@media (max-width: 768px) {
+    /* Reduz o tamanho da fonte base. Elementos com 'rem' vão encolher. */
+    html {
+        font-size: 14px; /* O padrão é 16px. Ajuste se necessário. */
+    }
+
+    /* Ajusta o título principal do menu */
+    .brand {
+        font-size: 3.5rem; /* Ex: Reduzido de um valor maior como 4.5rem */
+        margin-bottom: 20px;
+    }
+
+    /* Ajusta os títulos das categorias */
+    .category {
+        font-size: 2.2rem; /* Ex: Reduzido de 2.8rem */
+        padding: 10px 15px;
+    }
+
+    /* Compacta os itens do menu */
+    .item {
+        padding: 12px 15px;
+        font-size: 1rem; /* Ajusta o tamanho geral do texto no item */
+    }
+
+    .item-name { font-size: 1.3rem; }
+    .item-desc { font-size: 0.9rem; }
+    .price { font-size: 1.2rem; }
+    .btn-pedir { padding: 6px 14px; font-size: 0.9rem; }
+}
