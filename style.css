@@ -213,7 +213,7 @@ header.scrolled .nav-bar {
   padding: 14px 18px;
   margin-bottom: 8px;
   background: #202020;
-  border-radius: 6px;
+  border-radius: 12px;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02), 0 0 0 1px #111;
   gap: 20px;
   transition: background 0.16s ease, transform 0.12s ease, box-shadow 0.16s ease;
@@ -510,6 +510,41 @@ header.scrolled .nav-bar {
     font-size: 20px;
 }
 
+.admin-order-card {
+    background:#222; 
+    margin:15px 0; 
+    padding:15px; 
+    border:1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+.admin-order-card ul {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+.admin-order-card li {
+    margin-bottom: 5px;
+}
+
+.order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.action-btn {
+    background-color: #333;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+.action-btn:hover {
+    background-color: #f06aa6;
+    color: #1b1b1b;
+    font-weight: bold;
+}
+
 .action-link {
     color: #f06aa6;
     text-decoration: none;
@@ -705,11 +740,6 @@ header.scrolled .nav-bar {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease-in-out, visibility 0.3s;
-}
-
-.mobile-menu-overlay.active {
-  opacity: 1;
-  visibility: visible;
 }
 
 /* Escondido por default */
@@ -1104,6 +1134,52 @@ header.scrolled .nav-bar {
   .login-container h2 {
     font-size: 32px;
   }
+
+  /* **OTIMIZAÇÃO DE PÁGINAS ADMIN/STAFF MOBILE** */
+  .admin-container {
+    max-width: 95%;
+    padding: 15px;
+  }
+
+  .admin-container h2 {
+    font-size: 28px;
+  }
+
+  /* Tabela de produtos responsiva (manter layout de tabela) */
+  .admin-container th, .admin-container td {
+    padding: 8px;
+    font-size: 14px; /* Letra mais pequena para caber em mobile */
+    white-space: nowrap; /* Evita que o texto quebre e desalinhe a tabela */
+    padding: 10px 5px; /* Mais espaço vertical, menos horizontal */
+    font-size: 13px; /* Letra ainda mais pequena para caber */
+    white-space: normal; /* Permite que o texto quebre linha */
+    text-align: center; /* Centraliza para melhor leitura */
+  }
+
+  /* Adiciona scroll horizontal se a tabela for demasiado larga */
+  .table-responsive-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Scroll suave em iOS */
+    border: 1px solid #333;
+    border-radius: 8px;
+  }
+
+  /* Pedidos de Staff responsivos */
+  .admin-order-card h3 {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column; /* Coloca o status por baixo em ecrãs pequenos */
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .admin-order-card p {
+    word-break: break-word; /* Garante que os links de ação quebram linha se necessário */
+
+  /* Garante que os botões de ação ocupam o espaço de forma inteligente */
+  .order-actions .action-btn {
+    flex-grow: 1;
+    text-align: center;
+  }
 }
 
 /* Otimização para telas muito pequenas (smartphones pequenos) */
@@ -1192,4 +1268,5 @@ header.scrolled .nav-bar {
   .header-icons a {
     font-size: 11px;
   }
+}
 }

@@ -36,8 +36,6 @@ function getProducts($pdo, $catId) {
             <div class="nav-list">
                 <ul>
                     <?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?>
-                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?><li class="nav-item"><a href="admin_products.php" class="nav-link header-role-link--admin">Admin</a></li><?php endif; ?>
-                    <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin')): ?><li class="nav-item"><a href="staff_orders.php" class="nav-link header-role-link--staff">Staff</a></li><?php endif; ?>
                 </ul>
             </div>
             <div class="header-icons">
@@ -74,12 +72,6 @@ function getProducts($pdo, $catId) {
             
             <?php if(isset($_SESSION['user_id'])): ?>
                 <li class="nav-item mobile-menu-separator"></li>
-                <?php if($_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:red !important;">Painel Admin</a></li>
-                <?php endif; ?>
-                <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:cyan !important;">Pedidos Staff</a></li>
-                <?php endif; ?>
                 <li class="nav-item"><a href="cart.php" class="nav-link">🛒 Carrinho (<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
                 <li class="nav-item"><a href="logout.php" class="nav-link">Sair (<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
             <?php else: ?>
@@ -89,7 +81,7 @@ function getProducts($pdo, $catId) {
     </div>
     
     <div class="menu-board">
-        <div class="brand">Salt Flow Bar</div>
+        <div class="brand">Salt Flow ≋ Beach Bar</div>
         <?php foreach($cats as $c): ?>
             <div class="category" id="<?= $c['slug'] ?>"><?= $c['name'] ?></div>
             <?php foreach(getProducts($pdo, $c['id']) as $p): ?>
@@ -103,10 +95,8 @@ function getProducts($pdo, $catId) {
                     </div>
                     <div class="actions">
                         <span class="price"><?= number_format($p['price'], 2) ?>€</span>
-                        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'cliente'): ?>
+                        <?php if(isset($_SESSION['role']) && in_array($_SESSION['role'], ['cliente', 'admin', 'staff'])): ?>
                             <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Pedir</button>
-                        <?php elseif(isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
-                             <button class="btn-pedir btn-pedir--staff" disabled>Staff</button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -126,32 +116,5 @@ function getProducts($pdo, $catId) {
             </div>
         </form>
     </div>
-
-    <script>
-        function openModal(id, name, ids, names) {
-            document.getElementById('ingModal').style.display = 'flex';
-            document.getElementById('mTitle').innerText = name;
-            document.getElementById('mPid').value = id;
-            const list = document.getElementById('mList');
-            list.innerHTML = '';
-            if(!ids) list.innerHTML = '<p style="text-align:center; color:#777">Sem ingredientes personalizáveis.</p>';
-            else {
-                const idArr = ids.split(',');
-                const nameArr = names.split(', ');
-                idArr.forEach((iid, i) => {
-                    list.innerHTML += `<div class="ing-row"><label>${nameArr[i]}</label><input type="checkbox" name="ing[]" value="${iid}" checked></div>`;
-                });
-            }
-        }
-        document.getElementById('cartForm').addEventListener('submit', function(e){
-            e.preventDefault();
-            const fd = new FormData(this);
-            // URL de destino é cart_actions.php, mas o seu ficheiro chama-se add_to_cart.php
-            fetch('add_to_cart.php', { method:'POST', body:fd }).then(r=>r.json()).then(d=>{ 
-                alert(d.msg || d.message); 
-                location.reload(); 
-            });
-        });
-    </script>
 
 <?php include 'footer.php'; ?>
