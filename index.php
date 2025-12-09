@@ -25,22 +25,24 @@ function getProducts($pdo, $catId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#1b1b1b" />
     <title>Salt Flow ≋ Beach Bar</title>
-    <link rel="icon" type="jpg" href="imagens/logo_menu.jpg" />
+    <link rel="icon" type="jpg" href="imagens/logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <nav class="nav-bar">
-            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo_menu.jpg" width="40px" alt="Logo"/></a></div>
+            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo.png" width="40px" alt="Logo"/></a></div>
             <div class="nav-list">
-                <ul><?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?></ul>
+                <ul>
+                    <?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?>
+                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?><li class="nav-item"><a href="admin_products.php" class="nav-link header-role-link--admin">Admin</a></li><?php endif; ?>
+                    <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin')): ?><li class="nav-item"><a href="staff_orders.php" class="nav-link header-role-link--staff">Staff</a></li><?php endif; ?>
+                </ul>
             </div>
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <span class="header-greeting">Oi, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <?php if($_SESSION['role'] === 'admin'): ?><a href="admin_products.php" class="header-role-link header-role-link--admin">[ADMIN]</a><?php endif; ?>
-                    <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?><a href="staff_orders.php" class="header-role-link header-role-link--staff">[STAFF]</a><?php endif; ?>
                     <a href="logout.php" class="header-logout-link">(Sair)</a>
                     <div class="cart-icon">
                         <a href="cart.php">
