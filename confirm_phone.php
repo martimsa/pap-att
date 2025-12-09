@@ -19,16 +19,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Confirm Phone</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Phone</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+</head>
 <body>
     <div class="login-container">
         <h2>SMS Verification</h2>
-        <div style="border:1px dashed #f06aa6; padding:15px; margin:20px 0; color:white;">
-            <strong>SMS SIMULATION:</strong> Your code is <h1><?= $code_show ?></h1>
+        <div style="border:1px dashed #f06aa6; padding:15px; margin:20px 0; color:white; text-align:center;">
+            <strong>SMS SIMULATION:</strong>
+            <div style="font-family: 'Permanent Marker', cursive; font-size: 42px; margin-top: 5px; color: #f06aa6;"><?= htmlspecialchars($code_show) ?></div>
         </div>
-        <?php if($msg) echo "<p style='color:red'>$msg</p>"; ?>
-        <form method="post">
-            <label>Enter Code:</label><input type="text" name="code" required>
+        <?php if($msg) echo "<p style='color:#f87171; text-align:center; margin-bottom: 15px;'>" . htmlspecialchars($msg) . "</p>"; ?>
+        <form method="post" action="confirm_phone.php">
+            <label for="code">Enter the Code:</label>
+            <input type="text" id="code" name="code" required autofocus inputmode="numeric" pattern="[0-9]*">
             <button type="submit">Confirm</button>
         </form>
     </div>

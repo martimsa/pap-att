@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Password:</label><input type="password" name="p" required>
             <button type="submit">Login</button>
         </form>
-        <p class="register-text">Without an account? <a href="registo.php">Register</a>.</p>
+        <p class="register-text">Don't have an account? <a href="registo.php">Register</a>.</p>
         <p class="register-text"><a href="index.php">Back to Menu</a></p>
     </div>
 <?php include 'footer.php'; ?>

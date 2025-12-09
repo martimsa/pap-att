@@ -4,7 +4,7 @@ fileName: add_to_cart.php
 fullContent:
 <?php
 session_start();
-require 'db_connect.php'; // Adicionei require do db_connect, caso seja usado mais tarde
+require 'db_connect.php'; // Added db_connect require, in case it's used later
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -14,20 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['cart'] = [];
     }
 
-    $produto_id = $_POST['pid']; // Ajustado para 'pid', conforme o formulário em index.php
+    $produto_id = $_POST['pid']; // Adjusted to 'pid', as per the form in index.php
     
-    // Captura os ingredientes que continuam marcados (checked)
-    // O nome do campo do formulário é 'ing[]'
+    // Captures the ingredients that remain checked
+    // The form field name is 'ing[]'
     $ingredientes_ativos = isset($_POST['ing']) ? $_POST['ing'] : [];
 
-    // Adiciona item ao array de sessão
+    // Adds item to the session array
     $_SESSION['cart'][] = [
-        'pid' => $produto_id, // Alterado para 'pid' para consistência com cart.php
+        'pid' => $produto_id, // Changed to 'pid' for consistency with cart.php
         'qty' => 1,
-        'ings' => $ingredientes_ativos // Alterado para 'ings' para consistência com cart.php
+        'ings' => $ingredientes_ativos // Changed to 'ings' for consistency with cart.php
     ];
 
-    echo json_encode(['success' => true, 'message' => 'Produto adicionado ao carrinho!']);
+    echo json_encode(['success' => true, 'message' => 'Product added to cart!']);
 }
 ?>
 }

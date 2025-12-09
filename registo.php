@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hash = password_hash($pw, PASSWORD_DEFAULT);
         $code = strval(mt_rand(100000, 999999));
         
-        $pdo->prepare("INSERT INTO users (full_name, email, phone_number, username, password_hash, verification_code, is_verified) VALUES (?, ?, ?, ?, ?, ?, 0)")
+        $pdo->prepare("INSERT INTO users (full_name, email, phone_number, username, password_hash, verification_code, is_verified, role) VALUES (?, ?, ?, ?, ?, ?, 0, 'customer')")
             ->execute([$fn, $em, $ph, $us, $hash, $code]);
             
         $_SESSION['pending_uid'] = $pdo->lastInsertId();
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Confirm:</label><input type="password" name="confirm_password" required>
             <button type="submit">Register</button>
         </form>
-        <p class="register-text">Already have an account? <a href="login.php">Login.</a></p>
+        <p class="register-text">Already have an account? <a href="login.php">Login</a>.</p>
     </div>
     <script>
         document.getElementById('regForm').addEventListener('submit', function(e){
