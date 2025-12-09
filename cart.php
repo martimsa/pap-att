@@ -20,15 +20,15 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
 
         $ingNames = "Standard";
         
-        // ERROR FIX HERE
+        // CORREÇÃO DO ERRO AQUI
         if(!empty($item['ings'])) {
             $placeholders = str_repeat('?,', count($item['ings']) - 1) . '?';
             
-            // 1. Prepare
+            // 1. Preparar
             $stmtIng = $pdo->prepare("SELECT name FROM ingredients WHERE id IN ($placeholders)");
-            // 2. Execute
+            // 2. Executar
             $stmtIng->execute($item['ings']);
-            // 3. Fetch
+            // 3. Buscar
             $ingList = $stmtIng->fetchAll(PDO::FETCH_COLUMN);
             
             $ingNames = implode(', ', $ingList);
@@ -42,7 +42,7 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
     }
     $pdo->prepare("UPDATE orders SET total_price=? WHERE id=?")->execute([$total, $oid]);
     unset($_SESSION['cart']);
-    echo "<script>alert('Pedido enviado! Por favor, aguarde por um funcionário.'); window.location='index.php';</script>";
+    echo "<script>alert('Order sent! Please wait for staff.'); window.location='index.php';</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -79,7 +79,7 @@ if(isset($_POST['checkout']) && !empty($_SESSION['cart'])) {
                     $p = $pdo->query("SELECT * FROM products WHERE id=".$item['pid'])->fetch();
                     $gTotal += $p['price'];
                     
-                    // Fetch ingredient names to display
+                    // Buscar nomes dos ingredientes para exibir
                     $displayIngs = "Standard";
                     if(!empty($item['ings'])) {
                         $placeholders = str_repeat('?,', count($item['ings']) - 1) . '?';

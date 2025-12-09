@@ -8,7 +8,7 @@ if(isset($_GET['st']) && isset($_GET['oid'])) {
     header('Location: staff_orders.php');
 }
 
-$orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.user_id=u.id WHERE status != 'paid' ORDER BY id ASC")->fetchAll();
+$orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.user_id=u.id WHERE status != 'pago' ORDER BY id ASC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.us
 <body>
     <header>
         <nav class="nav-bar" style="justify-content:flex-end; padding: 1rem 3rem;">
-            <a href="index.php" style="color:#f06aa6; font-size:18px; margin-right:20px;">Main Menu</a>
+            <a href="index.php" style="color:#f06aa6; font-size:18px; margin-right:20px;">Menu Principal</a>
             <div class="mobile-menu-icon">
                 <button onclick="menuShow()">
                     <img class="icon" src="imagens/menu_white_36dp.svg" />
@@ -30,18 +30,18 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.us
         </nav>
         <div class="mobile-menu">
             <ul>
-                <li class="nav-item"><a href="index.php" class="nav-link">Main Menu</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link">Logout</a></li>
+                <li class="nav-item"><a href="index.php" class="nav-link">Menu Principal</a></li>
+                <li class="nav-item"><a href="logout.php" class="nav-link">Sair</a></li>
             </ul>
         </div>
     </header>
 
     <div class="admin-container">
-        <h2>Pending Orders (Staff)</h2>
+        <h2>Pedidos Pendentes (Staff)</h2>
         <?php foreach($orders as $o): ?>
             <div class="staff-card">
                 <h3>
-                    <span>Order #<?= $o['id'] ?> - <?= htmlspecialchars($o['username']) ?></span>
+                    <span>Pedido #<?= $o['id'] ?> - <?= htmlspecialchars($o['username']) ?></span>
                     <span class="status-tag status-online"><?= $o['status'] ?></span>
                 </h3>
                 <ul>
@@ -52,9 +52,9 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.us
                     ?>
                 </ul>
                 <div class="staff-actions">
-                    <a href="?oid=<?= $o['id'] ?>&st=preparing" class="btn-action primary">Prepare</a>
-                    <a href="?oid=<?= $o['id'] ?>&st=delivered" class="btn-action success">Deliver</a>
-                    <a href="?oid=<?= $o['id'] ?>&st=paid" class="btn-action finish">Paid (Close)</a>
+                    <a href="?oid=<?= $o['id'] ?>&st=em_preparacao" class="btn-action primary">Preparar</a>
+                    <a href="?oid=<?= $o['id'] ?>&st=entregue" class="btn-action success">Entregar</a>
+                    <a href="?oid=<?= $o['id'] ?>&st=pago" class="btn-action finish">Pago (Fechar)</a>
                 </div>
             </div>
         <?php endforeach; ?>
