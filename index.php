@@ -32,7 +32,7 @@ function getProducts($pdo, $catId) {
 <body>
     <header>
         <nav class="nav-bar">
-            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo.png" width="40px" alt="Logo"/></a></div>
+            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/imagens/logo.png" width="40px" alt="Logo"/></a></div>
             <div class="nav-list">
                 <ul>
                     <?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?>
