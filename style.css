@@ -658,14 +658,12 @@ header.scrolled .nav-bar {
 }
 
 .cart-count {
-  color:#f06aa6; 
+  color:#fff;  
   font-weight:bold; 
   margin-left:-5px;
 }
 
-
 /* Mobile menu separador de secção */
-
 .mobile-menu-separator {
   border-top: 1px solid #333; 
   margin-top: 10px; 
@@ -687,11 +685,7 @@ header.scrolled .nav-bar {
   margin-left: 6px;
 }
 
-
-
-
 /* --- Menu Mobile - Base --- */
-
 /* Overlay escuro de fundo */
 .mobile-menu-overlay {
   position: fixed;
@@ -962,6 +956,7 @@ header.scrolled .nav-bar {
     align-items: center;
     padding: 16px;
     gap: 8px 16px;
+    margin: 15px 15px 15px 15px;
   }
 
   .item > div:first-child {

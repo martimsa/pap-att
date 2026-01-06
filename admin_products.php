@@ -11,11 +11,11 @@ $prods = $pdo->query("SELECT p.*, c.name as cname FROM products p JOIN categorie
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Admin Produtos</title></head>
+<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Admin Products</title></head>
 <body>
     <header>
         <nav class="nav-bar" style="justify-content:flex-end; padding: 1rem 3rem;">
-            <a href="index.php" style="color:#f06aa6; font-size:18px; margin-right:20px;">Menu Principal</a>
+            <a href="index.php" style="color:#f06aa6; font-size:18px; margin-right:20px;">Main Menu</a>
             <div class="mobile-menu-icon">
                 <button onclick="menuShow()">
                     <img class="icon" src="imagens/menu_white_36dp.svg" />
@@ -24,23 +24,23 @@ $prods = $pdo->query("SELECT p.*, c.name as cname FROM products p JOIN categorie
         </nav>
         <div class="mobile-menu">
             <ul>
-                <li class="nav-item"><a href="index.php" class="nav-link">Menu Principal</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link">Saír</a></li>
+                <li class="nav-item"><a href="index.php" class="nav-link">Main Menu</a></li>
+                <li class="nav-item"><a href="logout.php" class="nav-link">Logout</a></li>
             </ul>
         </div>
     </header>
     
     <div class="admin-container">
-        <h2>Gerir Produtos (Admin)</h2>
+        <h2>Manage Products (Admin)</h2>
         <table>
-            <tr><th>ID</th><th>Categoria</th><th>Nome</th><th>Estado</th><th>Ação</th></tr>
+            <tr><th>ID</th><th>Categorie</th><th>Products</th><th>Status</th><th>Action</th></tr>
             <?php foreach($prods as $p): ?>
             <tr>
                 <td><?= $p['id'] ?></td>
                 <td><?= $p['cname'] ?></td>
                 <td><?= $p['name'] ?></td>
                 <td><span class="status-tag <?= $p['is_active']?'status-online':'status-offline' ?>"><?= $p['is_active']?'ONLINE':'OFFLINE' ?></span></td>
-                <td><a href="?toggle=<?= $p['id'] ?>" class="action-link">Trocar Estado</a></td>
+                <td><a href="?toggle=<?= $p['id'] ?>" class="action-link">Change Status</a></td>
             </tr>
             <?php endforeach; ?>
         </table>
