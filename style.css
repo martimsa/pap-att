@@ -227,11 +227,13 @@ header.scrolled .nav-bar {
 .item-name {
   font-weight: 700;
   font-size: 17px;
+  font-family: cursive;
+  color: #FAE8B4;
 }
 
 .item-desc {
-  font-size: 13px;
-  color: #b5b5b5;
+  font-size: 14px;
+  color: #80775C;
 }
 
 .actions {
@@ -242,9 +244,9 @@ header.scrolled .nav-bar {
 }
 
 .price {
-  font-family: 'Permanent Marker', cursive;
-  font-size: 19px;
-  color: #ff8c3a;
+  font-family: cursive;
+  font-size: 17px;
+  color: #B4A064;
 }
 
 .btn-pedir {

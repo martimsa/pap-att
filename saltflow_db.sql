@@ -143,7 +143,7 @@ INSERT INTO products (id, category_id, name, description, price, is_active) VALU
 (43, 10, 'Bottle 0.5L', '', 1.80, 1),
 (44, 10, 'Pedras', '', 2.00, 1),
 (45, 11, 'Coffee', '', 1.20, 1),
-(46, 12, 'Glass of wine', '', 5.00, 1);
+(46, 12, 'Copo de vinho', '', 5.00, 1);
 
 -- Ligações Ingredientes
 INSERT INTO product_ingredients (product_id, ingredient_id) VALUES
