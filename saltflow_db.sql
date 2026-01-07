@@ -75,16 +75,16 @@ CREATE TABLE order_items (
 
 -- 3. DADOS INICIAIS
 -- Password para Admin e Staff: 12345 (Hash corrigido)
-INSERT INTO users (full_name, email, phone_number, username, password_hash, role, is_verified) VALUES 
-('Administrator', 'admin@saltflow.com', '910000000', 'admin', '$2y$10$A6bT0qY.J.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q', 'admin', TRUE),
-('Staff Member', 'staff@saltflow.com', '920000000', 'staff', '$2y$10$A6bT0qY.J.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q', 'staff', TRUE);
+INSERT INTO users (full_name, email, username, password_hash, role) VALUES
+('Administrator', 'admin@saltflow.com', 'admin', '$2y$10$A6bT0qY.J.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q', 'admin'),
+('Staff Member', 'staff@saltflow.com', 'staff', '$2y$10$A6bT0qY.J.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q.qfR5q', 'staff');
 
 -- Categorias
 INSERT INTO categories (id, name, slug) VALUES
-(1, 'Toasts', 'tostas'), (2, 'Burgers', 'burgers'), (3, 'Salads', 'saladas'),
-(4, 'Wraps', 'wraps'), (5, 'Snacks', 'petiscos'), (6, 'Bloodletting', 'bloodletting'),
+(1, 'Tostas', 'tostas'), (2, 'Burgers', 'burgers'), (3, 'Saladas', 'saladas'),
+(4, 'Wraps', 'wraps'), (5, 'Petiscos', 'petiscos'), (6, 'Sangria', 'sangria'),
 (7, 'Beer', 'beer'), (8, 'Cocktails', 'coktail'), (9, 'Juice', 'juice'),
-(10, 'Water', 'water'), (11, 'Coffee', 'coffee'), (12, 'Wine', 'wine');
+(10, 'Água', 'Água'), (11, 'Café', 'Café'), (12, 'Vinho', 'Vinho');
 
 -- Ingredientes
 INSERT INTO ingredients (id, name) VALUES 
@@ -93,18 +93,18 @@ INSERT INTO ingredients (id, name) VALUES
 (8, 'Bife de Frango grelhado'), (9, 'Bacon'), (10, 'Alface'), (11, 'Maionese especial'),
 (12, 'Hambúrguer de frango'), (13, 'Hambúrguer Angus'), (14, 'Cheddar'), (15, 'Molho especial'),
 (16, 'Hummus'), (17, 'Pepino'), (18, 'Falafel'), (19, 'Alcaparras'),
-(20, 'Bean Paté'), (21, 'Croutons'), (22, 'Guacamole'),
-(23, 'Gambas'), (24, 'Alho'), (25, 'Tremoços'), (26, 'Amendoins), (27, 'Tapenade'), (28, 'Couve Coração');
+(20, 'Paté de feijão'), (21, 'Croutons'), (22, 'Guacamole'),
+(23, 'Gambas'), (24, 'Alho'), (25, 'Tremoços'), (26, 'Amendoins'), (27, 'Tapenade'), (28, 'Couve Coração');
 
 -- Produtos
 INSERT INTO products (id, category_id, name, description, price, is_active) VALUES
 (1, 1, 'Italiana', 'Rúcula, mozzarella, tomate, pesto', 8.00, 1),
 (2, 1, 'Portuguesa', 'Presunto, rúcula, brie, balsâmico morango', 9.00, 1),
 (3, 1, 'Frango & Bacon', 'Bife de frango grelhado, bacon, alface, maionese especial', 9.00, 1),
-(4, 2, 'Crispy Frango', 'Hambúrguer de frango, alface, tomate, queijo', 11.00, 1),
+(4, 2, 'Crispy Chicken', 'Hambúrguer de frango, alface, tomate, queijo', 11.00, 1),
 (5, 2, 'Angus', 'Hambúrguer Angus, cheddar, alface iceberg, molho especial', 13.50, 1),
-(6, 3, 'Lebanesa', 'Hummus, mix de saladas, pepino, couve coração,tomate,falafel,capoeiras', 12.00, 1),
-(7, 3, 'Frango Chic', 'Bean paté, salad mix, frango, mozzarella, croutons', 12.00, 1),
+(6, 3, 'Libanesa', 'Hummus, mix de saladas, pepino, couve coração,tomate ,falafel ,alcaparras', 12.00, 1),
+(7, 3, 'Chicken Chic', 'Paté de feijão, salad mix, frango, mozzarella, croutons', 12.00, 1),
 (8, 4, 'Hummus & Falafel', 'Wrap com hummus e falafel', 8.00, 1),
 (9, 4, 'Guacamole & Frango', 'Wrap com guacamole e frango', 8.00, 1),
 (10, 5, 'Gambas al Ajillo', '', 16.00, 1),
@@ -134,9 +134,9 @@ INSERT INTO products (id, category_id, name, description, price, is_active) VALU
 (34, 8, 'Moscow Mule', '', 8.00, 1),
 (35, 8, 'Porto Tónico ', '', 7.00, 1),
 (36, 8, 'Shots', 'Unit', 3.00, 1),
-(37, 9, 'Daily Juice', '', 4.50, 1),
-(38, 9, 'Oranje juice', '', 4.00, 1),
-(39, 9, 'Lemonade', '', 4.00, 1),
+(37, 9, 'Sumo do Dia', '', 4.50, 1),
+(38, 9, 'Sumo de Laranja', '', 4.00, 1),
+(39, 9, 'Lemonada', '', 4.00, 1),
 (40, 9, 'Guaraná', '', 2.50, 1),
 (41, 9, '7up', '', 2.50, 1),
 (42, 9, 'Coca Cola', '', 2.50, 1),
