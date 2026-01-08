@@ -2,66 +2,87 @@
 session_start();
 require 'db_connect.php';
 
+$err = '';
+$success = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fn = trim($_POST['fullname']);
-    $em = trim($_POST['email']);
-    $ph = trim($_POST['phone_number']);
-    $us = trim($_POST['username']);
-    $pw = $_POST['password'];
-    $cp = $_POST['confirm_password'];
-    $errors = [];
+    $fn = trim($_POST['fullname'] ?? '');
+    $us = trim($_POST['username'] ?? '');
+    $em = trim($_POST['email'] ?? '');
+    $pw = $_POST['password'] ?? '';
+    $cp = $_POST['confirm_password'] ?? '';
 
-    if ($pw !== $cp) $errors[] = "Passwords do not match.";
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email=? OR username=? OR phone_number=?");
-    $stmt->execute([$em, $us, $ph]);
-    if ($stmt->fetchColumn() > 0) $errors[] = "Email/User/Phone number already exists.";
-
-    if (empty($errors)) {
-        $hash = password_hash($pw, PASSWORD_DEFAULT);
-        $code = strval(mt_rand(100000, 999999));
-        
-        $pdo->prepare("INSERT INTO users (full_name, email, phone_number, username, password_hash, verification_code, is_verified) VALUES (?, ?, ?, ?, ?, ?, 0)")
-            ->execute([$fn, $em, $ph, $us, $hash, $code]);
-            
-        $_SESSION['pending_uid'] = $pdo->lastInsertId();
-        $_SESSION['simulated_sms'] = $code; 
-        echo json_encode(['success' => true]); exit;
+    // Validações básicas
+    if (empty($fn) || empty($us) || empty($pw)) {
+        $err = "Por favor, preencha todos os campos obrigatórios.";
+    } elseif ($pw !== $cp) {
+        $err = "As passwords não coincidem.";
     } else {
-        echo json_encode(['success' => false, 'err' => implode(', ', $errors)]); exit;
+        // Verificar se username já existe
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $stmt->execute([$us]);
+        if ($stmt->fetchColumn() > 0) {
+            $err = "Este nome de utilizador já está em uso.";
+        } else {
+            $hash = password_hash($pw, PASSWORD_DEFAULT);
+            
+            // Inserção (is_verified = 1 por padrão para saltar a confirmação de SMS)
+            $sql = "INSERT INTO users (full_name, username, email, password_hash, is_verified, role, is_deleted) 
+                    VALUES (?, ?, ?, ?, 1, 'cliente', 0)";
+            $stmt = $pdo->prepare($sql);
+            
+            if ($stmt->execute([$fn, $us, $em, $hash])) {
+                // Redireciona com mensagem de sucesso
+                header("Location: login.php?registered=1");
+                exit;
+            } else {
+                $err = "Erro ao criar conta. Tente novamente.";
+            }
+        }
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registo - Salt Flow</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
-    <title>Register</title>
 </head>
-<body>
+<body class="login-body">
     <div class="login-container">
-        <h2>Register</h2>
-        <form id="regForm">
-            <label>Full Name:</label><input type="text" name="fullname" required>
-            <label>Email:</label><input type="email" name="email" required>
-            <label>Phone:</label><input type="tel" name="phone_number" required>
-            <label>Username:</label><input type="text" name="username" required>
-            <label>Password:</label><input type="password" name="password" required>
-            <label>Confirm:</label><input type="password" name="confirm_password" required>
-            <button type="submit">Register</button>
+        <div class="brand" style="text-align:center; margin-bottom:20px;">Salt Flow</div>
+        <h2>Criar Conta</h2>
+
+        <?php if ($err): ?>
+            <div style="background: #e74c3c; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                <?= htmlspecialchars($err) ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST" action="registo.php">
+            <label>Nome Completo</label>
+            <input type="text" name="fullname" required placeholder="Ex: João Silva">
+            
+            <label>Username</label>
+            <input type="text" name="username" required placeholder="Para fazer login">
+
+            <label>Email (Opcional)</label>
+            <input type="email" name="email" placeholder="Para recuperação">
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            <label>Confirmar Password</label>
+            <input type="password" name="confirm_password" required>
+
+            <button type="submit" style="margin-top:20px;">Registar</button>
         </form>
-        <p class="register-text">Already have an account? <a href="login.php">Login.</a></p>
+        
+        <p style="margin-top:20px; text-align:center;">
+            Já tem conta? <a href="login.php" style="color:#f06aa6;">Faça Login</a>
+        </p>
     </div>
-    <script>
-        document.getElementById('regForm').addEventListener('submit', function(e){
-            e.preventDefault();
-            fetch('registo.php', { method:'POST', body:new FormData(this) })
-            .then(r=>r.json()).then(d=>{
-                if(d.success) window.location.href='confirm_phone.php';
-                else alert(d.err);
-            });
-        });
-    </script>
-<?php include 'footer.php'; ?>
+</body>
+</html>

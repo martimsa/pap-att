@@ -1,49 +1,79 @@
 <?php
+// 1. Ativar exibição de erros para diagnóstico (podes remover isto quando estiver em produção)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require 'db_connect.php';
+
 $err = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $login = trim($_POST['u']);
-    $pass = $_POST['p'];
+    // Sanitização básica
+    $login = isset($_POST['u']) ? trim($_POST['u']) : '';
+    $pass = isset($_POST['p']) ? $_POST['p'] : '';
     
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username=? OR phone_number=?");
-    $stmt->execute([$login, $login]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && password_verify($pass, $user['password_hash'])) {
-        if ($user['is_verified'] == 0) {
-            $err = "Account not verified. Check your phone.";
-        } else {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-            header('Location: index.php'); exit;
-        }
+    if (empty($login) || empty($pass)) {
+        $err = "Por favor, preencha todos os campos.";
     } else {
-        $err = "Invalid credentials.";
+        try {
+            // Verifica se o utilizador existe e não foi apagado
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND is_deleted = 0");
+            $stmt->execute([$login]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($pass, $user['password_hash'])) {
+                // Login bem-sucedido: Regenerar ID da sessão por segurança
+                session_regenerate_id();
+                
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+                
+                header('Location: index.php'); 
+                exit;
+            } else {
+                $err = "Utilizador ou password incorretos.";
+            }
+        } catch (PDOException $e) {
+            $err = "Erro na base de dados: " . $e->getMessage();
+        }
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Salt Flow</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
-    <title>Login</title>
 </head>
-<body>
+<body class="login-body">
     <div class="login-container">
-        <h2>Login</h2>
-        <?php if($err) echo "<p style='color:red'>$err</p>"; ?>
-        <form method="post">
-            <label>Username / Phone:</label><input type="text" name="u" required>
-            <label>Password:</label><input type="password" name="p" required>
-            <button type="submit">Login</button>
+        <div class="brand" style="text-align:center; margin-bottom:20px;">Salt Flow</div>
+        <h2>Entrar</h2>
+        
+        <?php if ($err): ?>
+            <div style="background: #e74c3c; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                <?= htmlspecialchars($err) ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST" action="login.php">
+            <label>Utilizador</label>
+            <input type="text" name="u" required placeholder="O seu username" autofocus>
+            
+            <label>Password</label>
+            <input type="password" name="p" required placeholder="A sua password">
+            
+            <button type="submit" style="margin-top:20px;">Entrar</button>
         </form>
-        <p class="register-text">Without an account? <a href="registo.php">Register</a>.</p>
-        <p class="register-text"><a href="index.php">Back to Menu</a></p>
+        
+        <p style="margin-top:20px; text-align:center;">
+            Ainda não tem conta? <a href="registo.php" style="color:#f06aa6;">Registe-se aqui</a>
+        </p>
     </div>
-<?php include 'footer.php'; ?>
+</body>
+</html>

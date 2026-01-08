@@ -5,13 +5,13 @@ require 'db_connect.php';
 $cats = $pdo->query("SELECT * FROM categories ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
 
 function getProducts($pdo, $catId) {
-    $statusCheck = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? "" : " AND p.is_active = 1";
-    
+    // Admin e Configurador veem produtos desativados. Outros não.
+    $viewAll = (isset($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'configurador']));
     $sql = "SELECT p.*, GROUP_CONCAT(i.id) as i_ids, GROUP_CONCAT(i.name SEPARATOR ', ') as i_names 
             FROM products p 
             LEFT JOIN product_ingredients pi ON p.id = pi.product_id
             LEFT JOIN ingredients i ON pi.ingredient_id = i.id
-            WHERE p.category_id = ? $statusCheck
+            WHERE p.category_id = ? " . ($viewAll ? "" : " AND p.is_active = 1 AND p.is_deleted = 0") . "
             GROUP BY p.id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$catId]);
@@ -19,114 +19,119 @@ function getProducts($pdo, $catId) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <meta name="theme-color" content="#1b1b1b" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Salt Flow ≋ Beach Bar</title>
-    <link rel="icon" type="png" href="imagens/logo.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <nav class="nav-bar">
-            <div class="logo"><a href="index.php"><img class="logo-ft" src="imagens/logo.png" width="40px" alt="Logo"/></a></div>
+            <div class="logo">
+                <a href="index.php"><img src="imagens/logo.png" width="40px" alt="Logo"/></a>
+            </div>
+
             <div class="nav-list">
                 <ul>
-                    <?php foreach($cats as $c): ?><li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link"><?= $c['name'] ?></a></li><?php endforeach; ?>
-                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?><li class="nav-item"><a href="admin_products.php" class="nav-link header-role-link--admin">Admin</a></li><?php endif; ?>
-                    <?php if(isset($_SESSION['role']) && ($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin')): ?><li class="nav-item"><a href="staff_orders.php" class="nav-link header-role-link--staff">Staff</a></li><?php endif; ?>
+                    <?php if(isset($_SESSION['role'])): ?>
+                        <?php if(in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])): ?>
+                            <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
+                        <?php endif; ?>
+                        <?php if(in_array($_SESSION['role'], ['cozinha', 'admin', 'configurador'])): ?>
+                            <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
+                        <?php endif; ?>
+                        <?php if(in_array($_SESSION['role'], ['admin', 'configurador'])): ?>
+                            <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
+                            <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
+                        <?php endif; ?>
+                        <?php if($_SESSION['role'] === 'configurador'): ?>
+                            <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
+
             <div class="header-icons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span class="header-greeting">Hello, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <a href="logout.php" class="header-logout-link">Logout</a>
-                    <div class="cart-icon">
-                        <a href="cart.php">
-                            <img src="imagens/cart_icon.svg" class="cart-icon-img" />
-                            <span class="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
-                        </a>
-                    </div>
+                    <span class="header-greeting">Olá, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <a href="logout.php" class="header-logout-link" style="font-size: 14px; margin-left: 10px;">(Sair)</a>
                 <?php else: ?>
-                    <div class="login-button"><a href="login.php"><img src="imagens/user_icon.svg" class="user-icon-img" /></a></div>
+                    <div class="login-button"><a href="login.php">Login</a></div>
                 <?php endif; ?>
-                <div class="mobile-menu-icon"><button onclick="menuShow()"><img src="imagens/menu_white_36dp.svg" class="icon" /></button></div>
+                
+                <div class="cart-icon">
+                    <a href="cart.php">
+                        <img src="imagens/cart_icon.svg" width="25px" />
+                        <span class="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
+                    </a>
+                </div>
+
+                <div class="mobile-menu-icon">
+                    <button onclick="menuShow()"><img class="icon" src="imagens/menu_white_36dp.svg" alt="Menu"></button>
+                </div>
             </div>
         </nav>
+
+        <div class="mobile-menu">
+            <ul>
+                <li><a href="index.php" class="nav-link">Menu Principal</a></li>
+                <?php if(isset($_SESSION['role'])): ?>
+                    <?php if(in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])): ?>
+                        <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
+                    <?php endif; ?>
+                    <?php if(in_array($_SESSION['role'], ['cozinha', 'admin', 'configurador'])): ?>
+                        <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
+                    <?php endif; ?>
+                    <?php if(in_array($_SESSION['role'], ['admin', 'configurador'])): ?>
+                        <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
+                        <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
+                    <?php endif; ?>
+                    <?php if($_SESSION['role'] === 'configurador'): ?>
+                        <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
+                    <?php endif; ?>
+                    <li><a href="logout.php" class="nav-link">Sair</a></li>
+                <?php else: ?>
+                    <li><a href="login.php" class="nav-link">Login</a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </header>
 
-    <div class="mobile-menu-overlay" onclick="menuShow()"></div>
-    <div class="mobile-menu">
-        <div class="mobile-menu-header">
-            <button class="mobile-menu-close" onclick="menuShow()" aria-label="Fechar menu">
-                <img src="imagens/close_white_36dp.svg" alt="Fechar" />
-            </button>
-        </div>
-        <ul>
-            <li class="nav-item"><a href="index.php" class="nav-link" onclick="menuShow()">Home</a></li>
-            
-            <?php foreach($cats as $c): ?>
-                <li class="nav-item"><a href="#<?= $c['slug'] ?>" class="nav-link" onclick="menuShow()"><?= $c['name'] ?></a></li>
-            <?php endforeach; ?>
-            
-            <?php if(isset($_SESSION['user_id'])): ?>
-                <li class="nav-item mobile-menu-separator"></li>
-                <?php if($_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="admin_products.php" class="nav-link" style="color:red !important;">Admin Panel</a></li>
-                <?php endif; ?>
-                <?php if($_SESSION['role'] === 'staff' || $_SESSION['role'] === 'admin'): ?>
-                    <li class="nav-item"><a href="staff_orders.php" class="nav-link" style="color:cyan !important;">Staff Panel</a></li>
-                <?php endif; ?>
-                <li class="nav-item"><a href="cart.php" class="nav-link">Cart(<?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?>)</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link">Logout(<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
-            <?php else: ?>
-                <li class="nav-item mobile-menu-separator"><a href="login.php" class="nav-link">Login / Register</a></li>
-            <?php endif; ?>
-        </ul>
-    </div>
-    
     <div class="menu-board">
         <div class="brand">Salt Flow ≋ Beach Bar</div>
         <?php foreach($cats as $c): ?>
             <div class="category" id="<?= $c['slug'] ?>"><?= $c['name'] ?></div>
             <?php foreach(getProducts($pdo, $c['id']) as $p): ?>
-                <div class="item <?= $p['is_active'] ? '' : 'item--inactive' ?>">
+                <div class="item">
                     <div>
-                        <div class="item-name">
-                            <?= htmlspecialchars($p['name']) ?>
-                            <?php if(!$p['is_active']) echo '<span class="item-offline-label">OFFLINE</span>'; ?>
-                        </div>
-                        <div class="item-desc"><?= $p['i_names'] ? htmlspecialchars($p['i_names']) : htmlspecialchars($p['description']) ?></div>
+                        <div class="item-name"><?= htmlspecialchars($p['name']) ?></div>
+                        <div class="item-desc"><?= $p['i_names'] ?: htmlspecialchars($p['description']) ?></div>
                     </div>
                     <div class="actions">
                         <span class="price"><?= number_format($p['price'], 2) ?>€</span>
-                        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'cliente'): ?>
-                            <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Order</button>
-                        <?php elseif(isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'staff')): ?>
-                             <button class="btn-pedir btn-pedir--staff" disabled>Staff</button>
-                        <?php endif; ?>
+                        <button class="btn-pedir" onclick="openModal(<?= $p['id'] ?>, '<?= addslashes($p['name']) ?>', '<?= $p['i_ids'] ?>', '<?= addslashes($p['i_names'] ?? '') ?>')">Pedir</button>
                     </div>
                 </div>
             <?php endforeach; ?>
         <?php endforeach; ?>
     </div>
 
-    <div id="ingModal" class="modal-overlay">
+    <div id="ingModal" class="modal-overlay" style="display:none;">
         <form id="cartForm" class="modal-box">
             <h3 id="mTitle" class="modal-title"></h3>
-            <p class="modal-subtitle">Uncheck the ingredients to remove:</p>
+            <p class="modal-subtitle">Personalize os seus ingredientes:</p>
             <input type="hidden" name="pid" id="mPid">
             <div id="mList" class="modal-ingredients-list"></div>
             <div class="modal-btns">
-                <button type="button" class="btn-cancel" onclick="document.getElementById('ingModal').style.display='none'">Cancel</button>
-                <button type="submit" class="checkout-button checkout-button--modal">Add to cart</button>
+                <button type="button" class="btn-cancel" onclick="document.getElementById('ingModal').style.display='none'">Cancelar</button>
+                <button type="submit" class="checkout-button checkout-button--modal">Adicionar ao Carrinho</button>
             </div>
         </form>
     </div>
 
+    <?php include 'footer.php'; ?>
     <script src="script.js"></script>
-
-<?php include 'footer.php'; ?>
+</body>
+</html>
