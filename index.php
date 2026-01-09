@@ -5,13 +5,11 @@ require 'db_connect.php';
 $cats = $pdo->query("SELECT * FROM categories ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
 
 function getProducts($pdo, $catId) {
-    // Admin e Configurador veem produtos desativados. Outros não.
-    $viewAll = (isset($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'configurador']));
     $sql = "SELECT p.*, GROUP_CONCAT(i.id) as i_ids, GROUP_CONCAT(i.name SEPARATOR ', ') as i_names 
             FROM products p 
             LEFT JOIN product_ingredients pi ON p.id = pi.product_id
             LEFT JOIN ingredients i ON pi.ingredient_id = i.id
-            WHERE p.category_id = ? " . ($viewAll ? "" : " AND p.is_active = 1 AND p.is_deleted = 0") . "
+            WHERE p.category_id = ? AND p.is_active = 1 AND p.is_deleted = 0
             GROUP BY p.id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$catId]);
@@ -27,77 +25,7 @@ function getProducts($pdo, $catId) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav class="nav-bar">
-            <div class="logo">
-                <a href="index.php"><img src="imagens/logo.png" width="40px" alt="Logo"/></a>
-            </div>
-
-            <div class="nav-list">
-                <ul>
-                    <?php if(isset($_SESSION['role'])): ?>
-                        <?php if(in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])): ?>
-                            <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
-                        <?php endif; ?>
-                        <?php if(in_array($_SESSION['role'], ['cozinha', 'admin', 'configurador'])): ?>
-                            <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
-                        <?php endif; ?>
-                        <?php if(in_array($_SESSION['role'], ['admin', 'configurador'])): ?>
-                            <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
-                            <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
-                        <?php endif; ?>
-                        <?php if($_SESSION['role'] === 'configurador'): ?>
-                            <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </ul>
-            </div>
-
-            <div class="header-icons">
-                <?php if(isset($_SESSION['user_id'])): ?>
-                    <span class="header-greeting">Olá, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                    <a href="logout.php" class="header-logout-link" style="font-size: 14px; margin-left: 10px;">(Sair)</a>
-                <?php else: ?>
-                    <div class="login-button"><a href="login.php">Login</a></div>
-                <?php endif; ?>
-                
-                <div class="cart-icon">
-                    <a href="cart.php">
-                        <img src="imagens/cart_icon.svg" width="25px" />
-                        <span class="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
-                    </a>
-                </div>
-
-                <div class="mobile-menu-icon">
-                    <button onclick="menuShow()"><img class="icon" src="imagens/menu_white_36dp.svg" alt="Menu"></button>
-                </div>
-            </div>
-        </nav>
-
-        <div class="mobile-menu">
-            <ul>
-                <li><a href="index.php" class="nav-link">Menu Principal</a></li>
-                <?php if(isset($_SESSION['role'])): ?>
-                    <?php if(in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])): ?>
-                        <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
-                    <?php endif; ?>
-                    <?php if(in_array($_SESSION['role'], ['cozinha', 'admin', 'configurador'])): ?>
-                        <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
-                    <?php endif; ?>
-                    <?php if(in_array($_SESSION['role'], ['admin', 'configurador'])): ?>
-                        <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
-                        <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
-                    <?php endif; ?>
-                    <?php if($_SESSION['role'] === 'configurador'): ?>
-                        <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
-                    <?php endif; ?>
-                    <li><a href="logout.php" class="nav-link">Sair</a></li>
-                <?php else: ?>
-                    <li><a href="login.php" class="nav-link">Login</a></li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </header>
+    <?php require 'header.php'; ?>
 
     <div class="menu-board">
         <div class="brand">Salt Flow ≋ Beach Bar</div>

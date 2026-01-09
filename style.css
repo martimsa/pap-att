@@ -66,8 +66,8 @@ header.scrolled .nav-bar {
   list-style: none;
 }
 
-.nav-item {
-  margin: 0 15px;
+.nav-list li {
+  margin: 0 20px;
 }
 
 .nav-link {
@@ -342,6 +342,12 @@ header.scrolled .nav-bar {
     -webkit-appearance: none;
     appearance: none;
     -webkit-tap-highlight-color: transparent;
+}
+
+.login-container input[type="checkbox"] {
+    -webkit-appearance: auto;
+    appearance: auto;
+    accent-color: #f06aa6;
 }
 
 .login-container input:focus {

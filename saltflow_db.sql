@@ -100,6 +100,20 @@ INSERT INTO `ingredients` (`id`, `name`, `is_deleted`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `logs`
+--
+
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `action` varchar(255) NOT NULL,
+  `details` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `orders`
 --
 
@@ -292,6 +306,13 @@ ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Índices para tabela `orders`
 --
 ALTER TABLE `orders`
@@ -343,6 +364,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `ingredients`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de tabela `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `orders`

@@ -15,45 +15,7 @@ $orders = $pdo->query("SELECT * FROM orders WHERE status IN ('pendente', 'em_pre
 <html lang="pt">
 <head><link rel="stylesheet" href="style.css"><title>Cozinha - Pedidos</title></head>
 <body>
-    <header>
-        <nav class="nav-bar">
-            <div class="logo">
-                <a href="index.php"><img src="imagens/logo.png" width="40px" alt="Logo"/></a>
-            </div>
-            <div class="nav-list">
-                <ul>
-                    <li><a href="index.php" class="nav-link">Menu Principal</a></li>
-                    <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
-                    <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
-                    <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
-                    <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
-                    <?php if($_SESSION['role'] === 'configurador'): ?>
-                        <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-            <div class="header-icons">
-                <span class="header-greeting">Olá, <?= htmlspecialchars($_SESSION['username']) ?></span>
-                <a href="logout.php" class="header-logout-link" style="font-size: 14px; margin-left: 10px;">(Sair)</a>
-                <div class="mobile-menu-icon">
-                    <button onclick="menuShow()"><img class="icon" src="imagens/menu_white_36dp.svg" alt="Menu"></button>
-                </div>
-            </div>
-        </nav>
-        <div class="mobile-menu">
-            <ul>
-                <li><a href="index.php" class="nav-link">Menu Principal</a></li>
-                <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
-                <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
-                <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
-                <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
-                <?php if($_SESSION['role'] === 'configurador'): ?>
-                    <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
-                <?php endif; ?>
-                <li><a href="logout.php" class="nav-link">Sair</a></li>
-            </ul>
-        </div>
-    </header>
+    <?php require 'header.php'; ?>
 
     <div class="admin-container">
         <h2>Pedidos em Preparação</h2>
