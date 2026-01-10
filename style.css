@@ -1196,3 +1196,56 @@ header.scrolled .nav-bar {
     font-size: 11px;
   }
 }
+
+/* --- Tabelas Responsivas (Card View) --- */
+@media screen and (max-width: 768px) {
+  .admin-container table, 
+  .admin-container thead, 
+  .admin-container tbody, 
+  .admin-container th, 
+  .admin-container td, 
+  .admin-container tr {
+    display: block;
+  }
+
+  .admin-container thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .admin-container tr {
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #222;
+    padding: 10px;
+  }
+
+  .admin-container td {
+    border: none;
+    border-bottom: 1px solid #333;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .admin-container td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-container td:before {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #f06aa6;
+    content: attr(data-label);
+  }
+}

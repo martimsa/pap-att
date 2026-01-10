@@ -1,5 +1,6 @@
 <?php
 // Este ficheiro assume que session_start() já foi chamado na página que o inclui.
+$current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <header>
     <nav class="nav-bar">
@@ -16,8 +17,10 @@
                     <?php if(in_array($_SESSION['role'], ['cozinha', 'admin', 'configurador'])): ?>
                         <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
                     <?php endif; ?>
-                    <?php if(in_array($_SESSION['role'], ['admin', 'configurador'])): ?>
+                    <?php if($_SESSION['role'] === 'admin'): ?>
                         <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
+                    <?php endif; ?>
+                    <?php if($_SESSION['role'] === 'admin'): ?>
                         <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
                     <?php endif; ?>
                     <?php if($_SESSION['role'] === 'configurador'): ?>
@@ -50,24 +53,26 @@
 
     <div class="mobile-menu">
         <ul>
-            <li><a href="index.php" class="nav-link">Menu Principal</a></li>
+            <li><a href="index.php" class="nav-link" style="<?= $current_page == 'index.php' ? 'color:#f06aa6' : '' ?>">Menu Principal</a></li>
             <?php if(isset($_SESSION['role'])): ?>
                 <?php if(in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])): ?>
-                    <li><a href="staff_orders.php" class="nav-link">Staff</a></li>
+                    <li><a href="staff_orders.php" class="nav-link" style="<?= $current_page == 'staff_orders.php' ? 'color:#f06aa6' : '' ?>">Staff</a></li>
                 <?php endif; ?>
                 <?php if(in_array($_SESSION['role'], ['cozinha', 'admin', 'configurador'])): ?>
-                    <li><a href="cozinha_orders.php" class="nav-link">Cozinha</a></li>
+                    <li><a href="cozinha_orders.php" class="nav-link" style="<?= $current_page == 'cozinha_orders.php' ? 'color:#f06aa6' : '' ?>">Cozinha</a></li>
                 <?php endif; ?>
-                <?php if(in_array($_SESSION['role'], ['admin', 'configurador'])): ?>
-                    <li><a href="admin_products.php" class="nav-link">Produtos</a></li>
-                    <li><a href="admin_users.php" class="nav-link">Utilizadores</a></li>
+                <?php if($_SESSION['role'] === 'admin'): ?>
+                    <li><a href="admin_products.php" class="nav-link" style="<?= $current_page == 'admin_products.php' ? 'color:#f06aa6' : '' ?>">Produtos</a></li>
+                <?php endif; ?>
+                <?php if($_SESSION['role'] === 'admin'): ?>
+                    <li><a href="admin_users.php" class="nav-link" style="<?= $current_page == 'admin_users.php' ? 'color:#f06aa6' : '' ?>">Utilizadores</a></li>
                 <?php endif; ?>
                 <?php if($_SESSION['role'] === 'configurador'): ?>
-                    <li><a href="configurador.php" class="nav-link" style="color:#f06aa6">Config</a></li>
+                    <li><a href="configurador.php" class="nav-link" style="<?= $current_page == 'configurador.php' ? 'color:#f06aa6' : '' ?>">Config</a></li>
                 <?php endif; ?>
                 <li><a href="logout.php" class="nav-link">Sair</a></li>
             <?php else: ?>
-                <li><a href="login.php" class="nav-link">Login</a></li>
+                <li><a href="login.php" class="nav-link" style="<?= $current_page == 'login.php' ? 'color:#f06aa6' : '' ?>">Login</a></li>
             <?php endif; ?>
         </ul>
     </div>

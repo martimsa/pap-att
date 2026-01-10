@@ -62,7 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    header('Location: configurador.php');
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: admin_products.php');
+    } else {
+        header('Location: configurador.php');
+    }
     exit;
 }
 ?>
@@ -125,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <button type="submit" style="margin-top: 20px;">Guardar Produto</button>
-            <a href="configurador.php" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
+            <a href="<?= $_SESSION['role'] === 'admin' ? 'admin_products.php' : 'configurador.php' ?>" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
         </form>
     </div>
 </body>

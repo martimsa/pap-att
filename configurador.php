@@ -9,6 +9,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'configurador') {
 }
 
 // Buscar dados das tabelas
+
 // 1. Utilizadores
 $users = $pdo->query("SELECT * FROM users ORDER BY id DESC")->fetchAll();
 
@@ -84,6 +85,14 @@ try {
             font-weight: bold;
             background: #333;
         }
+        @media (max-width: 600px) {
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .btn-add { width: 100%; text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -96,7 +105,6 @@ try {
         <div class="config-section">
             <div class="section-header">
                 <h3 class="section-title">Utilizadores</h3>
-                <!-- <a href="user_edit.php" class="btn-add">+ Novo</a> -->
             </div>
             <div style="overflow-x:auto;">
                 <table>
@@ -105,7 +113,7 @@ try {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Username</th>
-                            <th>Role</th>
+                            <th>Função</th>
                             <th>Estado</th>
                             <th>Ações</th>
                         </tr>
@@ -113,16 +121,16 @@ try {
                     <tbody>
                         <?php foreach($users as $u): ?>
                         <tr>
-                            <td><?= $u['id'] ?></td>
-                            <td><?= htmlspecialchars($u['full_name']) ?></td>
-                            <td><?= htmlspecialchars($u['username']) ?></td>
-                            <td>
+                            <td data-label="ID"><?= $u['id'] ?></td>
+                            <td data-label="Nome"><?= htmlspecialchars($u['full_name']) ?></td>
+                            <td data-label="Username"><?= htmlspecialchars($u['username']) ?></td>
+                            <td data-label="Role">
                                 <span class="role-badge" style="color: <?= match($u['role']) { 'admin' => '#f06aa6', 'configurador' => '#a855f7', 'staff' => '#22d3ee', 'cozinha' => '#fbbf24', default => '#9ca3af' } ?>;">
                                     <?= $u['role'] ?>
                                 </span>
                             </td>
-                            <td><?= $u['is_deleted'] ? '<span class="status-inactive">Eliminado</span>' : '<span class="status-active">Ativo</span>' ?></td>
-                            <td><a href="user_edit.php?id=<?= $u['id'] ?>" class="action-link">Editar</a></td>
+                            <td data-label="Estado"><?= $u['is_deleted'] ? '<span class="status-inactive">Eliminado</span>' : '<span class="status-active">Ativo</span>' ?></td>
+                            <td data-label="Ações"><a href="user_edit.php?id=<?= $u['id'] ?>" class="action-link">Editar</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -149,10 +157,10 @@ try {
                     <tbody>
                         <?php foreach($categories as $c): ?>
                         <tr>
-                            <td><?= $c['id'] ?></td>
-                            <td><?= htmlspecialchars($c['name']) ?></td>
-                            <td><?= htmlspecialchars($c['slug']) ?></td>
-                            <td><a href="category_form.php?id=<?= $c['id'] ?>" class="action-link">Editar</a></td>
+                            <td data-label="ID"><?= $c['id'] ?></td>
+                            <td data-label="Nome"><?= htmlspecialchars($c['name']) ?></td>
+                            <td data-label="Slug"><?= htmlspecialchars($c['slug']) ?></td>
+                            <td data-label="Ações"><a href="category_form.php?id=<?= $c['id'] ?>" class="action-link">Editar</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -181,11 +189,11 @@ try {
                     <tbody>
                         <?php foreach($products as $p): ?>
                         <tr>
-                            <td><?= $p['id'] ?></td>
-                            <td><?= htmlspecialchars($p['name']) ?></td>
-                            <td><?= htmlspecialchars($p['category_name'] ?? 'N/A') ?></td>
-                            <td><?= number_format($p['price'], 2) ?> €</td>
-                            <td>
+                            <td data-label="ID"><?= $p['id'] ?></td>
+                            <td data-label="Nome"><?= htmlspecialchars($p['name']) ?></td>
+                            <td data-label="Categoria"><?= htmlspecialchars($p['category_name'] ?? 'N/A') ?></td>
+                            <td data-label="Preço"><?= number_format($p['price'], 2) ?> €</td>
+                            <td data-label="Visibilidade">
                                 <?php if($p['is_deleted']): ?>
                                     <span class="status-inactive">Eliminado</span>
                                 <?php elseif($p['is_active']): ?>
@@ -194,7 +202,7 @@ try {
                                     <span style="color:orange; font-weight:bold;">Oculto</span>
                                 <?php endif; ?>
                             </td>
-                            <td><a href="product_form.php?id=<?= $p['id'] ?>" class="action-link">Editar</a></td>
+                            <td data-label="Ações"><a href="product_form.php?id=<?= $p['id'] ?>" class="action-link">Editar</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -221,10 +229,10 @@ try {
                     <tbody>
                         <?php foreach($ingredients as $i): ?>
                         <tr>
-                            <td><?= $i['id'] ?></td>
-                            <td><?= htmlspecialchars($i['name']) ?></td>
-                            <td><?= $i['is_deleted'] ? '<span class="status-inactive">Eliminado</span>' : '<span class="status-active">Ativo</span>' ?></td>
-                            <td><a href="ingredient_form.php?id=<?= $i['id'] ?>" class="action-link">Editar</a></td>
+                            <td data-label="ID"><?= $i['id'] ?></td>
+                            <td data-label="Nome"><?= htmlspecialchars($i['name']) ?></td>
+                            <td data-label="Estado"><?= $i['is_deleted'] ? '<span class="status-inactive">Eliminado</span>' : '<span class="status-active">Ativo</span>' ?></td>
+                            <td data-label="Ações"><a href="ingredient_form.php?id=<?= $i['id'] ?>" class="action-link">Editar</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -253,10 +261,10 @@ try {
                         <?php else: ?>
                             <?php foreach($logs as $l): ?>
                             <tr>
-                                <td style="white-space:nowrap; font-size:14px;"><?= $l['created_at'] ?></td>
-                                <td><?= htmlspecialchars($l['username'] ?? 'Sistema') ?></td>
-                                <td><?= htmlspecialchars($l['action']) ?></td>
-                                <td style="font-size:14px; color:#ccc;"><?= htmlspecialchars($l['details']) ?></td>
+                                <td data-label="Data/Hora" style="white-space:nowrap; font-size:14px;"><?= $l['created_at'] ?></td>
+                                <td data-label="Utilizador"><?= htmlspecialchars($l['username'] ?? 'Sistema') ?></td>
+                                <td data-label="Ação"><?= htmlspecialchars($l['action']) ?></td>
+                                <td data-label="Detalhes" style="font-size:14px; color:#ccc;"><?= htmlspecialchars($l['details']) ?></td>
                             </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>

@@ -1,50 +1,129 @@
 <?php
 session_start();
 require 'db_connect.php';
-if(!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])) { header('Location: index.php'); exit; }
 
-if(isset($_GET['confirmar'])) {
-    $pdo->prepare("UPDATE orders SET status='pendente' WHERE id=?")->execute([$_GET['confirmar']]);
-    header('Location: staff_orders.php');
+// Apenas Staff, Admin ou Configurador
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])) {
+    header('Location: index.php');
+    exit;
 }
 
-$orders = $pdo->query("SELECT o.*, u.username FROM orders o LEFT JOIN users u ON o.user_id=u.id WHERE o.status = 'aguardando_confirmacao' ORDER BY o.id ASC")->fetchAll();
+// Processar confirmação de pedido
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
+    $oid = $_POST['order_id'];
+    // Passa para 'pendente' (para a cozinha ver)
+    $stmt = $pdo->prepare("UPDATE orders SET status = 'pendente' WHERE id = ?");
+    $stmt->execute([$oid]);
+    header("Location: staff_orders.php");
+    exit;
+}
+
+// Buscar pedidos aguardando confirmação
+$orders = $pdo->query("
+    SELECT * FROM orders 
+    WHERE status = 'aguardando_confirmacao' 
+    ORDER BY created_at ASC
+")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
-<head><link rel="stylesheet" href="style.css"><title>Staff - Validar Pedidos</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff - Pedidos</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .order-card {
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .table-num {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 24px;
+            color: #f06aa6;
+        }
+        .order-time { font-size: 14px; color: #aaa; }
+        .order-items { list-style: none; padding: 0; margin-bottom: 20px; }
+        .order-items li {
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 8px;
+        }
+        .item-qty { font-weight: bold; color: #f06aa6; margin-right: 5px; }
+        .item-custom { display: block; font-size: 12px; color: #888; margin-top: 2px; }
+        .btn-confirm {
+            width: 100%;
+            background: #f06aa6;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Amatic SC', cursive;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-confirm:hover { background: #d44e8a; }
+    </style>
+</head>
 <body>
     <?php require 'header.php'; ?>
 
     <div class="admin-container">
-        <h2>Novos Pedidos para Validar</h2>
-        <?php if(!$orders): ?><p>Não há pedidos pendentes de validação.</p><?php endif; ?>
+        <h2>Pedidos Pendentes (Staff)</h2>
         
-        <?php foreach($orders as $o): ?>
-            <div class="admin-order-card">
-                <h3>Mesa: <?= $o['table_number'] ?> | Pedido #<?= $o['id'] ?></h3>
-                <ul>
+        <?php if(empty($orders)): ?>
+            <p style="text-align:center; color:#777;">Sem novos pedidos para confirmar.</p>
+        <?php else: ?>
+            <div class="orders-grid">
+                <?php foreach($orders as $o): ?>
                     <?php 
-                    $items = $pdo->prepare("SELECT p.name, oi.custom_ingredients FROM order_items oi JOIN products p ON oi.product_id=p.id WHERE order_id=?");
-                    $items->execute([$o['id']]);
-                    foreach($items as $i) echo "<li>" . htmlspecialchars($i['name']) . " <small>(" . $i['custom_ingredients'] . ")</small></li>"; 
+                        // Buscar itens deste pedido
+                        $items = $pdo->prepare("SELECT oi.*, p.name FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?");
+                        $items->execute([$o['id']]);
+                        $orderItems = $items->fetchAll();
                     ?>
-                </ul>
-                <div class="order-actions">
-                    <a href="?confirmar=<?= $o['id'] ?>" class="action-link action-btn" style="background:#2ecc71; color:white;">CONFIRMAR E ENVIAR COZINHA</a>
-                </div>
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="table-num">Mesa <?= $o['table_number'] ?></span>
+                            <span class="order-time"><?= date('H:i', strtotime($o['created_at'])) ?></span>
+                        </div>
+                        <ul class="order-items">
+                            <?php foreach($orderItems as $item): ?>
+                                <li>
+                                    <span class="item-qty"><?= $item['quantity'] ?>x</span>
+                                    <?= htmlspecialchars($item['name']) ?>
+                                    <?php if($item['custom_ingredients'] && $item['custom_ingredients'] !== 'Padrão'): ?>
+                                        <span class="item-custom">Obs: <?= htmlspecialchars($item['custom_ingredients']) ?></span>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <form method="POST">
+                            <input type="hidden" name="order_id" value="<?= $o['id'] ?>">
+                            <button type="submit" name="confirm_order" class="btn-confirm">ENVIAR P/ COZINHA</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </div>
-
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">Salt Flow Bar</div>
-            <div class="footer-links">
-                <span>© <?= date('Y') ?> Salt Flow Beach Bar</span>
-            </div>
-        </div>
-    </footer>
     <script src="script.js"></script>
 </body>
 </html>

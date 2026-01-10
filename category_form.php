@@ -2,7 +2,7 @@
 session_start();
 require 'db_connect.php';
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'configurador') {
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'configurador'])) {
     header('Location: index.php');
     exit;
 }
@@ -30,7 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO categories (name, slug) VALUES (?, ?)");
         $stmt->execute([$name, $slug]);
     }
-    header('Location: configurador.php');
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: admin_products.php');
+    } else {
+        header('Location: configurador.php');
+    }
     exit;
 }
 ?>
@@ -55,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="slug" value="<?= htmlspecialchars($category['slug']) ?>" required placeholder="Ex: bebidas">
 
             <button type="submit">Guardar</button>
-            <a href="configurador.php" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
+            <a href="<?= $_SESSION['role'] === 'admin' ? 'admin_products.php' : 'configurador.php' ?>" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
         </form>
     </div>
 </body>

@@ -3,21 +3,26 @@ session_start();
 require 'db_connect.php';
 
 // Verifica permissão (Admin ou Configurador)
-if(!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'configurador'])) { 
+if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { 
     header('Location: index.php'); 
     exit; 
 }
 
 // Lógica para atualizar o cargo
 if(isset($_POST['update_role'])) {
-    $stmt = $pdo->prepare("UPDATE users SET role=? WHERE id=?");
-    $stmt->execute([$_POST['role'], $_POST['uid']]);
-    // Feedback visual opcional
-    $msg = "Cargo atualizado com sucesso!";
+    $uid = $_POST['uid'];
+    $new_role = $_POST['role'];
+    
+    // Validação: Apenas permite atribuir cliente, staff ou cozinha
+    if(in_array($new_role, ['cliente', 'staff', 'cozinha'])) {
+        $stmt = $pdo->prepare("UPDATE users SET role=? WHERE id=?");
+        $stmt->execute([$new_role, $uid]);
+        $msg = "Cargo atualizado com sucesso!";
+    }
 }
 
-// Busca todos os utilizadores que não foram "apagados"
-$users = $pdo->query("SELECT * FROM users WHERE is_deleted = 0 ORDER BY role DESC, username ASC")->fetchAll();
+// Busca utilizadores ativos
+$users = $pdo->query("SELECT * FROM users WHERE is_deleted = 0 ORDER BY id DESC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -26,53 +31,86 @@ $users = $pdo->query("SELECT * FROM users WHERE is_deleted = 0 ORDER BY role DES
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Gestão de Equipa - Salt Flow</title>
+    <style>
+        .role-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #333;
+        }
+        .status-active { color: #4ade80; font-weight: bold; }
+        .status-inactive { color: #f87171; font-weight: bold; }
+        .action-btn {
+            background: #f06aa6; 
+            color: white; 
+            border: none; 
+            padding: 6px 12px; 
+            cursor: pointer; 
+            border-radius: 4px;
+            font-family: 'Amatic SC', cursive;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .action-btn:hover { background: #d44e8a; }
+        select {
+            padding: 6px;
+            border-radius: 4px;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+        }
+    </style>
 </head>
 <body>
     <?php require 'header.php'; ?>
 
     <div class="admin-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2>Gerir Utilizadores e Cargos</h2>
-        </div>
+        <h2>Gerir Utilizadores</h2>
 
         <?php if(isset($msg)): ?>
             <p style="background: #2ecc71; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;"><?= $msg ?></p>
         <?php endif; ?>
 
         <div style="overflow-x: auto;">
-            <table style="width:100%; text-align:left; border-collapse:collapse; background: #1b1b1b; border-radius: 10px;">
+            <table>
                 <thead>
-                    <tr style="border-bottom: 2px solid #f06aa6; background: #252525;">
-                        <th style="padding: 15px;">Utilizador</th>
-                        <th>Email</th>
-                        <th>Cargo Atual</th>
-                        <th>Ação</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Username</th>
+                        <th>Função</th>
+                        <th>Estado</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($users as $u): ?>
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding:15px;">
-                            <strong><?= htmlspecialchars($u['username']) ?></strong><br>
-                            <small style="color: #aaa;"><?= htmlspecialchars($u['full_name']) ?></small>
-                        </td>
-                        <td><?= htmlspecialchars($u['email']) ?></td>
-                        <td>
-                            <span class="status-tag" style="background: #444; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
-                                <?= strtoupper($u['role']) ?>
+                    <tr>
+                        <td data-label="ID"><?= $u['id'] ?></td>
+                        <td data-label="Nome"><?= htmlspecialchars($u['full_name']) ?></td>
+                        <td data-label="Username"><?= htmlspecialchars($u['username']) ?></td>
+                        <td data-label="Função">
+                            <span class="role-badge" style="color: <?= match($u['role']) { 'admin' => '#f06aa6', 'configurador' => '#a855f7', 'staff' => '#22d3ee', 'cozinha' => '#fbbf24', default => '#9ca3af' } ?>;">
+                                <?= $u['role'] ?>
                             </span>
                         </td>
-                        <td>
-                            <form method="post" style="display:flex; gap: 5px; align-items: center;">
-                                <input type="hidden" name="uid" value="<?= $u['id'] ?>">
-                                <select name="role" style="color:black; padding: 5px; border-radius: 4px;">
-                                    <option value="cliente" <?= $u['role']=='cliente'?'selected':'' ?>>Cliente</option>
-                                    <option value="staff" <?= $u['role']=='staff'?'selected':'' ?>>Staff</option>
-                                    <option value="cozinha" <?= $u['role']=='cozinha'?'selected':'' ?>>Cozinha</option>
-                                    <option value="admin" <?= $u['role']=='admin'?'selected':'' ?>>Admin</option>
-                                </select>
-                                <button type="submit" name="update_role" class="action-btn" style="background: #f06aa6; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px;">Atualizar</button>
-                            </form>
+                        <td data-label="Estado"><?= $u['is_deleted'] ? '<span class="status-inactive">Eliminado</span>' : '<span class="status-active">Ativo</span>' ?></td>
+                        <td data-label="Ações">
+                            <?php if(!in_array($u['role'], ['admin', 'configurador'])): ?>
+                                <form method="post" style="display:flex; gap: 5px; align-items: center;">
+                                    <input type="hidden" name="uid" value="<?= $u['id'] ?>">
+                                    <select name="role">
+                                        <option value="cliente" <?= $u['role']=='cliente'?'selected':'' ?>>Cliente</option>
+                                        <option value="staff" <?= $u['role']=='staff'?'selected':'' ?>>Staff</option>
+                                        <option value="cozinha" <?= $u['role']=='cozinha'?'selected':'' ?>>Cozinha</option>
+                                    </select>
+                                    <button type="submit" name="update_role" class="action-btn">Salvar</button>
+                                </form>
+                            <?php else: ?>
+                                <span style="color:#555; font-size:12px;">Sem permissão</span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>

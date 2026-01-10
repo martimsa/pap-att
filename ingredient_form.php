@@ -2,7 +2,7 @@
 session_start();
 require 'db_connect.php';
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'configurador') {
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'configurador'])) {
     header('Location: index.php');
     exit;
 }
@@ -30,7 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO ingredients (name, is_deleted) VALUES (?, ?)");
         $stmt->execute([$name, $is_deleted]);
     }
-    header('Location: configurador.php');
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: admin_products.php');
+    } else {
+        header('Location: configurador.php');
+    }
     exit;
 }
 ?>
@@ -57,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <button type="submit" style="margin-top: 20px;">Guardar</button>
-            <a href="configurador.php" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
+            <a href="<?= $_SESSION['role'] === 'admin' ? 'admin_products.php' : 'configurador.php' ?>" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
         </form>
     </div>
 </body>
