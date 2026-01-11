@@ -1,7 +1,6 @@
 <?php
 session_start();
 require 'db_connect.php';
-if(!isset($_SESSION['user_id'])) { header('Location: login.php'); exit; }
 
 ?>
 <!DOCTYPE html>
@@ -53,12 +52,9 @@ if(!isset($_SESSION['user_id'])) { header('Location: login.php'); exit; }
 
             <form action="cart_actions.php" method="post" style="margin-top:30px; text-align:center; background:#1b1b1b; padding:20px; border-radius:10px;">
                 <label for="table_number" style="font-size: 18px; display:block; margin-bottom:10px;">Número da sua Mesa:</label>
-                <input type="number" id="table_number" name="table_number" required style="color:black; padding:10px; border-radius: 5px; border:none; width: 100px; text-align:center; font-size:18px;"><br>
+                <input type="text" id="table_number" name="table_number" required style="color:black; padding:10px; border-radius: 5px; border:none; width: 100px; text-align:center; font-size:18px;"><br>
                 <button type="submit" name="checkout" class="checkout-button" style="margin-top:20px;">Confirmar Pedido</button>
             </form>
         <?php endif; ?>
     </div>
     <?php include 'footer.php'; ?>
-    <script src="script.js"></script>
-</body>
-</html>

@@ -66,6 +66,9 @@ document.getElementById('cartForm')?.addEventListener('submit', function(e) {
     if(data.success) {
       alert(data.message);
       document.getElementById('ingModal').style.display = 'none';
+      // Atualiza o contador visualmente sem recarregar a página
+      const countEl = document.querySelector('.cart-count');
+      if(countEl) countEl.innerText = data.cart_count;
     }
   });
 });

@@ -2,11 +2,6 @@
 session_start();
 require 'db_connect.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Verifica se o formulário de checkout foi submetido
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
     
@@ -16,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
     }
 
     $table_number = $_POST['table_number'];
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'] ?? null;
     $total_price = 0;
 
     // 1. Calcular o preço total
@@ -30,9 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
     }
 
     // 2. Criar a encomenda (Order)
-    // Status inicial: 'aguardando_confirmacao' para o staff validar
-    $stmt = $pdo->prepare("INSERT INTO orders (user_id, table_number, total_price, status) VALUES (?, ?, ?, 'aguardando_confirmacao')");
-    $stmt->execute([$user_id, $table_number, $total_price]);
+    // Se for Staff/Admin/Configurador, vai direto para a cozinha ('pendente')
+    // Caso contrário (cliente ou sem conta), vai para aprovação ('aguardando_confirmacao')
+    $status = 'aguardando_confirmacao';
+    if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['staff', 'admin', 'configurador'])) {
+        $status = 'pendente';
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO orders (user_id, table_number, total_price, status) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$user_id, $table_number, $total_price, $status]);
     $order_id = $pdo->lastInsertId();
 
     // Log da ação (se a função existir)

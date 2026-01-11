@@ -23,6 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'ings' => $ingredientes_ativos // Alterado para 'ings' para consistência com cart.php
     ];
 
-    echo json_encode(['success' => true, 'message' => 'Produto adicionado ao carrinho!']);
+    echo json_encode(['success' => true, 'message' => 'Produto adicionado ao carrinho!', 'cart_count' => count($_SESSION['cart'])]);
 }
 ?>
