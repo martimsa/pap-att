@@ -6,14 +6,12 @@ $err = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fn = trim($_POST['fullname'] ?? '');
     $us = trim($_POST['username'] ?? '');
-    $em = trim($_POST['email'] ?? '');
     $pw = $_POST['password'] ?? '';
     $cp = $_POST['confirm_password'] ?? '';
 
     // Validações básicas
-    if (empty($fn) || empty($us) || empty($pw)) {
+    if (empty($us) || empty($pw)) {
         $err = "Por favor, preencha todos os campos obrigatórios.";
     } elseif ($pw !== $cp) {
         $err = "As passwords não coincidem.";
@@ -26,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $hash = password_hash($pw, PASSWORD_DEFAULT);
             
-            // Inserção (is_verified = 1 por padrão para saltar a confirmação de SMS)
-            $sql = "INSERT INTO users (full_name, username, email, password_hash, is_verified, role, is_deleted) 
-                    VALUES (?, ?, ?, ?, 1, 'cliente', 0)";
+            // Inserção
+            $sql = "INSERT INTO users (username, password_hash, role, is_deleted) 
+                    VALUES (?, ?, 'cliente', 0)";
             $stmt = $pdo->prepare($sql);
             
-            if ($stmt->execute([$fn, $us, $em, $hash])) {
+            if ($stmt->execute([$us, $hash])) {
                 // Redireciona com mensagem de sucesso
                 header("Location: login.php?registered=1");
                 exit;
@@ -62,14 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST" action="registo.php">
-            <label>Nome Completo</label>
-            <input type="text" name="fullname" required placeholder="Ex: João Silva">
-            
             <label>Username</label>
             <input type="text" name="username" required placeholder="Para fazer login">
-
-            <label>Email (Opcional)</label>
-            <input type="email" name="email" placeholder="Para recuperação">
 
             <label>Password</label>
             <input type="password" name="password" required>
