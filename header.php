@@ -70,7 +70,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <?php if($_SESSION['role'] === 'configurador'): ?>
                     <li><a href="configurador.php" class="nav-link" style="<?= $current_page == 'configurador.php' ? 'color:#f06aa6' : '' ?>">Config</a></li>
                 <?php endif; ?>
-                <li><a href="logout.php" class="nav-link">Sair</a></li>
+            <?php endif; ?>
+
+            <?php 
+            if(isset($pdo)) {
+                $menu_cats = $pdo->query("SELECT * FROM categories ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
+                foreach($menu_cats as $mc): ?>
+                    <li><a href="index.php#<?= $mc['slug'] ?>" class="nav-link" onclick="menuShow()"><?= htmlspecialchars($mc['name']) ?></a></li>
+            <?php endforeach; } ?>
+
+            <?php if(isset($_SESSION['role'])): ?>
+                <li><a href="logout.php" class="log-out">Sair</a></li>
             <?php else: ?>
                 <li><a href="login.php" class="nav-link" style="<?= $current_page == 'login.php' ? 'color:#f06aa6' : '' ?>">Login</a></li>
             <?php endif; ?>
