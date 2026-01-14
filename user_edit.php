@@ -65,5 +65,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="configurador.php" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Cancelar</a>
         </form>
     </div>
-</body>
-</html>
+    <?php include 'footer.php'; ?>

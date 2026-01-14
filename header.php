@@ -35,12 +35,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <span class="header-greeting">Olá, <?= htmlspecialchars($_SESSION['username']) ?></span>
                 <a href="logout.php" class="header-logout-link" style="font-size: 14px; margin-left: 10px;">(Sair)</a>
             <?php else: ?>
-                <div class="login-button"><a href="login.php">Login</a></div>
+                <div class="login-button">
+                    <a href="login.php">
+                        <img src="imagens/user_icon.svg" class="user-icon-img" alt="Login">
+                    </a>
+                </div>
             <?php endif; ?>
             
             <div class="cart-icon">
                 <a href="cart.php">
-                    <img src="imagens/cart_icon.svg" width="25px" />
+                    <img src="imagens/cart_icon.svg" class="cart-icon-img" alt="Carrinho" />
                     <span class="cart-count"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
                 </a>
             </div>

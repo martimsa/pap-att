@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="login-body">
+    <?php include 'header.php'; ?>
     <div class="login-container">
         <div class="brand" style="text-align:center; margin-bottom:20px;">Salt Flow</div>
         <h2>Entrar</h2>
@@ -75,5 +76,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Ainda não tem conta? <a href="registo.php" style="color:#f06aa6;">Registe-se aqui</a>
         </p>
     </div>
-</body>
-</html>
+    <?php include 'footer.php'; ?>

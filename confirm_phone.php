@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"><title>Confirm Phone</title></head>
 <body>
+    <?php include 'header.php'; ?>
     <div class="login-container">
         <h2>SMS Verification</h2>
         <div style="border:1px dashed #f06aa6; padding:15px; margin:20px 0; color:white;">
@@ -32,5 +33,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Confirm</button>
         </form>
     </div>
-</body>
-</html>
+    <?php include 'footer.php'; ?>

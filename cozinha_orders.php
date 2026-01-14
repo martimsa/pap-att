@@ -143,6 +143,4 @@ $orders = $pdo->query("
             </div>
         <?php endif; ?>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    <?php include 'footer.php'; ?>
