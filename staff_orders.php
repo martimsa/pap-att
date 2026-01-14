@@ -8,14 +8,23 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['staff', 'admin',
     exit;
 }
 
-// Processar confirmação de pedido
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
-    $oid = $_POST['order_id'];
-    // Passa para 'pendente' (para a cozinha ver)
-    $stmt = $pdo->prepare("UPDATE orders SET status = 'pendente' WHERE id = ?");
-    $stmt->execute([$oid]);
-    header("Location: staff_orders.php");
-    exit;
+// Processar ações (confirmar ou remover)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['confirm_order'])) {
+        $oid = $_POST['order_id'];
+        // Passa para 'pendente' (para a cozinha ver)
+        $stmt = $pdo->prepare("UPDATE orders SET status = 'pendente' WHERE id = ?");
+        $stmt->execute([$oid]);
+        header("Location: staff_orders.php");
+        exit;
+    } elseif (isset($_POST['remove_order'])) {
+        $oid = $_POST['order_id'];
+        // Remover itens do pedido e o próprio pedido
+        $pdo->prepare("DELETE FROM order_items WHERE order_id = ?")->execute([$oid]);
+        $pdo->prepare("DELETE FROM orders WHERE id = ?")->execute([$oid]);
+        header("Location: staff_orders.php");
+        exit;
+    }
 }
 
 // Buscar pedidos aguardando confirmação
@@ -115,9 +124,10 @@ $orders = $pdo->query("
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-                        <form method="POST">
+                        <form method="POST" style="display: flex; gap: 10px;">
                             <input type="hidden" name="order_id" value="<?= $o['id'] ?>">
-                            <button type="submit" name="confirm_order" class="btn-confirm">ENVIAR P/ COZINHA</button>
+                            <button type="submit" name="confirm_order" class="btn-confirm" style="flex: 2;">ENVIAR P/ COZINHA</button>
+                            <button type="submit" name="remove_order" class="btn-confirm" style="flex: 1; background-color: #f87171;" onclick="return confirm('Tem a certeza que deseja remover este pedido?');">REMOVER</button>
                         </form>
                     </div>
                 <?php endforeach; ?>
