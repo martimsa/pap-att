@@ -32,8 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
         $status = 'pendente';
     }
 
-    $stmt = $pdo->prepare("INSERT INTO orders (user_id, table_number, total_price, status) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$user_id, $table_number, $total_price, $status]);
+    // Calcular número do pedido diário (reinicia a cada dia)
+    $stmtSeq = $pdo->query("SELECT MAX(daily_order_number) FROM orders WHERE DATE(created_at) = CURDATE()");
+    $daily_number = ($stmtSeq->fetchColumn() ?: 0) + 1;
+
+    $stmt = $pdo->prepare("INSERT INTO orders (user_id, table_number, total_price, status, daily_order_number) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$user_id, $table_number, $total_price, $status, $daily_number]);
     $order_id = $pdo->lastInsertId();
 
     // Log da ação (se a função existir)

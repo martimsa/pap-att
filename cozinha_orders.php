@@ -114,7 +114,7 @@ $orders = $pdo->query("
                     ?>
                     <div class="order-card <?= $isPrep ? 'prep' : '' ?>">
                         <div class="order-header">
-                            <span class="table-num">Mesa <?= $o['table_number'] ?></span>
+                            <span class="table-num">#<?= $o['daily_order_number'] ?> (Mesa <?= $o['table_number'] ?>)</span>
                             <span class="status-badge <?= $isPrep ? 'status-prep' : 'status-pendente' ?>">
                                 <?= $isPrep ? 'A Preparar' : 'Pendente' ?>
                             </span>

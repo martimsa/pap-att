@@ -110,7 +110,7 @@ $orders = $pdo->query("
                     ?>
                     <div class="order-card">
                         <div class="order-header">
-                            <span class="table-num">Mesa <?= $o['table_number'] ?></span>
+                            <span class="table-num">#<?= $o['daily_order_number'] ?> (Mesa <?= $o['table_number'] ?>)</span>
                             <span class="order-time"><?= date('H:i', strtotime($o['created_at'])) ?></span>
                         </div>
                         <ul class="order-items">

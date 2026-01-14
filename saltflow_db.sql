@@ -123,6 +123,7 @@ CREATE TABLE `orders` (
   `table_number` int(11) NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `status` enum('aguardando_confirmacao','pendente','em_preparacao','entregue','pago') DEFAULT 'aguardando_confirmacao',
+  `daily_order_number` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
