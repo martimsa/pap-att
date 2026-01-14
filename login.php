@@ -75,5 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p style="margin-top:20px; text-align:center;">
             Ainda não tem conta? <a href="registo.php" style="color:#f06aa6;">Registe-se aqui</a>
         </p>
+        <a href="index.php" style="display:block; text-align:center; margin-top:15px; color:#aaa; text-decoration:none;">Voltar ao Menu Principal</a>
     </div>
     <?php include 'footer.php'; ?>
