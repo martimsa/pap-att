@@ -17,16 +17,30 @@ $user = $stmt->fetch();
 
 if (!$user) { echo "Utilizador não encontrado."; exit; }
 
+$msg = '';
+$error = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
     // Checkbox envia 'on' se marcado, ou nada se não marcado
     $is_deleted = isset($_POST['is_deleted']) ? 1 : 0;
+    $new_pass = trim($_POST['new_password'] ?? '');
 
-    $stmt = $pdo->prepare("UPDATE users SET role = ?, is_deleted = ? WHERE id = ?");
-    $stmt->execute([$role, $is_deleted, $id]);
-
-    header('Location: configurador.php');
-    exit;
+    // Prevenir auto-sabotagem (apagar a própria conta ou remover admin)
+    if ($id == $_SESSION['user_id'] && ($is_deleted == 1 || $role !== 'configurador')) {
+        $error = "Não pode eliminar a sua própria conta nem alterar o seu cargo de Configurador.";
+    } else {
+        if (!empty($new_pass)) {
+            $hash = password_hash($new_pass, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("UPDATE users SET role = ?, is_deleted = ?, password_hash = ? WHERE id = ?");
+            $stmt->execute([$role, $is_deleted, $hash, $id]);
+        } else {
+            $stmt = $pdo->prepare("UPDATE users SET role = ?, is_deleted = ? WHERE id = ?");
+            $stmt->execute([$role, $is_deleted, $id]);
+        }
+        header('Location: configurador.php');
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -43,8 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-container" style="margin-top: 40px;">
         <h2>Editar Utilizador</h2>
         <p style="text-align:center; color:#aaa; margin-bottom:20px;">
-            <?= htmlspecialchars($user['full_name']) ?> (<?= htmlspecialchars($user['username']) ?>)
+            <?= htmlspecialchars($user['username']) ?>
         </p>
+
+        <?php if ($error): ?>
+            <div style="background: #e74c3c; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
 
         <form method="post">
             <label>Cargo (Role)</label>
@@ -55,6 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="admin" <?= $user['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
                 <option value="configurador" <?= $user['role'] == 'configurador' ? 'selected' : '' ?>>Configurador</option>
             </select>
+
+            <label style="margin-top: 15px; display:block;">Nova Password (opcional)</label>
+            <input type="password" name="new_password" placeholder="Deixe em branco para manter">
 
             <div style="margin-top: 20px; display: flex; align-items: center; gap: 10px;">
                 <input type="checkbox" name="is_deleted" id="del" <?= $user['is_deleted'] ? 'checked' : '' ?> style="width: 20px; height: 20px;">

@@ -78,7 +78,6 @@ $users = $pdo->query("SELECT * FROM users WHERE is_deleted = 0 ORDER BY id DESC"
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nome</th>
                         <th>Username</th>
                         <th>Função</th>
                         <th>Estado</th>
@@ -89,7 +88,6 @@ $users = $pdo->query("SELECT * FROM users WHERE is_deleted = 0 ORDER BY id DESC"
                     <?php foreach($users as $u): ?>
                     <tr>
                         <td data-label="ID"><?= $u['id'] ?></td>
-                        <td data-label="Nome"><?= htmlspecialchars($u['full_name']) ?></td>
                         <td data-label="Username"><?= htmlspecialchars($u['username']) ?></td>
                         <td data-label="Função">
                             <span class="role-badge" style="color: <?= match($u['role']) { 'admin' => '#f06aa6', 'configurador' => '#a855f7', 'staff' => '#22d3ee', 'cozinha' => '#fbbf24', default => '#9ca3af' } ?>;">
