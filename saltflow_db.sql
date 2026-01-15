@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Jan-2026 às 22:53
+-- Tempo de geração: 15-Jan-2026 às 17:28
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -111,6 +111,18 @@ CREATE TABLE `logs` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `logs`
+--
+
+INSERT INTO `logs` (`id`, `user_id`, `action`, `details`, `created_at`) VALUES
+(1, 3, 'Nova Encomenda', 'Encomenda #1 criada para a mesa 5', '2026-01-13 17:22:32'),
+(2, 3, 'Nova Encomenda', 'Encomenda #2 criada para a mesa 54', '2026-01-13 17:25:42'),
+(3, NULL, 'Nova Encomenda', 'Encomenda #3 criada para a mesa 555', '2026-01-13 17:26:42'),
+(4, NULL, 'Nova Encomenda', 'Encomenda #4 criada para a mesa hghghghghghghghghghghghg', '2026-01-13 17:31:53'),
+(5, NULL, 'Nova Encomenda', 'Encomenda #5 criada para a mesa 5', '2026-01-14 12:04:42'),
+(6, NULL, 'Nova Encomenda', 'Encomenda #6 criada para a mesa 2', '2026-01-14 12:35:22');
+
 -- --------------------------------------------------------
 
 --
@@ -123,9 +135,19 @@ CREATE TABLE `orders` (
   `table_number` int(11) NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `status` enum('aguardando_confirmacao','pendente','em_preparacao','entregue','pago') DEFAULT 'aguardando_confirmacao',
-  `daily_order_number` int(11) DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `daily_order_number` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `table_number`, `total_price`, `status`, `created_at`, `daily_order_number`) VALUES
+(1, 3, 5, 8.00, 'entregue', '2026-01-13 17:22:32', 0),
+(2, 3, 54, 12.00, 'entregue', '2026-01-13 17:25:42', 0),
+(3, NULL, 555, 8.00, 'entregue', '2026-01-13 17:26:42', 0),
+(6, NULL, 2, 9.00, 'em_preparacao', '2026-01-14 12:35:22', 1);
 
 -- --------------------------------------------------------
 
@@ -141,6 +163,16 @@ CREATE TABLE `order_items` (
   `price_at_purchase` decimal(10,2) NOT NULL,
   `custom_ingredients` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_at_purchase`, `custom_ingredients`) VALUES
+(1, 1, 1, 1, 8.00, 'Rúcula, Mozzarella, Tomate, Pesto'),
+(2, 2, 6, 1, 12.00, 'Padrão'),
+(3, 3, 1, 1, 8.00, 'Padrão'),
+(6, 6, 2, 1, 9.00, 'Rúcula, Presunto, Brie, Balsâmico Morango');
 
 -- --------------------------------------------------------
 
@@ -285,7 +317,11 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Extraindo dados da tabela `users`
+--
 
+INSERT INTO `users` (`id`, `username`, `password_hash`, `role`, `created_at`, `is_deleted`) VALUES
+(3, 'dev', '$2y$10$Zgx40PNcat6RTX08cL9yNe9Lrp/ChvP0hFYvKQOFePbLokwNlELc.', 'configurador', '2026-01-13 10:46:44', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -366,19 +402,19 @@ ALTER TABLE `ingredients`
 -- AUTO_INCREMENT de tabela `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `products`
@@ -390,7 +426,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para despejos de tabelas
